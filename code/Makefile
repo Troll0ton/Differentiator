@@ -1,9 +1,9 @@
 CC=g++
 CFLAGS=-c -Wall
 LDFLAGS=
-SOURCES=descent.cpp lines_handle.cpp input_output.cpp
+SOURCES=main.cpp backend.cpp lines_handle.cpp input_output.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=descnt
+EXECUTABLE=backs
 
 all: $(SOURCES) $(EXECUTABLE)
 	

@@ -10,9 +10,9 @@
 
 //-----------------------------------------------------------------------------
 
-#define trprint(...) fprintf (Info->file_tree, __VA_ARGS__)
+#define trprint(...) fprintf (info->file_tree, __VA_ARGS__)
 
-#define dot_print(...) fprintf (Info->file_dot, __VA_ARGS__)
+#define dot_print(...) fprintf (info->file_dot, __VA_ARGS__)
 
 //-----------------------------------------------------------------------------
 
@@ -40,27 +40,30 @@ enum TYPES
 
 enum OPERATIONS
 {
-    ADD,
-    MUL,
-    DIV,
-}; */
+    //11000000 - first two bits are priority
 
-//-----------------------------------------------------------------------------\
+    ADD = 0x40,
+    SUB = 0x41,
+    MUL = 0x80,
+    DIV = 0x81,
+};
+
+//-----------------------------------------------------------------------------
 
 typedef union value
 {
     double num;
-    int op;
+    char op;
     char var;
-};
+} value;
 
 //-----------------------------------------------------------------------------
 
 typedef struct Node
 {
-    Node *Parent;
-    Node *Left;
-    Node *Right;
+    Node *parent;
+    Node *left;
+    Node *right;
     int type;
     union value val;
 } Node;
@@ -89,7 +92,7 @@ typedef struct Tree_info
     FILE *file_expr;
     Line *Text;
     File *File_input;
-    Node *Root;
+    Node *root;
     Node *Curr_parent;
     int   curr_line;
     int   curr_cell;
@@ -103,51 +106,49 @@ typedef struct Tree_info
 
 enum SIDES
 {
-    LEFT,
-    RIGHT,
+    left,
+    right,
 };
 
 //-----------------------------------------------------------------------------
 
 Node      *create_node          ();
 
-Node      *create_root          (char *type, value val, Tree_info *Info);
+Node      *create_root          (int type, value val, Tree_info *info);
 
-Node      *insert_node          (char *type, value val, Tree_info *Info, int side);
+Node      *insert_node          (int type, value val, Node *parent, int side);
 
-void       save_tree            (Node *Curr_node, Tree_info *Info);
+void       save_tree            (Node *curr_node, Tree_info *info);
 
-Node      *read_tree            (Tree_info *Info);
+Node      *read_tree            (Tree_info *info);
 
-void       get_node             (Node *Root);
+void       get_node             (Node *root);
 
-void       print_tree_preorder  (Node *Root);
+void       print_tree_preorder  (Node *root);
 
 Tree_info *tree_info_ctor_      (const char* log_file, int line);
 
-void       tree_info_dtor       (Tree_info *Info);
+void       tree_info_dtor       (Tree_info *info);
 
-void       print_tree_inorder   (Node *Root);
+void       print_tree_inorder   (Node *curr_node);
 
-char      *make_graphviz_text   (Node *Root);
+void       tree_dump            (Tree_info *info);
 
-void       tree_dump            (Tree_info *Info);
+void       create_tree_graph    (Tree_info *info);
 
-void       create_tree_graph    (Tree_info *Info);
-
-void       print_tree_postorder (Node *Root);
+void       print_tree_postorder (Node *root);
 
 Node      *handle_node          (Tree_info *info);
 
-Node      *handle_end_node      (Tree_info *Info);
+Node      *handle_end_node      (Tree_info *info);
 
-Node      *handle_branch_node   (Tree_info *Info);
+Node      *handle_branch_node   (Tree_info *info);
 
-void       create_cell          (Node *Root, Tree_info *Info);
+void       create_cell          (Node *root, Tree_info *info);
 
-void       build_connections    (Node *Root, Tree_info *Info);
+void       build_connections    (Node *root, Tree_info *info);
 
-void       tree_dtor            (Node *Curr_node);
+void       tree_dtor            (Node *curr_node);
 
 //-----------------------------------------------------------------------------
 

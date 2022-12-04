@@ -45,7 +45,7 @@ int get_t ()
 
 //-----------------------------------------------------------------------------
 
-int get_p ()
+Node *int get_p ()
 {
     int val = 0;
 
@@ -109,9 +109,15 @@ int get_g (char *s)
 
 //-----------------------------------------------------------------------------
 
-int get_n ()
+#define VALUE new_node->val.num
+
+Node *get_n ()  //handle numeric
 {
-    int val = 0;
+    Node *new_node = create_node ();
+
+    new_node->type = NUM;
+
+    VALUE = 0;
 
     const char *str_old = str;
 
@@ -122,15 +128,39 @@ int get_n ()
 
     while(*str >= '0' && *str <= '9')
     {
-        val = val * 10 + *str - '0';
+        VALUE = VALUE * 10 + *str - '0';
         str++;
     }
 
     assert (str != str_old);
 
-    return val;
+    return new_node;
+}
+
+#undef VALUE
+
+//-----------------------------------------------------------------------------
+
+Node *create_node ()
+{
+    Node *New_node = (Node*) calloc (1, sizeof (Node));
+
+    if(!New_node)
+    {
+        printf ("ERROR - memory allocation for new node!\n");
+    }
+
+    else
+    {
+        New_node->parent = NULL;
+        New_node->left   = NULL;
+        New_node->right  = NULL;
+    }
+
+    return New_node;
 }
 
 //-----------------------------------------------------------------------------
+
 
 
