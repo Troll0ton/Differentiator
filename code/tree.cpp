@@ -25,7 +25,7 @@ Tree_info *tree_info_ctor_ (const char* log_file, int line)
 void tree_info_dtor (Tree_info *info)
 {
     info->root = NULL;
-    info->Curr_parent = NULL;
+    info->curr_parent = NULL;
 
     //fclose (info->file_expr);
     fclose (info->file_dump);
@@ -69,6 +69,32 @@ Node *create_root (int type, value val, Tree_info *info)
     root->val = val;
 
     return root;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *copy_tree (Node *original_root)
+{
+    Node *new_root = create_node ();
+
+
+}
+
+//-----------------------------------------------------------------------------
+
+Node *copy_node (Node *curr_node, Node *original_node)
+{
+    Node *new_node = create_node ();
+
+    *new_node = *curr_node;
+
+    new_node->parent = info->curr_parent;
+
+    info->curr_parent = new_node;
+
+    if(curr_node)
+
+    return new_node;
 }
 
 //-----------------------------------------------------------------------------

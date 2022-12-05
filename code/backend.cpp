@@ -61,7 +61,7 @@ Tree_info *tree_info_ctor_ (const char* log_file, int line)
 void tree_info_dtor (Tree_info *info)
 {
     info->root = NULL;
-    info->Curr_parent = NULL;
+    info->curr_parent = NULL;
 
     fclose (info->file_tree);
     fclose (info->file_expr);
@@ -183,10 +183,10 @@ Node *handle_branch_node (Tree_info *info)
 
         New_node->val = val;
 
-        New_node->parent = info->Curr_parent;
+        New_node->parent = info->curr_parent;
     }
 
-    info->Curr_parent = New_node;
+    info->curr_parent = New_node;
 
     info->curr_line++;
 
@@ -204,7 +204,7 @@ Node *handle_branch_node (Tree_info *info)
 Node *handle_end_node (Tree_info *info)
 {
     Node *New_node = create_node ();
-    New_node->parent = info->Curr_parent;
+    New_node->parent = info->curr_parent;
 
     if(*(CURR_LINE + 1) == 'N')
     {
