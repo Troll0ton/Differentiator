@@ -1,4 +1,4 @@
-#include "../include/backend.h"
+#include "../include/frontend.h"
 
 //-----------------------------------------------------------------------------
 
@@ -6,7 +6,14 @@ int main ()
 {
     Tree_info *info = tree_info_ctor();
 
-    read_tree (info);
+    FILE *file_in = fopen ("../files/expression.txt", "rb");
+
+    File *File_input = file_reader (file_in);
+    Line *Text = lines_separator (File_input);
+
+    info->root = get_g (Text[0].begin_line);
+
+    fclose (file_in);
 
     print_tree_inorder (info->root);
 

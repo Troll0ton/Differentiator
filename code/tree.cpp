@@ -10,12 +10,8 @@ Tree_info *tree_info_ctor_ (const char* log_file, int line)
     info->log_file  = log_file;
     info->root      = NULL;
 
-    info->file_tree = fopen ("../files/tree.txt",       "a+");
-    info->file_expr = fopen ("../files/expression.txt", "w+");
+    //info->file_expr = fopen ("../files/expression.txt", "w+");
     info->file_dump = fopen ("../dump/tree_dump.html",  "w+");
-
-    info->File_input = file_reader (info->file_tree);
-    info->Text = lines_separator (info->File_input);
 
     info->curr_line = 0;
     info->curr_cell = 0;
@@ -31,11 +27,8 @@ void tree_info_dtor (Tree_info *info)
     info->root = NULL;
     info->Curr_parent = NULL;
 
-    fclose (info->file_tree);
-    fclose (info->file_expr);
+    //fclose (info->file_expr);
     fclose (info->file_dump);
-
-    clear_mem (info->Text, info->File_input);
 
     info->curr_line = DELETED_PAR;
     info->curr_cell = DELETED_PAR;

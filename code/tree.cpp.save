@@ -10,8 +10,8 @@ Tree_info *tree_info_ctor_ (const char* log_file, int line)
     info->log_file  = log_file;
     info->root      = NULL;
 
-    info->file_tree = fopen ("../files/tree.txt",       "a+");
-    info->file_expr = fopen ("../files/expression.txt", "w+");
+    //info->file_tree = fopen ("../files/tree.txt",       "a+");
+    //info->file_expr = fopen ("../files/expression.txt", "w+");
     info->file_dump = fopen ("../dump/tree_dump.html",  "w+");
 
     info->File_input = file_reader (info->file_tree);
@@ -31,9 +31,9 @@ void tree_info_dtor (Tree_info *info)
     info->root = NULL;
     info->Curr_parent = NULL;
 
-    fclose (info->file_tree);
-    fclose (info->file_expr);
-    fclose (info->file_dump);
+    //fclose (info->file_tree);
+    //fclose (info->file_expr);
+    //fclose (info->file_dump);
 
     clear_mem (info->Text, info->File_input);
 
@@ -77,101 +77,6 @@ Node *create_root (int type, value val, Tree_info *info)
 
     return root;
 }
-
-//-----------------------------------------------------------------------------
-
-Node *handle_node (Tree_info *info)
-{
-    char *parenth_pos = strchr (CURR_LINE, '}');
-
-    if(parenth_pos == NULL)
-    {
-        return handle_branch_node (info);
-    }
-
-    else
-    {
-        *parenth_pos = '\0';
-
-        return handle_end_node (info);
-    }
-}
-
-//-----------------------------------------------------------------------------
-
-Node *handle_branch_node (Tree_info *info)
-{
-    Node *New_node = NULL;
-
-    union value val;
-
-    if(*(CURR_LINE + 1) == 'O')
-    {
-        sscanf (CURR_LINE + 2, "%c", &val.op);
-    }
-
-    else
-    {
-        printf ("ERROR - branch node!\n");
-    }
-
-    if(!info->root)
-    {
-        New_node = create_root (OP, val, info);
-    }
-
-    else
-    {
-        New_node = create_node ();
-
-        New_node->val = val;
-
-        New_node->parent = info->Curr_parent;
-    }
-
-    info->Curr_parent = New_node;
-
-    info->curr_line++;
-
-    New_node->type  = OP;
-    New_node->left  = read_tree (info);
-    New_node->right = read_tree (info);
-
-    info->curr_line++;
-
-    return New_node;
-}
-
-//-----------------------------------------------------------------------------
-
-Node *handle_end_node (Tree_info *info)
-{
-    Node *New_node = create_node ();
-    New_node->parent = info->Curr_parent;
-
-    if(*(CURR_LINE + 1) == 'N')
-    {
-        New_node->type = NUM;
-        sscanf (CURR_LINE + 2, "%lg", &(New_node->val.num));
-    }
-
-    else if(*(CURR_LINE + 1) == 'V')
-    {
-        New_node->type = VAR;
-        sscanf (CURR_LINE + 2, "%c", &(New_node->val.var));
-    }
-
-    else
-    {
-        printf ("ERROR - end node");
-    }
-
-    info->curr_line++;
-
-    return New_node;
-}
-
-#undef CURR_LINE
 
 //-----------------------------------------------------------------------------
 

@@ -37,7 +37,7 @@ enum TYPES
 };
 
 //-----------------------------------------------------------------------------
-
+/*
 enum OPERATIONS
 {
     //11000000 - first two bits are priority
@@ -46,7 +46,7 @@ enum OPERATIONS
     SUB = 0x41,
     MUL = 0x80,
     DIV = 0x81,
-};
+};  */
 
 //-----------------------------------------------------------------------------
 
@@ -64,7 +64,7 @@ typedef struct Node
     Node *parent;
     Node *left;
     Node *right;
-    int type;
+    int   type;
     union value val;
 } Node;
 
@@ -79,7 +79,7 @@ enum TREE_INFO
 
 enum TREE_OFFSETS
 {
-    OFFSET_parentHESES = 1,
+    OFFSET_PARENTHESES = 1,
 };
 
 //-----------------------------------------------------------------------------
@@ -112,43 +112,25 @@ enum SIDES
 
 //-----------------------------------------------------------------------------
 
-Node      *create_node          ();
+Tree_info *tree_info_ctor_    (const char* log_file, int line);
 
-Node      *create_root          (int type, value val, Tree_info *info);
+void       tree_info_dtor     (Tree_info *info);
 
-Node      *insert_node          (int type, value val, Node *parent, int side);
+Node      *create_node        ();
 
-void       save_tree            (Node *curr_node, Tree_info *info);
+Node      *create_root        (int type, value val, Tree_info *info);
 
-Node      *read_tree            (Tree_info *info);
+void       print_tree_inorder (Node *curr_node);
 
-void       get_node             (Node *root);
+void       tree_dump          (Tree_info *info);
 
-void       print_tree_preorder  (Node *root);
+void       create_tree_graph  (Tree_info *info);
 
-Tree_info *tree_info_ctor_      (const char* log_file, int line);
+void       create_cell        (Node *root, Tree_info *info);
 
-void       tree_info_dtor       (Tree_info *info);
+void       build_connections  (Node *root, Tree_info *info);
 
-void       print_tree_inorder   (Node *curr_node);
-
-void       tree_dump            (Tree_info *info);
-
-void       create_tree_graph    (Tree_info *info);
-
-void       print_tree_postorder (Node *root);
-
-Node      *handle_node          (Tree_info *info);
-
-Node      *handle_end_node      (Tree_info *info);
-
-Node      *handle_branch_node   (Tree_info *info);
-
-void       create_cell          (Node *root, Tree_info *info);
-
-void       build_connections    (Node *root, Tree_info *info);
-
-void       tree_dtor            (Node *curr_node);
+void       tree_dtor          (Node *curr_node);
 
 //-----------------------------------------------------------------------------
 

@@ -4,23 +4,47 @@ graph [dpi = 200];
 ranksep = 1.5;       
 edge[penwidth = 10]; 
 cell0 [style = filled, color = black, shape=record, 
-fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION | /} " ];                         
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION | +} " ];                         
 cell1 [style = filled, color = black, shape=record, 
 fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION | *} " ];                         
 cell2 [style = filled, color = black, shape=record, 
-fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION | +} " ];                         
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION | /} " ];                         
 cell3 [style = filled, color = black, shape=record, 
 fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC | 100} " ];                         
 cell4 [style = filled, color = black, shape=record, 
-fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC | 788.779} " ];                         
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC | 40} " ];                         
 cell5 [style = filled, color = black, shape=record, 
-fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE | x} " ];                         
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC | 12} " ];                         
 cell6 [style = filled, color = black, shape=record, 
-fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC | 52.1} " ];                         
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION | *} " ];                         
+cell7 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC | 12} " ];                         
+cell8 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION | +} " ];                         
+cell9 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC | 12} " ];                         
+cell10 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION | *} " ];                         
+cell11 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC | 1212} " ];                         
+cell12 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION | +} " ];                         
+cell13 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC | 90} " ];                         
+cell14 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC | 44} " ];                         
 cell0 -> cell1;
 cell1 -> cell2;
 cell2 -> cell3;
 cell2 -> cell4;
 cell1 -> cell5;
 cell0 -> cell6;
+cell6 -> cell7;
+cell6 -> cell8;
+cell8 -> cell9;
+cell8 -> cell10;
+cell10 -> cell11;
+cell10 -> cell12;
+cell12 -> cell13;
+cell12 -> cell14;
 }

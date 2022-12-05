@@ -2,116 +2,103 @@
 
 //-----------------------------------------------------------------------------
 
-void frontend ()
+Node *get_t (char **grammar) //handle operations with 2-priority
 {
-    FILE *file_in = fopen ("../files/problem.txt", "rb");
+    Node *left_node = get_p (grammar);
 
-    File *File_input = file_reader (file_in);
-    Line *Text = lines_separator (File_input);
-
-    printf ("|result - %d\n|", get_g (Text[0].begin_line));
-
-    fclose (file_in);
-
-    return 0;
-}
-
-//-----------------------------------------------------------------------------
-
-int get_t ()
-{
-    int val1 = get_p ();
-
-    while(*str == '*' || *str == '/')
+    while(**grammar == '*' || **grammar == '/')
     {
-        char *op = str;
-        str++;
+        char *curr_op = *grammar;
+        (*grammar)++;
 
-        int val2 = get_p ();
+        Node *right_node = get_p (grammar);
 
-        if(*op == '*')
-        {
-            val1 *= val2;
-        }
+        Node *new_node = create_node ();
 
-        else
-        {
-            val1 /= val2;
-        }
+        new_node->left   = left_node;
+        new_node->right  = right_node;
+        new_node->type   = OP;
+        new_node->val.op = *curr_op;
+
+        left_node->parent = new_node;
+        right_node->parent = new_node;
+
+        left_node = new_node;
     }
 
-    return val1;
+    return left_node;
 }
 
 //-----------------------------------------------------------------------------
 
-Node *int get_p ()
+Node *get_p (char **grammar)
 {
-    int val = 0;
+    Node *new_node = NULL;
 
-    if(*str == '(')
+    if(**grammar == '(')
     {
-        str++;
-        val = get_e ();
+        (*grammar)++;
 
-        assert (*str == ')');
+        new_node = get_e (grammar);
 
-        str++;
+        assert (**grammar == ')');
+
+        (*grammar)++;
     }
 
     else
     {
-        val = get_n ();
+        new_node = get_n (grammar);
     }
 
-    return val;
+    return new_node;
 }
 
 //-----------------------------------------------------------------------------
 
-int get_e ()
+Node *get_e (char **grammar)  //handle operations with 3-priority
 {
-    int val1 = get_t ();
+    Node *left_node = get_t (grammar);
 
-    while(*str == '+' || *str == '-')
+    while(**grammar == '+' || **grammar == '-')
     {
-        char *op = str;
-        str++;
+        char *curr_op = *grammar;
+        (*grammar)++;
 
-        int val2 = get_t ();
+        Node *right_node = get_t (grammar);
 
-        if(*op == '+')
-        {
-            val1 += val2;
-        }
+        Node *new_node = create_node ();
 
-        else
-        {
-            val1 -= val2;
-        }
+        new_node->left   = left_node;
+        new_node->right  = right_node;
+        new_node->type   = OP;
+        new_node->val.op = *curr_op;
+
+        left_node->parent = new_node;
+        right_node->parent = new_node;
+
+        left_node = new_node;
     }
 
-    return val1;
+    return left_node;
 }
 
 //-----------------------------------------------------------------------------
 
-int get_g (char *s)
+Node *get_g (char **grammar)
 {
-    str = s;
+    Node *root = get_e (grammar);
 
-    int val = get_e ();
+    assert (**grammar == '\0');
 
-    assert (*str == '\0');
-
-    return val;
+    return root;
 }
 
 //-----------------------------------------------------------------------------
 
 #define VALUE new_node->val.num
 
-Node *get_n ()  //handle numeric
+Node *get_n (char **grammar)  //handle numeric
 {
     Node *new_node = create_node ();
 
@@ -119,20 +106,20 @@ Node *get_n ()  //handle numeric
 
     VALUE = 0;
 
-    const char *str_old = str;
+    const char *str_old = *grammar;
 
-    if(*str == '\n' || *str == '\r')
+    if(**grammar == '\n' || **grammar == '\r')
     {
-        *str = '\0';
+        **grammar = '\0';
     }
 
-    while(*str >= '0' && *str <= '9')
+    while(**grammar >= '0' && **grammar <= '9')
     {
-        VALUE = VALUE * 10 + *str - '0';
-        str++;
+        VALUE = VALUE * 10 + **grammar - '0';
+        (*grammar)++;
     }
 
-    assert (str != str_old);
+    assert (*grammar != str_old);
 
     return new_node;
 }
@@ -140,27 +127,3 @@ Node *get_n ()  //handle numeric
 #undef VALUE
 
 //-----------------------------------------------------------------------------
-
-Node *create_node ()
-{
-    Node *New_node = (Node*) calloc (1, sizeof (Node));
-
-    if(!New_node)
-    {
-        printf ("ERROR - memory allocation for new node!\n");
-    }
-
-    else
-    {
-        New_node->parent = NULL;
-        New_node->left   = NULL;
-        New_node->right  = NULL;
-    }
-
-    return New_node;
-}
-
-//-----------------------------------------------------------------------------
-
-
-

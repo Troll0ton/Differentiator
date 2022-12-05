@@ -9,19 +9,15 @@
 
 //-----------------------------------------------------------------------------
 
-char *str = NULL;
+Node *get_g (char **grammar);
 
-//-----------------------------------------------------------------------------
+Node *get_e (char **grammar);
 
-int get_g (char *s);
+Node *get_t (char **grammar);
 
-int get_e ();
+Node *get_p (char **grammar);
 
-int get_t ();
-
-int get_p ();
-
-int get_n ();
+Node *get_n (char **grammar);
 
 //-----------------------------------------------------------------------------
 
