@@ -1,7 +1,7 @@
 //! @file frontend.h
 
-#ifndef FRONTEND_H
-#define FRONTEND_H
+#ifndef MIDDLE_END
+#define MIDDLE_END
 
 //-----------------------------------------------------------------------------
 
@@ -9,20 +9,8 @@
 
 //-----------------------------------------------------------------------------
 
-char *str = NULL;
+Node *calc_derivative (Node *curr_node);
 
 //-----------------------------------------------------------------------------
 
-int get_g (char *s);
-
-int get_e ();
-
-int get_t ();
-
-int get_p ();
-
-int get_n ();
-
-//-----------------------------------------------------------------------------
-
-#endif //FRONTEND_H
+#endif //MIDDLE_END

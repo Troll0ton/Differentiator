@@ -1,4 +1,5 @@
 #include "../include/frontend.h"
+#include "../include/middleend.h"
 
 //-----------------------------------------------------------------------------
 
@@ -14,6 +15,14 @@ int main ()
     info->root = get_g (&(Text[0].begin_line));
 
     fclose (file_in);
+
+    print_tree_inorder (info->root);
+
+    tree_dump (info);
+
+    printf ("\n");
+
+    calc_derivative (info->root);
 
     print_tree_inorder (info->root);
 

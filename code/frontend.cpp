@@ -96,15 +96,14 @@ Node *get_g (char **grammar)
 
 //-----------------------------------------------------------------------------
 
-#define VALUE new_node->val.num
+#define VALUE_NUM new_node->val.num
+#define VALUE_VAR new_node->val.var
 
 Node *get_n (char **grammar)  //handle numeric
 {
     Node *new_node = create_node ();
 
     new_node->type = NUM;
-
-    VALUE = 0;
 
     const char *str_old = *grammar;
 
@@ -113,9 +112,19 @@ Node *get_n (char **grammar)  //handle numeric
         **grammar = '\0';
     }
 
+    if(isalpha (**grammar))
+    {
+        new_node->type = VAR;
+        VALUE_VAR = **grammar;
+
+        (*grammar)++;
+
+        return new_node;
+    }
+
     while(**grammar >= '0' && **grammar <= '9')
     {
-        VALUE = VALUE * 10 + **grammar - '0';
+        VALUE_NUM = VALUE_NUM * 10 + **grammar - '0';
         (*grammar)++;
     }
 
@@ -124,6 +133,7 @@ Node *get_n (char **grammar)  //handle numeric
     return new_node;
 }
 
-#undef VALUE
+#undef VALUE_NUM
+#undef VALUE_VAR
 
 //-----------------------------------------------------------------------------
