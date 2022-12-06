@@ -2,6 +2,39 @@
 
 //-----------------------------------------------------------------------------
 
+void greetings ()
+{
+    txCreateWindow (1000, 600);
+
+    txSetFillColor (TX_BLACK);
+    txSetColor     (TX_WHITE);
+
+    txSelectFont   ("Comic Sans MS", 120);
+    txTextOut (50,  200, "DIFFERENTIATOR.");
+    txSleep   (4000);
+    txClear   ();
+
+    txSelectFont   ("Comic Sans MS", 60);
+
+    txTextOut (300, 200, "BY WALTER WHITE.");
+
+    HDC image1 = txLoadImage ("C:/Users/ASUS_TUF_GAMING/Desktop/Git_Hub/Differentiator/images/walter.bmp", 300, 400);
+
+    if (!image1)
+    {
+        txMessageBox ("Не могу загрузить фон из Background.bmp", "Да, я скопировал это из примера");
+    }
+
+    txBitBlt (txDC(), 0, 0, 800, 600, image1, 0, 0);
+
+    txDeleteDC (image1);
+
+    txSleep   (4000);
+    txClear   ();
+}
+
+//-----------------------------------------------------------------------------
+
 Tree_info *tree_info_ctor_ (const char* log_file, int line)
 {
     Tree_info *info = (Tree_info*) calloc (1, sizeof (Tree_info));
@@ -10,8 +43,11 @@ Tree_info *tree_info_ctor_ (const char* log_file, int line)
     info->log_file  = log_file;
     info->root      = NULL;
 
-    //info->file_expr = fopen ("../files/expression.txt", "w+");
     info->file_dump = fopen ("../dump/tree_dump.html",  "w+");
+    info->file_in   = fopen ("../files/task1.txt", "rb");
+
+    info->File_input = file_reader (info->file_in);
+    info->Text = lines_separator (info->File_input);
 
     info->curr_line = 0;
     info->curr_cell = 0;
@@ -27,7 +63,6 @@ void tree_info_dtor (Tree_info *info)
     info->root = NULL;
     info->curr_parent = NULL;
 
-    //fclose (info->file_expr);
     fclose (info->file_dump);
 
     info->curr_line = DELETED_PAR;
@@ -59,6 +94,55 @@ Node *create_node ()
 
 //-----------------------------------------------------------------------------
 
+Node *copy_tree (Node *orig_root, Tree_info *info)
+{
+    Node *new_root = create_node ();
+
+    new_root->type = orig_root->type;
+    new_root->val  = orig_root->val;
+
+    info->curr_parent = orig_root;
+
+    if(orig_root->left)
+    {
+        new_root->left = copy_node (orig_root->left, info);
+    }
+
+    if(orig_root->right)
+    {
+        new_root->right = copy_node (orig_root->right, info);
+    }
+
+    return new_root;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *copy_node (Node *curr_node, Tree_info *info)
+{
+    Node *new_node = create_node ();
+
+    new_node->type = curr_node->type;
+    new_node->val  = curr_node->val;
+
+    new_node->parent  = info->curr_parent;
+    info->curr_parent = new_node;
+
+    if(curr_node->left)
+    {
+        new_node->left = copy_node (curr_node->left, info);
+    }
+
+    if(curr_node->right)
+    {
+        new_node->right = copy_node (curr_node->right, info);
+    }
+
+    return new_node;
+}
+
+//-----------------------------------------------------------------------------
+
 Node *create_root (int type, value val, Tree_info *info)
 {
     Node *root = create_node ();
@@ -69,32 +153,6 @@ Node *create_root (int type, value val, Tree_info *info)
     root->val = val;
 
     return root;
-}
-
-//-----------------------------------------------------------------------------
-
-Node *copy_tree (Node *original_root)
-{
-    Node *new_root = create_node ();
-
-
-}
-
-//-----------------------------------------------------------------------------
-
-Node *copy_node (Node *curr_node, Node *original_node)
-{
-    Node *new_node = create_node ();
-
-    *new_node = *curr_node;
-
-    new_node->parent = info->curr_parent;
-
-    info->curr_parent = new_node;
-
-    if(curr_node)
-
-    return new_node;
 }
 
 //-----------------------------------------------------------------------------

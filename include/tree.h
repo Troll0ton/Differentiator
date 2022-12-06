@@ -7,6 +7,7 @@
 
 #include "../include/lines_handle.h"
 #include "../include/input_output.h"
+#include <TXLib.h>
 
 //-----------------------------------------------------------------------------
 
@@ -86,7 +87,7 @@ enum TREE_OFFSETS
 
 typedef struct Tree_info
 {
-    FILE *file_tree;
+    FILE *file_in;
     FILE *file_dump;
     FILE *file_dot;
     FILE *file_expr;
@@ -125,6 +126,12 @@ void       print_tree_inorder (Node *curr_node);
 void       tree_dump          (Tree_info *info);
 
 void       create_tree_graph  (Tree_info *info);
+
+void       greetings          ();
+
+Node      *copy_tree          (Node *orig_root, Tree_info *info);
+
+Node      *copy_node          (Node *curr_node, Tree_info *info);
 
 void       create_cell        (Node *root, Tree_info *info);
 

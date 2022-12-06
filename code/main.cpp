@@ -5,16 +5,13 @@
 
 int main ()
 {
+    greetings ();
+
     Tree_info *info = tree_info_ctor();
 
-    FILE *file_in = fopen ("../files/task1.txt", "rb");
+    info->root = get_g (&(info->Text[0].begin_line));
 
-    File *File_input = file_reader (file_in);
-    Line *Text = lines_separator (File_input);
-
-    info->root = get_g (&(Text[0].begin_line));
-
-    fclose (file_in);
+    fclose (info->file_in);
 
     print_tree_inorder (info->root);
 
@@ -22,11 +19,18 @@ int main ()
 
     printf ("\n");
 
+    info->root = copy_tree (info->root->left, info);
+
+    tree_dump (info);
+
+    //-----------------------------------------------------------------------------
+
+    /*
     calc_derivative (info->root);
 
     print_tree_inorder (info->root);
 
-    tree_dump (info);
+    tree_dump (info); */
 
     Node *root = info->root;
 

@@ -126,6 +126,10 @@ void       tree_dump          (Tree_info *info);
 
 void       create_tree_graph  (Tree_info *info);
 
+Node *copy_tree (Node *orig_root, Tree_info *info);
+
+
+
 void       create_cell        (Node *root, Tree_info *info);
 
 void       build_connections  (Node *root, Tree_info *info);

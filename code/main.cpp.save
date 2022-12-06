@@ -1,25 +1,64 @@
 #include "../include/frontend.h"
+#include "../include/middleend.h"
 
 //-----------------------------------------------------------------------------
 
 int main ()
 {
+    txCreateWindow (1000, 600);
+
+    txSetFillColor (TX_BLACK);
+    txSetColor     (TX_WHITE);
+
+    txSelectFont   ("Comic Sans MS", 120);
+    txTextOut (50,  200, "DIFFERENTIATOR.");
+    txSleep   (3000);
+    txClear   ();
+
+    txSelectFont   ("Comic Sans MS", 60);
+
+    txTextOut (300, 200, "BY WALTER WHITE.");
+
+    HDC image1 = txLoadImage ("../images/walter.bmp");
+
+    if (!image1)
+    {
+        txMessageBox ("Не могу загрузить фон из Background.bmp", "Да, я скопировал это из примера");
+    }
+
+    txBitBlt (txDC(), 0, 0, 800, 600, image1, 0, 0);
+
+    txDeleteDC (image1);
+
+    txSleep   (3000);
+    txClear   ();
+
+    //-----------------------------------------------------------------------------
+
     Tree_info *info = tree_info_ctor();
 
-    FILE *file_in = fopen ("../files/task1.txt", "rb");
+    info->root = get_g (&(info->Text[0].begin_line));
 
-    File *File_input = file_reader (file_in);
-    Line *Text = lines_separator (File_input);
-
-    info->root = get_g (&(Text[0].begin_line));
-
-    fclose (file_in);
+    fclose (info->file_in);
 
     print_tree_inorder (info->root);
 
     tree_dump (info);
-    
+
+    printf ("\n");
+
+    info->root = copy_tree (info->root->left, info);
+
+    tree_dump (info);
+
+    //-----------------------------------------------------------------------------
+
+    /*
     calc_derivative (info->root);
+
+    print_tree_inorder (info->root);
+
+    tree_dump (info); */
 
     Node *root = info->root;
 
