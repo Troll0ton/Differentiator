@@ -7,7 +7,7 @@
 
 #include "../include/lines_handle.h"
 #include "../include/input_output.h"
-#include <TXLib.h>
+//#include <TXLib.h>
 
 //-----------------------------------------------------------------------------
 
@@ -38,18 +38,6 @@ enum TYPES
 };
 
 //-----------------------------------------------------------------------------
-/*
-enum OPERATIONS
-{
-    //11000000 - first two bits are priority
-
-    ADD = 0x40,
-    SUB = 0x41,
-    MUL = 0x80,
-    DIV = 0x81,
-};  */
-
-//-----------------------------------------------------------------------------
 
 typedef union value
 {
@@ -65,6 +53,7 @@ typedef struct Node
     Node *parent;
     Node *left;
     Node *right;
+    char  priority;
     int   type;
     union value val;
 } Node;
@@ -127,7 +116,9 @@ void       tree_dump          (Tree_info *info);
 
 void       create_tree_graph  (Tree_info *info);
 
-void       greetings          ();
+//void       assign_node        ();
+
+//void       greetings          ();
 
 Node      *copy_tree          (Node *orig_root, Tree_info *info);
 

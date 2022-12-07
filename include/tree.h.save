@@ -7,6 +7,7 @@
 
 #include "../include/lines_handle.h"
 #include "../include/input_output.h"
+//#include <TXLib.h>
 
 //-----------------------------------------------------------------------------
 
@@ -20,7 +21,7 @@
 
 //-----------------------------------------------------------------------------
 
-#define N(suffix)  NUM_OF_##suffix
+#define N(suffix)  NUM_OF_##suffix                                  
 
 //-----------------------------------------------------------------------------
 
@@ -35,18 +36,6 @@ enum TYPES
     NUM,
     OP,
 };
-
-//-----------------------------------------------------------------------------
-/*
-enum OPERATIONS
-{
-    //11000000 - first two bits are priority
-
-    ADD = 0x40,
-    SUB = 0x41,
-    MUL = 0x80,
-    DIV = 0x81,
-};  */
 
 //-----------------------------------------------------------------------------
 
@@ -64,6 +53,7 @@ typedef struct Node
     Node *parent;
     Node *left;
     Node *right;
+    char  priority;
     int   type;
     union value val;
 } Node;
@@ -86,7 +76,7 @@ enum TREE_OFFSETS
 
 typedef struct Tree_info
 {
-    FILE *file_tree;
+    FILE *file_in;
     FILE *file_dump;
     FILE *file_dot;
     FILE *file_expr;
@@ -126,9 +116,13 @@ void       tree_dump          (Tree_info *info);
 
 void       create_tree_graph  (Tree_info *info);
 
-Node *copy_tree (Node *orig_root, Tree_info *info);
+void       assign_node        ();
 
+//void       greetings          ();
 
+Node      *copy_tree          (Node *orig_root, Tree_info *info);
+
+Node      *copy_node          (Node *curr_node, Tree_info *info);
 
 void       create_cell        (Node *root, Tree_info *info);
 

@@ -38,18 +38,6 @@ enum TYPES
 
 //-----------------------------------------------------------------------------
 
-enum OPERATIONS
-{
-    //11000000 - first two bits are priority
-
-    ADD = 0x40,
-    SUB = 0x41,
-    MUL = 0x80,
-    DIV = 0x81,
-};
-
-//-----------------------------------------------------------------------------
-
 typedef union value
 {
     double num;
@@ -65,6 +53,7 @@ typedef struct Node
     Node *left;
     Node *right;
     int type;
+    char priority;
     union value val;
 } Node;
 

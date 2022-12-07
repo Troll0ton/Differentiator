@@ -2,7 +2,7 @@
 
 //-----------------------------------------------------------------------------
 
-Node *calc_derivative (Node *curr_node)
+Node *calc_derivative (Node *curr_node, Tree_info *info)
 {
     switch(curr_node->type)
     {
@@ -27,46 +27,50 @@ Node *calc_derivative (Node *curr_node)
             {
                 case '+':
                 {
-                    curr_node->left  = calc_derivative (curr_node->left);
-                    curr_node->right = calc_derivative (curr_node->right);
+                    curr_node->left  = calc_derivative (curr_node->left,  info);
+                    curr_node->right = calc_derivative (curr_node->right, info);
 
                     return curr_node;
                 }
 
                 case '-':
                 {
-                    curr_node->left  = calc_derivative (curr_node->left);
-                    curr_node->right = calc_derivative (curr_node->right);
+                    curr_node->left  = calc_derivative (curr_node->left,  info);
+                    curr_node->right = calc_derivative (curr_node->right, info);
 
                     return curr_node;
                 }
 
                 case '*':
                 {
-                    Node *left_node_c = create_node ();
-                    *left_node_c = *(curr_node->left);
-                    Node *right_node_c = create_node ();
-                    *right_node_c = *(curr_node->right);
+                    Node *left_node_c  = copy_tree (curr_node->left, info);
+                    Node *right_node_c = copy_tree (curr_node->right, info);
 
                     Node *new_node_1   = create_node ();
                     new_node_1->type   = OP;
                     new_node_1->val.op = '*';
+                    new_node_1->priority = 2;
                     new_node_1->parent = curr_node;
-                    new_node_1->left   = calc_derivative (left_node_c);
-                    new_node_1->right  = curr_node->right;
-                    new_node_1->left->parent  = new_node_1;
+                    new_node_1->left   = calc_derivative (curr_node->left, info);
+                    new_node_1->right  = right_node_c;
+                    new_node_1->left->parent = new_node_1;
                     new_node_1->right->parent = new_node_1;
 
                     Node *new_node_2   = create_node ();
                     new_node_2->type   = OP;
                     new_node_2->val.op = '*';
+                    new_node_2->priority = 2;
                     new_node_2->parent = curr_node;
-                    new_node_2->left   = curr_node->left;
-                    new_node_2->right  = calc_derivative (right_node_c);
-                    new_node_2->left->parent  = new_node_2;
+                    new_node_2->left   = left_node_c;
+                    new_node_2->right  = calc_derivative (curr_node->right, info);
+                    new_node_2->left->parent = new_node_2;
                     new_node_2->right->parent = new_node_2;
 
+                    left_node_c->parent = new_node_1;
+                    right_node_c->parent = new_node_2;
+
                     curr_node->val.op = '+';
+                    curr_node->priority = 1;
                     curr_node->left  = new_node_1;
                     curr_node->right = new_node_2;
 
@@ -83,7 +87,7 @@ Node *calc_derivative (Node *curr_node)
                     new_node_1->type   = OP;
                     new_node_1->val.op = '*';
                     new_node_1->parent = new_node_sub;
-                    new_node_1->left   = calc_derivative (curr_node->left);
+                    new_node_1->left   = calc_derivative (curr_node->left, info);
                     new_node_1->right  = curr_node->right;
                     new_node_1->left->parent  = new_node_1;
                     new_node_1->right->parent = new_node_1;
@@ -93,7 +97,7 @@ Node *calc_derivative (Node *curr_node)
                     new_node_2->val.op = '*';
                     new_node_2->parent = new_node_sub;
                     new_node_2->left   = curr_node->left;
-                    new_node_2->right  = calc_derivative (curr_node->right);
+                    new_node_2->right  = calc_derivative (curr_node->right, info);
                     new_node_2->left->parent  = new_node_2;
                     new_node_2->right->parent = new_node_2;
 
@@ -117,6 +121,13 @@ Node *calc_derivative (Node *curr_node)
                     curr_node->right = new_node_deg;
 
                     return curr_node;
+                }
+
+                default:
+                {
+                    printf ("E");
+
+                    break;
                 }
             }
 

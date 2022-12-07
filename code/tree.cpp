@@ -1,7 +1,7 @@
 #include "../include/tree.h"
 
 //-----------------------------------------------------------------------------
-
+ /*
 void greetings ()
 {
     txCreateWindow (1000, 600);
@@ -11,10 +11,10 @@ void greetings ()
 
     txSelectFont   ("Comic Sans MS", 120);
     txTextOut (50,  200, "DIFFERENTIATOR.");
-    txSleep   (4000);
-    txClear   ();
+    txSleep (4000);
+    txClear ();
 
-    txSelectFont   ("Comic Sans MS", 60);
+    txSelectFont ("Comic Sans MS", 60);
 
     txTextOut (300, 200, "BY WALTER WHITE.");
 
@@ -22,7 +22,7 @@ void greetings ()
 
     if (!image1)
     {
-        txMessageBox ("Не могу загрузить фон из Background.bmp", "Да, я скопировал это из примера");
+        txMessageBox ("Can`t load picture from images");
     }
 
     txBitBlt (txDC(), 0, 0, 800, 600, image1, 0, 0);
@@ -31,7 +31,7 @@ void greetings ()
 
     txSleep   (4000);
     txClear   ();
-}
+}   */
 
 //-----------------------------------------------------------------------------
 
@@ -100,6 +100,7 @@ Node *copy_tree (Node *orig_root, Tree_info *info)
 
     new_root->type = orig_root->type;
     new_root->val  = orig_root->val;
+    new_root->priority = orig_root->priority;
 
     info->curr_parent = orig_root;
 
@@ -107,6 +108,8 @@ Node *copy_tree (Node *orig_root, Tree_info *info)
     {
         new_root->left = copy_node (orig_root->left, info);
     }
+
+    info->curr_parent = orig_root;
 
     if(orig_root->right)
     {
@@ -124,14 +127,18 @@ Node *copy_node (Node *curr_node, Tree_info *info)
 
     new_node->type = curr_node->type;
     new_node->val  = curr_node->val;
+    new_node->priority = curr_node->priority;
 
     new_node->parent  = info->curr_parent;
+
     info->curr_parent = new_node;
 
     if(curr_node->left)
     {
         new_node->left = copy_node (curr_node->left, info);
     }
+
+    info->curr_parent = new_node;
 
     if(curr_node->right)
     {
@@ -156,10 +163,30 @@ Node *create_root (int type, value val, Tree_info *info)
 }
 
 //-----------------------------------------------------------------------------
+/*
+void assign_node (int type, char priority, union val, Node *left_node, Node *right_node)
+{
+    new_node->type = type;
+    new_node->priority = priority;
+    new_node->left = left_node;
+    new_node->right = right_node;
+    new_node->val = val;
+}   */
+
+//-----------------------------------------------------------------------------
 
 void print_tree_inorder (Node *curr_node)
 {
-    printf ("(");
+    bool bracketing = false;
+
+    if(curr_node->parent && curr_node->parent->priority > curr_node->priority)
+    {
+        bracketing = true;
+
+        if(curr_node->parent->type == NUM) printf ("|%lg|", curr_node->parent->val.num);
+
+        printf ("(");
+    }
 
     if(curr_node->left)
     {
@@ -191,7 +218,10 @@ void print_tree_inorder (Node *curr_node)
         print_tree_inorder (curr_node->right);
     }
 
-    printf (")");
+    if(bracketing)
+    {
+        printf (")");
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -270,20 +300,20 @@ void create_cell (Node *root, Tree_info *info)
 
     if(root->type == OP)
     {
-        dot_print ("fillcolor = paleturquoise1, label = \" { <ptr> TYPE: OPERATION | %c",
-                   root->val.op);
+        dot_print ("fillcolor = paleturquoise1, label = \" { <ptr> TYPE: OPERATION (%d) | %c",
+                   root->priority, root->val.op);
     }
 
     else if(root->type == NUM)
     {
-        dot_print ("fillcolor = coral2, label = \" { <ptr> TYPE: NUMERIC | %lg",
-                   root->val.num);
+        dot_print ("fillcolor = coral2, label = \" { <ptr> TYPE: NUMERIC (%d) | %lg",
+                   root->priority,root->val.num);
     }
 
     else if(root->type == VAR)
     {
-        dot_print ("fillcolor = darkolivegreen2, label = \" { <ptr> TYPE: VARIABLE | %c",
-                   root->val.var);
+        dot_print ("fillcolor = darkolivegreen2, label = \" { <ptr> TYPE: VARIABLE (%d) | %c",
+                   root->priority, root->val.var);
     }
 
     else

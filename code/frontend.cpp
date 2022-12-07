@@ -15,9 +15,10 @@ Node *get_t (char **grammar) //handle operations with 2-priority
 
         Node *new_node = create_node ();
 
-        new_node->left   = left_node;
-        new_node->right  = right_node;
-        new_node->type   = OP;
+        new_node->left = left_node;
+        new_node->right = right_node;
+        new_node->type = OP;
+        new_node->priority = 2;
         new_node->val.op = *curr_op;
 
         left_node->parent = new_node;
@@ -72,6 +73,7 @@ Node *get_e (char **grammar)  //handle operations with 3-priority
         new_node->left   = left_node;
         new_node->right  = right_node;
         new_node->type   = OP;
+        new_node->priority = 1;
         new_node->val.op = *curr_op;
 
         left_node->parent = new_node;
@@ -104,6 +106,7 @@ Node *get_n (char **grammar)  //handle numeric
     Node *new_node = create_node ();
 
     new_node->type = NUM;
+    new_node->priority = 3;
 
     const char *str_old = *grammar;
 
@@ -115,6 +118,7 @@ Node *get_n (char **grammar)  //handle numeric
     if(isalpha (**grammar))
     {
         new_node->type = VAR;
+
         VALUE_VAR = **grammar;
 
         (*grammar)++;

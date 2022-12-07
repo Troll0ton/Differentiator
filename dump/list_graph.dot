@@ -4,17 +4,119 @@ graph [dpi = 200];
 ranksep = 1.5;       
 edge[penwidth = 10]; 
 cell0 [style = filled, color = black, shape=record, 
-fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION | +} " ];                         
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (1) | +} " ];                         
 cell1 [style = filled, color = black, shape=record, 
-fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC | 677} " ];                         
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (1) | +} " ];                         
 cell2 [style = filled, color = black, shape=record, 
-fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION | *} " ];                         
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (3) | 0} " ];                         
 cell3 [style = filled, color = black, shape=record, 
-fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC | 5454} " ];                         
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (1) | +} " ];                         
 cell4 [style = filled, color = black, shape=record, 
-fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE | x} " ];                         
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (2) | *} " ];                         
+cell5 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (1) | +} " ];                         
+cell6 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (2) | *} " ];                         
+cell7 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (3) | 0} " ];                         
+cell8 [style = filled, color = black, shape=record, 
+fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (3) | x} " ];                         
+cell9 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (2) | *} " ];                         
+cell10 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (3) | 238} " ];                         
+cell11 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (3) | 1} " ];                         
+cell12 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (1) | +} " ];                         
+cell13 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (2) | *} " ];                         
+cell14 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (3) | 2323} " ];                         
+cell15 [style = filled, color = black, shape=record, 
+fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (3) | x} " ];                         
+cell16 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (2) | *} " ];                         
+cell17 [style = filled, color = black, shape=record, 
+fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (3) | x} " ];                         
+cell18 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (3) | 21} " ];                         
+cell19 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (2) | *} " ];                         
+cell20 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (2) | *} " ];                         
+cell21 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (3) | 238} " ];                         
+cell22 [style = filled, color = black, shape=record, 
+fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (3) | x} " ];                         
+cell23 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (1) | +} " ];                         
+cell24 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (1) | +} " ];                         
+cell25 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (2) | *} " ];                         
+cell26 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (3) | 0} " ];                         
+cell27 [style = filled, color = black, shape=record, 
+fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (3) | x} " ];                         
+cell28 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (2) | *} " ];                         
+cell29 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (3) | 2323} " ];                         
+cell30 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (3) | 1} " ];                         
+cell31 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (1) | +} " ];                         
+cell32 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (2) | *} " ];                         
+cell33 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (3) | 1} " ];                         
+cell34 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (3) | 21} " ];                         
+cell35 [style = filled, color = black, shape=record, 
+fillcolor = paleturquoise1, label = " { <ptr> TYPE: OPERATION (2) | *} " ];                         
+cell36 [style = filled, color = black, shape=record, 
+fillcolor = darkolivegreen2, label = " { <ptr> TYPE: VARIABLE (3) | x} " ];                         
+cell37 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (3) | 0} " ];                         
+cell38 [style = filled, color = black, shape=record, 
+fillcolor = coral2, label = " { <ptr> TYPE: NUMERIC (3) | 1} " ];                         
 cell0 -> cell1;
-cell0 -> cell2;
-cell2 -> cell3;
-cell2 -> cell4;
+cell1 -> cell2;
+cell1 -> cell3;
+cell3 -> cell4;
+cell4 -> cell5;
+cell5 -> cell6;
+cell6 -> cell7;
+cell6 -> cell8;
+cell5 -> cell9;
+cell9 -> cell10;
+cell9 -> cell11;
+cell4 -> cell12;
+cell12 -> cell13;
+cell13 -> cell14;
+cell13 -> cell15;
+cell12 -> cell16;
+cell16 -> cell17;
+cell16 -> cell18;
+cell3 -> cell19;
+cell19 -> cell20;
+cell20 -> cell21;
+cell20 -> cell22;
+cell19 -> cell23;
+cell23 -> cell24;
+cell24 -> cell25;
+cell25 -> cell26;
+cell25 -> cell27;
+cell24 -> cell28;
+cell28 -> cell29;
+cell28 -> cell30;
+cell23 -> cell31;
+cell31 -> cell32;
+cell32 -> cell33;
+cell32 -> cell34;
+cell31 -> cell35;
+cell35 -> cell36;
+cell35 -> cell37;
+cell0 -> cell38;
 }

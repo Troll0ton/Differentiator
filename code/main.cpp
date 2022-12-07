@@ -5,7 +5,7 @@
 
 int main ()
 {
-    greetings ();
+    //greetings ();
 
     Tree_info *info = tree_info_ctor();
 
@@ -19,18 +19,11 @@ int main ()
 
     printf ("\n");
 
-    info->root = copy_tree (info->root->left, info);
-
-    tree_dump (info);
-
-    //-----------------------------------------------------------------------------
-
-    /*
-    calc_derivative (info->root);
+    calc_derivative (info->root, info);
 
     print_tree_inorder (info->root);
 
-    tree_dump (info); */
+    tree_dump (info);
 
     Node *root = info->root;
 
