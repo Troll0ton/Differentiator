@@ -78,6 +78,7 @@ typedef struct Tree_info
 {
     FILE *file_in;
     FILE *file_dump;
+    FILE *file_tex;
     FILE *file_dot;
     FILE *file_expr;
     Line *Text;
@@ -115,6 +116,8 @@ void       print_tree_inorder (Node *curr_node);
 void       tree_dump          (Tree_info *info);
 
 void       create_tree_graph  (Tree_info *info);
+
+void       create_latex_file  (Tree_info *info);
 
 //void       assign_node        ();
 

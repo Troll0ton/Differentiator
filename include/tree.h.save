@@ -21,7 +21,7 @@
 
 //-----------------------------------------------------------------------------
 
-#define N(suffix)  NUM_OF_##suffix                                  
+#define N(suffix)  NUM_OF_##suffix
 
 //-----------------------------------------------------------------------------
 
@@ -78,6 +78,7 @@ typedef struct Tree_info
 {
     FILE *file_in;
     FILE *file_dump;
+    FILE *fule_tex;
     FILE *file_dot;
     FILE *file_expr;
     Line *Text;
@@ -116,7 +117,7 @@ void       tree_dump          (Tree_info *info);
 
 void       create_tree_graph  (Tree_info *info);
 
-void       assign_node        ();
+//void       assign_node        ();
 
 //void       greetings          ();
 

@@ -368,6 +368,67 @@ void build_connections (Node *root, Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
+void create_latex_file (Tree_info *info)
+{
+    info->file_tex = fopen ("../files/file_out.tex", "w+");
+
+    const char header[] = R"(
+    \documentclass{article}
+    %  Русский язык
+    \usepackage[T2A]{fontenc}			% кодировка
+    \usepackage[utf8]{inputenc}			% кодировка исходного текста
+    \usepackage[english,russian]{babel}	% локализация и переносы
+    \usepackage{unicode-math}
+    \usepackage[top=3in]{geometry}
+    % Рисунки
+    \usepackage{graphicx, float}
+    \usepackage{wrapfig}
+    \usepackage{eso-pic,graphicx}
+    \usepackage{xcolor}
+    \makeatletter
+    \newcommand{\globalcolor}[1]{%
+    \color{#1}\global\let\default@color\current@color
+    }
+    \makeatother
+    \AtBeginDocument{\globalcolor{black}}
+    \title{Wild wild west derivative counter}
+    \author{Marty Bebrou Smith}
+    \date{November 1897}
+    \begin{document}
+    \maketitle
+    )";
+
+    fprintf (info->file_tex, "%s", header);
+
+    char introduction[] = R"(
+        You've been slepping so long, that Calculus anigilated all humanity and whole modern civilization was vanished.
+        The humanity had to start over to restore all knowledge we lost. Unfortunately, everyone decided to become stupid cowboys and
+        live in the world of Wild Wild West.
+        I fucking like this live, you can bang as many hot chicks as you want, despite sometimes fuckers like you come to me
+        to solve this boring equations and take derivatives.
+        Oh look, a nigger is running down the hill *bang* *bang*
+
+
+        Ok, ok, let's calculate this bullshit.
+        \begin{center}
+        $\clubsuit$~$\clubsuit$~$\clubsuit$
+        \end{center}
+    )";
+
+    char ending_lines[] = R"(
+        The solution is pretty simple and you definetely can do it \textbf{yourself}
+        \end{document}
+    )";
+
+    fprintf (info->file_tex, "%s\n%s", introduction, ending_lines);
+
+    fclose (info->file_tex);
+
+    system ("run_tex.bat");
+}
+
+//-----------------------------------------------------------------------------
+
 void tree_dtor (Node *curr_node)
 {
     if(curr_node->left)

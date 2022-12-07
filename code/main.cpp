@@ -25,6 +25,8 @@ int main ()
 
     tree_dump (info);
 
+    create_latex_file (info);
+
     Node *root = info->root;
 
     tree_dtor (root);

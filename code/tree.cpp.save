@@ -109,6 +109,8 @@ Node *copy_tree (Node *orig_root, Tree_info *info)
         new_root->left = copy_node (orig_root->left, info);
     }
 
+    info->curr_parent = orig_root;
+
     if(orig_root->right)
     {
         new_root->right = copy_node (orig_root->right, info);
@@ -128,12 +130,15 @@ Node *copy_node (Node *curr_node, Tree_info *info)
     new_node->priority = curr_node->priority;
 
     new_node->parent  = info->curr_parent;
+
     info->curr_parent = new_node;
 
     if(curr_node->left)
     {
         new_node->left = copy_node (curr_node->left, info);
     }
+
+    info->curr_parent = new_node;
 
     if(curr_node->right)
     {
@@ -178,7 +183,7 @@ void print_tree_inorder (Node *curr_node)
     {
         bracketing = true;
 
-        if(curr_node->parent->type == NUM) printf ("|%d|", curr_node->parent);
+        if(curr_node->parent->type == NUM) printf ("|%lg|", curr_node->parent->val.num);
 
         printf ("(");
     }
@@ -360,6 +365,39 @@ void build_connections (Node *root, Tree_info *info)
 }
 
 #undef CURR_CELL
+
+//-----------------------------------------------------------------------------
+
+void create_latex_file (Tree_info *info)
+{
+    info->file_tex = fopen ("../files/file_out.tex", "w+");
+
+    fprintf (info->file_tex
+            "\\documentclass[12pt]{article}        \
+              \\usepackage[utf8]{inputenc}          \
+              \\usepackage{cmap}                    \
+              \\usepackage{amsmath}                 \
+              \\usepackage{amssymb}                 \
+              \\usepackage{mathtools}               \
+              \\usepackage{mathtext}                \
+                                                    \
+              \\usepackage[english, russian]{babel} \
+                                                   \
+              \\title{Differentiator}              \
+                                                   \
+              \\begin{document}                    \
+                                                   \
+              \\maketitle                          \
+                                                   \
+              \\noindent¹1                         \
+              \\\\                                 \
+              \\noindent LOL KEK KEK CHEBUREK:\\\\ \
+                                                   \
+                                                   \
+              \\end{document}                       ");
+
+    system ("run_latex.bat");
+}
 
 //-----------------------------------------------------------------------------
 
