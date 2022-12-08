@@ -101,8 +101,9 @@ Node *copy_tree (Node *orig_root, Tree_info *info)
     new_root->type = orig_root->type;
     new_root->val  = orig_root->val;
     new_root->priority = orig_root->priority;
+    new_root->parent = orig_root->parent;
 
-    info->curr_parent = orig_root;
+    info->curr_parent = new_root;
 
     if(orig_root->left)
     {
@@ -128,8 +129,7 @@ Node *copy_node (Node *curr_node, Tree_info *info)
     new_node->type = curr_node->type;
     new_node->val  = curr_node->val;
     new_node->priority = curr_node->priority;
-
-    new_node->parent  = info->curr_parent;
+    new_node->parent = info->curr_parent;
 
     info->curr_parent = new_node;
 
@@ -175,7 +175,7 @@ void assign_node (int type, char priority, union val, Node *left_node, Node *rig
 
 //-----------------------------------------------------------------------------
 
-void print_tree_inorder (Node *curr_node)
+void print_tree_inorder (Node *curr_node, Tree_info *info)
 {
     bool bracketing = false;
 
@@ -183,29 +183,27 @@ void print_tree_inorder (Node *curr_node)
     {
         bracketing = true;
 
-        if(curr_node->parent->type == NUM) printf ("|%lg|", curr_node->parent->val.num);
-
-        printf ("(");
+        txprint ("(");
     }
 
     if(curr_node->left)
     {
-        print_tree_inorder (curr_node->left);
+        print_tree_inorder (curr_node->left, info);
     }
 
     if(curr_node->type == OP)
     {
-        printf ("%c", curr_node->val.op);
+        txprint ("%c", curr_node->val.op);
     }
 
     else if(curr_node->type == NUM)
     {
-        printf ("%lg", curr_node->val.num);
+        txprint ("%lg", curr_node->val.num);
     }
 
     else if(curr_node->type == VAR)
     {
-        printf ("%c", curr_node->val.var);
+        txprint ("%c", curr_node->val.var);
     }
 
     else
@@ -215,12 +213,12 @@ void print_tree_inorder (Node *curr_node)
 
     if(curr_node->right)
     {
-        print_tree_inorder (curr_node->right);
+        print_tree_inorder (curr_node->right, info);
     }
 
     if(bracketing)
     {
-        printf (")");
+        txprint (")");
     }
 }
 
@@ -372,31 +370,49 @@ void create_latex_file (Tree_info *info)
 {
     info->file_tex = fopen ("../files/file_out.tex", "w+");
 
-    fprintf (info->file_tex
-            "\\documentclass[12pt]{article}        \
-              \\usepackage[utf8]{inputenc}          \
-              \\usepackage{cmap}                    \
-              \\usepackage{amsmath}                 \
-              \\usepackage{amssymb}                 \
-              \\usepackage{mathtools}               \
-              \\usepackage{mathtext}                \
-                                                    \
-              \\usepackage[english, russian]{babel} \
-                                                   \
-              \\title{Differentiator}              \
-                                                   \
-              \\begin{document}                    \
-                                                   \
-              \\maketitle                          \
-                                                   \
-              \\noindent№1                         \
-              \\\\                                 \
-              \\noindent LOL KEK KEK CHEBUREK:\\\\ \
-                                                   \
-                                                   \
-              \\end{document}                       ");
+    const char header[] = R"(
+    \documentclass{article}
+    %  Русский язык
+    \usepackage[T2A]{fontenc}			% кодировка
+    \usepackage[utf8]{inputenc}			% кодировка исходного текста
+    \usepackage[english,russian]{babel}	% локализация и переносы
+    \usepackage{unicode-math}
+    \usepackage[top=3in]{geometry}
+    % Рисунки
+    \usepackage{graphicx, float}
+    \usepackage{wrapfig}
+    \usepackage{eso-pic,graphicx}
+    \usepackage{xcolor}
+    \makeatletter
+    \newcommand{\globalcolor}[1]{%
+    \color{#1}\global\let\default@color\current@color
+    }
+    \makeatother
+    \AtBeginDocument{\globalcolor{black}}
+    \title{DIFFERENTIATOR}
+    \begin{document}
+    \maketitle
 
-    system ("run_latex.bat");
+    This is current expression:
+    )";
+
+    txprint ("%s\n", header);
+}
+
+//-----------------------------------------------------------------------------
+
+void convert_to_pdf (Tree_info *info)
+{
+    char ending_lines[] = R"(
+        The solution is pretty simple and you definetely can do it \textbf{yourself}
+        \end{document}
+    )";
+
+    txprint ("%s\n", ending_lines);
+
+    fclose (info->file_tex);
+
+    system ("run_tex.bat");
 }
 
 //-----------------------------------------------------------------------------

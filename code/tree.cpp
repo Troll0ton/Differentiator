@@ -101,15 +101,16 @@ Node *copy_tree (Node *orig_root, Tree_info *info)
     new_root->type = orig_root->type;
     new_root->val  = orig_root->val;
     new_root->priority = orig_root->priority;
+    new_root->parent = orig_root->parent;
 
-    info->curr_parent = orig_root;
+    info->curr_parent = new_root;
 
     if(orig_root->left)
     {
         new_root->left = copy_node (orig_root->left, info);
     }
 
-    info->curr_parent = orig_root;
+    info->curr_parent = new_root;
 
     if(orig_root->right)
     {
@@ -128,8 +129,7 @@ Node *copy_node (Node *curr_node, Tree_info *info)
     new_node->type = curr_node->type;
     new_node->val  = curr_node->val;
     new_node->priority = curr_node->priority;
-
-    new_node->parent  = info->curr_parent;
+    new_node->parent = info->curr_parent;
 
     info->curr_parent = new_node;
 
@@ -175,7 +175,7 @@ void assign_node (int type, char priority, union val, Node *left_node, Node *rig
 
 //-----------------------------------------------------------------------------
 
-void print_tree_inorder (Node *curr_node)
+void print_tree_inorder (Node *curr_node, Tree_info *info)
 {
     bool bracketing = false;
 
@@ -183,29 +183,27 @@ void print_tree_inorder (Node *curr_node)
     {
         bracketing = true;
 
-        if(curr_node->parent->type == NUM) printf ("|%lg|", curr_node->parent->val.num);
-
-        printf ("(");
+        txprint ("(");
     }
 
     if(curr_node->left)
     {
-        print_tree_inorder (curr_node->left);
+        print_tree_inorder (curr_node->left, info);
     }
 
     if(curr_node->type == OP)
     {
-        printf ("%c", curr_node->val.op);
+        txprint ("%c", curr_node->val.op);
     }
 
     else if(curr_node->type == NUM)
     {
-        printf ("%lg", curr_node->val.num);
+        txprint ("%lg", curr_node->val.num);
     }
 
     else if(curr_node->type == VAR)
     {
-        printf ("%c", curr_node->val.var);
+        txprint ("%c", curr_node->val.var);
     }
 
     else
@@ -215,12 +213,12 @@ void print_tree_inorder (Node *curr_node)
 
     if(curr_node->right)
     {
-        print_tree_inorder (curr_node->right);
+        print_tree_inorder (curr_node->right, info);
     }
 
     if(bracketing)
     {
-        printf (")");
+        txprint (")");
     }
 }
 
@@ -391,36 +389,26 @@ void create_latex_file (Tree_info *info)
     }
     \makeatother
     \AtBeginDocument{\globalcolor{black}}
-    \title{Wild wild west derivative counter}
-    \author{Marty Bebrou Smith}
-    \date{November 1897}
+    \title{DIFFERENTIATOR}
     \begin{document}
     \maketitle
+
+    This is current expression:
     )";
 
-    fprintf (info->file_tex, "%s", header);
+    txprint ("%s\n", header);
+}
 
-    char introduction[] = R"(
-        You've been slepping so long, that Calculus anigilated all humanity and whole modern civilization was vanished.
-        The humanity had to start over to restore all knowledge we lost. Unfortunately, everyone decided to become stupid cowboys and
-        live in the world of Wild Wild West.
-        I fucking like this live, you can bang as many hot chicks as you want, despite sometimes fuckers like you come to me
-        to solve this boring equations and take derivatives.
-        Oh look, a nigger is running down the hill *bang* *bang*
+//-----------------------------------------------------------------------------
 
-
-        Ok, ok, let's calculate this bullshit.
-        \begin{center}
-        $\clubsuit$~$\clubsuit$~$\clubsuit$
-        \end{center}
-    )";
-
+void convert_to_pdf (Tree_info *info)
+{
     char ending_lines[] = R"(
         The solution is pretty simple and you definetely can do it \textbf{yourself}
         \end{document}
     )";
 
-    fprintf (info->file_tex, "%s\n%s", introduction, ending_lines);
+    txprint ("%s\n", ending_lines);
 
     fclose (info->file_tex);
 

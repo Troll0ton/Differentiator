@@ -13,6 +13,8 @@
 
 #define trprint(...) fprintf (info->file_tree, __VA_ARGS__)
 
+#define txprint(...) fprintf (info->file_tex, __VA_ARGS__)
+
 #define dot_print(...) fprintf (info->file_dot, __VA_ARGS__)
 
 //-----------------------------------------------------------------------------
@@ -111,13 +113,15 @@ Node      *create_node        ();
 
 Node      *create_root        (int type, value val, Tree_info *info);
 
-void       print_tree_inorder (Node *curr_node);
+void       print_tree_inorder (Node *curr_node, Tree_info *info);
 
 void       tree_dump          (Tree_info *info);
 
 void       create_tree_graph  (Tree_info *info);
 
 void       create_latex_file  (Tree_info *info);
+
+void       convert_to_pdf     (Tree_info *info);
 
 //void       assign_node        ();
 

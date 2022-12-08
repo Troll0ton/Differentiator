@@ -4,9 +4,40 @@
 
 Node *get_t (char **grammar) //handle operations with 2-priority
 {
+    Node *left_node = get_d (grammar);
+
+    while(**grammar == '*' ||
+          **grammar == '/'   )
+    {
+        char *curr_op = *grammar;
+        (*grammar)++;
+
+        Node *right_node = get_d (grammar);
+
+        Node *new_node = create_node ();
+
+        new_node->left = left_node;
+        new_node->right = right_node;
+        new_node->type = OP;
+        new_node->priority = 2;
+        new_node->val.op = *curr_op;
+
+        left_node->parent = new_node;
+        right_node->parent = new_node;
+
+        left_node = new_node;
+    }
+
+    return left_node;
+}
+
+//-----------------------------------------------------------------------------
+
+Node *get_d (char **grammar)
+{
     Node *left_node = get_p (grammar);
 
-    while(**grammar == '*' || **grammar == '/')
+    while(**grammar == '^')
     {
         char *curr_op = *grammar;
         (*grammar)++;
@@ -18,7 +49,7 @@ Node *get_t (char **grammar) //handle operations with 2-priority
         new_node->left = left_node;
         new_node->right = right_node;
         new_node->type = OP;
-        new_node->priority = 2;
+        new_node->priority = 3;
         new_node->val.op = *curr_op;
 
         left_node->parent = new_node;
@@ -106,7 +137,7 @@ Node *get_n (char **grammar)  //handle numeric
     Node *new_node = create_node ();
 
     new_node->type = NUM;
-    new_node->priority = 3;
+    new_node->priority = 4;
 
     const char *str_old = *grammar;
 

@@ -13,19 +13,21 @@ int main ()
 
     fclose (info->file_in);
 
-    print_tree_inorder (info->root);
+    create_latex_file (info);
+
+    print_tree_inorder (info->root, info);
 
     tree_dump (info);
 
-    printf ("\n");
+    txprint ("\\\\\n");
 
     calc_derivative (info->root, info);
 
-    print_tree_inorder (info->root);
+    print_tree_inorder (info->root, info);
+
+    convert_to_pdf (info);
 
     tree_dump (info);
-
-    create_latex_file (info);
 
     Node *root = info->root;
 

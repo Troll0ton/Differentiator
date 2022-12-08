@@ -19,6 +19,8 @@ Node *get_p (char **grammar);
 
 Node *get_n (char **grammar);
 
+Node *get_d (char **grammar);
+
 //-----------------------------------------------------------------------------
 
 #endif //FRONTEND_H
