@@ -174,7 +174,7 @@ Node *handle_branch_node (Tree_info *info)
 
     if(!info->root)
     {
-        New_node = create_root (OP, val, info);
+        New_node = create_root (op, val, info);
     }
 
     else
@@ -190,7 +190,7 @@ Node *handle_branch_node (Tree_info *info)
 
     info->curr_line++;
 
-    New_node->type  = OP;
+    New_node->type  = op;
     New_node->left  = read_tree (info);
     New_node->right = read_tree (info);
 
@@ -208,7 +208,7 @@ Node *handle_end_node (Tree_info *info)
 
     if(*(CURR_LINE + 1) == 'N')
     {
-        New_node->type = NUM;
+        New_node->type = num;
         sscanf (CURR_LINE + 2, "%lg", &(New_node->val.num));
     }
 
@@ -241,12 +241,12 @@ void print_tree_inorder (Node *curr_node)
         print_tree_inorder (curr_node->left);
     }
 
-    if(curr_node->type == OP)
+    if(curr_node->type == op)
     {
         printf ("%c", curr_node->val.op);
     }
 
-    else if(curr_node->type == NUM)
+    else if(curr_node->type == num)
     {
         printf ("%lg", curr_node->val.num);
     }
@@ -343,21 +343,21 @@ void create_cell (Node *root, Tree_info *info)
     dot_print ("cell%d [style = filled, color = black, shape=record, \n",
                CURR_CELL);
 
-    if(root->type == OP)
+    if(root->type == op)
     {
-        dot_print ("fillcolor = paleturquoise1, label = \" { <ptr> TYPE: OPERATION | %c",
+        dot_print ("fillcolor = paleturquoise1, label = \" { <ptr> TYPE: opERATION | %c",
                    root->val.op);
     }
 
-    else if(root->type == NUM)
+    else if(root->type == num)
     {
-        dot_print ("fillcolor = coral2, label = \" { <ptr> TYPE: NUMERIC | %lg",
+        dot_print ("fillcolor = coral2, label = \" { <ptr> TYPE: numERIC | %lg",
                    root->val.num);
     }
 
     else if(root->type == VAR)
     {
-        dot_print ("fillcolor = darkolivegreen2, label = \" { <ptr> TYPE: VARIABLE | %c",
+        dot_print ("fillcolor = darkolivegreen2, label = \" { <ptr> TYPE: varIABLE | %c",
                    root->val.var);
     }
 

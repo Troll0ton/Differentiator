@@ -1,53 +1,16 @@
 #include "../include/tree.h"
 
 //-----------------------------------------------------------------------------
- /*
-void greetings ()
-{
-    txCreateWindow (1000, 600);
 
-    txSetFillColor (TX_BLACK);
-    txSetColor     (TX_WHITE);
-
-    txSelectFont   ("Comic Sans MS", 120);
-    txTextOut (50,  200, "DIFFERENTIATOR.");
-    txSleep (4000);
-    txClear ();
-
-    txSelectFont ("Comic Sans MS", 60);
-
-    txTextOut (300, 200, "BY WALTER WHITE.");
-
-    HDC image1 = txLoadImage ("C:/Users/ASUS_TUF_GAMING/Desktop/Git_Hub/Differentiator/images/walter.bmp", 300, 400);
-
-    if (!image1)
-    {
-        txMessageBox ("Can`t load picture from images");
-    }
-
-    txBitBlt (txDC(), 0, 0, 800, 600, image1, 0, 0);
-
-    txDeleteDC (image1);
-
-    txSleep   (4000);
-    txClear   ();
-}   */
-
-//-----------------------------------------------------------------------------
-
-Tree_info *tree_info_ctor_ (const char* log_file, int line)
+Tree_info *tree_info_ctor_ (File *File_input, Line *Text, const char* log_file, int line)
 {
     Tree_info *info = (Tree_info*) calloc (1, sizeof (Tree_info));
+
+    info->file_dump = fopen ("../dump/tree_dump.html",  "w+");
 
     info->line      = line;
     info->log_file  = log_file;
     info->root      = NULL;
-
-    info->file_dump = fopen ("../dump/tree_dump.html",  "w+");
-    info->file_in   = fopen ("../files/task1.txt", "rb");
-
-    info->File_input = file_reader (info->file_in);
-    info->Text = lines_separator (info->File_input);
 
     info->curr_line = 0;
     info->curr_cell = 0;
@@ -161,17 +124,6 @@ Node *create_root (int type, value val, Tree_info *info)
 
     return root;
 }
-
-//-----------------------------------------------------------------------------
-/*
-void assign_node (int type, char priority, union val, Node *left_node, Node *right_node)
-{
-    new_node->type = type;
-    new_node->priority = priority;
-    new_node->left = left_node;
-    new_node->right = right_node;
-    new_node->val = val;
-}   */
 
 //-----------------------------------------------------------------------------
 

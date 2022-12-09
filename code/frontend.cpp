@@ -14,16 +14,7 @@ Node *get_t (char **grammar) //handle operations with 2-priority
 
         Node *right_node = get_d (grammar);
 
-        Node *new_node = create_node ();
-
-        new_node->left = left_node;
-        new_node->right = right_node;
-        new_node->type = OP;
-        new_node->priority = 2;
-        new_node->val.op = *curr_op;
-
-        left_node->parent = new_node;
-        right_node->parent = new_node;
+        INIT_NODE (new_node, left_node, right_node, NULL, OP, *curr_op, 2);
 
         left_node = new_node;
     }
@@ -44,16 +35,7 @@ Node *get_d (char **grammar)
 
         Node *right_node = get_p (grammar);
 
-        Node *new_node = create_node ();
-
-        new_node->left = left_node;
-        new_node->right = right_node;
-        new_node->type = OP;
-        new_node->priority = 3;
-        new_node->val.op = *curr_op;
-
-        left_node->parent = new_node;
-        right_node->parent = new_node;
+        INIT_NODE (new_node, left_node, right_node, NULL, OP, *curr_op, 3);
 
         left_node = new_node;
     }
@@ -99,16 +81,7 @@ Node *get_e (char **grammar)  //handle operations with 3-priority
 
         Node *right_node = get_t (grammar);
 
-        Node *new_node = create_node ();
-
-        new_node->left   = left_node;
-        new_node->right  = right_node;
-        new_node->type   = OP;
-        new_node->priority = 1;
-        new_node->val.op = *curr_op;
-
-        left_node->parent = new_node;
-        right_node->parent = new_node;
+        INIT_NODE (new_node, left_node, right_node, NULL, OP, *curr_op, 1);
 
         left_node = new_node;
     }
@@ -129,15 +102,12 @@ Node *get_g (char **grammar)
 
 //-----------------------------------------------------------------------------
 
-#define VALUE_NUM new_node->val.num
+#define VALUE_num new_node->val.num
 #define VALUE_VAR new_node->val.var
 
 Node *get_n (char **grammar)  //handle numeric
 {
-    Node *new_node = create_node ();
-
-    new_node->type = NUM;
-    new_node->priority = 4;
+    INIT_NODE (new_node, NULL, NULL, NULL, NUM, 0, 4);
 
     const char *str_old = *grammar;
 
@@ -159,7 +129,7 @@ Node *get_n (char **grammar)  //handle numeric
 
     while(**grammar >= '0' && **grammar <= '9')
     {
-        VALUE_NUM = VALUE_NUM * 10 + **grammar - '0';
+        VALUE_num = VALUE_num * 10 + **grammar - '0';
         (*grammar)++;
     }
 
@@ -168,7 +138,7 @@ Node *get_n (char **grammar)  //handle numeric
     return new_node;
 }
 
-#undef VALUE_NUM
+#undef VALUE_num
 #undef VALUE_VAR
 
 //-----------------------------------------------------------------------------

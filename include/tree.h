@@ -7,7 +7,7 @@
 
 #include "../include/lines_handle.h"
 #include "../include/input_output.h"
-//#include <TXLib.h>
+#include "../include/common.h"
 
 //-----------------------------------------------------------------------------
 
@@ -19,25 +19,16 @@
 
 //-----------------------------------------------------------------------------
 
-#define tree_info_ctor() tree_info_ctor_ (__FILE__, __LINE__)
+#define tree_info_ctor(File_input, Text) tree_info_ctor_ (File_input, Text, __FILE__, __LINE__)
 
 //-----------------------------------------------------------------------------
 
-#define N(suffix)  NUM_OF_##suffix
+#define N(suffix) num_of_##suffix
 
 //-----------------------------------------------------------------------------
 
 #define DELETED_PAR -1
 #define POISON_PTR  NULL
-
-//-----------------------------------------------------------------------------
-
-enum TYPES
-{
-    VAR,
-    NUM,
-    OP,
-};
 
 //-----------------------------------------------------------------------------
 
@@ -123,9 +114,7 @@ void       create_latex_file  (Tree_info *info);
 
 void       convert_to_pdf     (Tree_info *info);
 
-//void       assign_node        ();
-
-//void       greetings          ();
+//void     greetings          ();
 
 Node      *copy_tree          (Node *orig_root, Tree_info *info);
 

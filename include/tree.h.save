@@ -7,7 +7,7 @@
 
 #include "../include/lines_handle.h"
 #include "../include/input_output.h"
-//#include <TXLib.h>
+#include "../include/common.h"
 
 //-----------------------------------------------------------------------------
 
@@ -23,21 +23,12 @@
 
 //-----------------------------------------------------------------------------
 
-#define N(suffix)  NUM_OF_##suffix
+#define N(suffix)  num_OF_##suffix
 
 //-----------------------------------------------------------------------------
 
 #define DELETED_PAR -1
 #define POISON_PTR  NULL
-
-//-----------------------------------------------------------------------------
-
-enum TYPES
-{
-    VAR,
-    NUM,
-    OP,
-};
 
 //-----------------------------------------------------------------------------
 
@@ -113,7 +104,7 @@ Node      *create_node        ();
 
 Node      *create_root        (int type, value val, Tree_info *info);
 
-void       print_tree_inorder (Node *curr_node);
+void       print_tree_inorder (Node *curr_node, Tree_info *info);
 
 void       tree_dump          (Tree_info *info);
 
@@ -121,9 +112,9 @@ void       create_tree_graph  (Tree_info *info);
 
 void       create_latex_file  (Tree_info *info);
 
-//void       assign_node        ();
+void       convert_to_pdf     (Tree_info *info);
 
-//void       greetings          ();
+//void     greetings          ();
 
 Node      *copy_tree          (Node *orig_root, Tree_info *info);
 
