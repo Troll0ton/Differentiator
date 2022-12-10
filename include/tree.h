@@ -19,7 +19,7 @@
 
 //-----------------------------------------------------------------------------
 
-#define tree_info_ctor(File_input, Text) tree_info_ctor_ (File_input, Text, __FILE__, __LINE__)
+#define tree_info_ctor(info, File_input, Text) tree_info_ctor_ (info, File_input, Text, __FILE__, __LINE__)
 
 //-----------------------------------------------------------------------------
 
@@ -96,7 +96,7 @@ enum SIDES
 
 //-----------------------------------------------------------------------------
 
-Tree_info *tree_info_ctor_    (const char* log_file, int line);
+void       tree_info_ctor_    (Tree_info *info, File *File_input, Line *Text, const char* log_file, int line);
 
 void       tree_info_dtor     (Tree_info *info);
 

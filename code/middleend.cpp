@@ -80,7 +80,7 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
 
                     return curr_node;
                 }
-                /*
+
                 case '^':
                 {
                     Node *left_node_c  = copy_tree (curr_node->left, info);
@@ -121,7 +121,7 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
 
                     return curr_node;
                     break;
-                } */
+                }
 
                 default:
                 {

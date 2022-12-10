@@ -111,11 +111,6 @@ Node *get_n (char **grammar)  //handle numeric
 
     const char *str_old = *grammar;
 
-    if(**grammar == '\n' || **grammar == '\r')
-    {
-        **grammar = '\0';
-    }
-
     if(isalpha (**grammar))
     {
         new_node->type = VAR;

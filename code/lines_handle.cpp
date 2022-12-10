@@ -88,6 +88,11 @@ Line *lines_separator (File *Oper_file)
         {
             Oper_file->file_buffer[i] = '\0';
 
+            if(Oper_file->file_buffer[i - 1] == '\r')
+            {
+                Oper_file->file_buffer[i - 1] = '\0';
+            }
+
             Array_struct[num_line].begin_line  = Oper_file->file_buffer + i - cur_len;
             Array_struct[num_line].line_lenght = cur_len;
 

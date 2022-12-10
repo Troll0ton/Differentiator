@@ -4,9 +4,9 @@
 
 #define COPY_LEFT copy_tree (curr_node->left, info)
 #define COPY_RIGHT copy_tree (curr_node->right, info)
-
 #define LEFT_NODE curr_node->left
-#define RIGHT curr_node->left
+#define RIGHT_NODE curr_node->right
+#define CALC_DRV(node) calc_derivative (node, info)
 
 Node *calc_derivative (Node *curr_node, Tree_info *info)
 {
@@ -33,16 +33,16 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
             {
                 case '+':
                 {
-                    curr_node->left  = calc_derivative (curr_node->left,  info);
-                    curr_node->right = calc_derivative (curr_node->right, info);
+                    LEFT_NODE  = CALC_DRV (LEFT_NODE);
+                    RIGHT_NODE = CALC_DRV (RIGHT_NODE);
 
                     return curr_node;
                 }
 
                 case '-':
                 {
-                    curr_node->left  = calc_derivative (curr_node->left,  info);
-                    curr_node->right = calc_derivative (curr_node->right, info);
+                    LEFT_NODE  = CALC_DRV (LEFT_NODE);
+                    RIGHT_NODE = CALC_DRV (RIGHT_NODE);
 
                     return curr_node;
                 }
@@ -52,9 +52,9 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
                     Node *left_node_c  = COPY_LEFT;
                     Node *right_node_c = COPY_RIGHT;
 
-                    INIT_NODE (new_node_1, calc_derivative (curr_node->left, info), right_node_c, curr_node, OP, '*', 2);
+                    INIT_NODE (new_node_1, CALC_DRV (LEFT_NODE), right_node_c, curr_node, OP, '*', 2);
 
-                    INIT_NODE (new_node_2, left_node_c, calc_derivative (curr_node->right, info), curr_node, OP, '*', 2);
+                    INIT_NODE (new_node_2, left_node_c, CALC_DRV (RIGHT_NODE), curr_node, OP, '*', 2);
 
                     ASSIGN_NODE (curr_node, new_node_1, new_node_2, curr_node->parent, OP, '+', 1);
 
@@ -68,9 +68,9 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
                     Node *right_node_c1 = COPY_RIGHT;
                     Node *right_node_c2 = COPY_RIGHT;
 
-                    INIT_NODE (new_node_1, calc_derivative (curr_node->left, info), right_node_c, NULL, OP, '*', 2);
+                    INIT_NODE (new_node_1, CALC_DRV (LEFT_NODE), right_node_c, NULL, OP, '*', 2);
 
-                    INIT_NODE (new_node_2, left_node_c, calc_derivative (curr_node->right, info), NULL, OP, '*', 2);
+                    INIT_NODE (new_node_2, left_node_c, CALC_DRV (RIGHT_NODE), NULL, OP, '*', 2);
 
                     INIT_NODE (new_node_sub, new_node_1, new_node_2, curr_node, OP, '-', 1);
 
@@ -80,7 +80,12 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
 
                     return curr_node;
                 }
-
+                
+                case 'l'
+                {
+                    
+                }
+                
                 case '^':
                 {
                     Node *left_node_c  = copy_tree (curr_node->left, info);
@@ -121,7 +126,7 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
 
                     return curr_node;
                     break;
-                }
+                } 
 
                 default:
                 {
@@ -143,9 +148,10 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
     }
 }
 
+#undef LEFT_NODE
+#undef RIGHT_NODE
 #undef COPY_LEFT
 #undef COPY_RIGHT
-
 
 //-----------------------------------------------------------------------------
 

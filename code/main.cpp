@@ -7,41 +7,45 @@ int main ()
 {
     FILE *file_in = fopen ("../files/task1.txt", "rb");
 
-    File *File_input = file_reader (info->file_in);
-    Line *Text = lines_separator (info->File_input);
+    File *File_input = file_reader (file_in);
+    Line *Text = lines_separator (File_input);
 
     fclose (file_in);
 
-    //-----------------------------------------------------------------------------
+    Tree_info info = { 0 };
+
+    create_latex_file (&info);
 
     for(int line = 0; line < File_input->num_of_lines; line++)
     {
-        Tree_info *info = tree_info_ctor (File_input, Text);
+        tree_info_ctor (&info, File_input, Text);
 
-        info->root = get_g (&(info->Text[0].begin_line));
+        info.root = get_g (&(info.Text[line].begin_line));
 
-        create_latex_file (info);
+        print_tree_inorder (info.root, &info);
 
-        print_tree_inorder (info->root, info);
+        tree_dump (&info);
 
-        tree_dump (info);
+        fprintf (info.file_tex, "\\\\\n");
 
-        txprint ("\\\\\n");
+        calc_derivative (info.root, &info);
 
-        calc_derivative (info->root, info);
+        print_tree_inorder (info.root, &info);
 
-        print_tree_inorder (info->root, info);
+        tree_dump (&info);
 
-        convert_to_pdf (info);
-
-        tree_dump (info);
-
-        Node *root = info->root;
+        Node *root = info.root;
 
         tree_dtor (root);
+
+        tree_info_dtor (&info);
+
+        fprintf (info.file_tex, "\\\\\n");
     }
 
-    tree_info_dtor (info);
+    clear_mem (Text, File_input);
+
+    convert_to_pdf (&info);
 
     return 0;
 }

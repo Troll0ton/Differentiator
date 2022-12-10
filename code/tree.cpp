@@ -2,11 +2,11 @@
 
 //-----------------------------------------------------------------------------
 
-Tree_info *tree_info_ctor_ (File *File_input, Line *Text, const char* log_file, int line)
+void tree_info_ctor_ (Tree_info *info, File *File_input, Line *Text, const char* log_file, int line)
 {
-    Tree_info *info = (Tree_info*) calloc (1, sizeof (Tree_info));
-
     info->file_dump = fopen ("../dump/tree_dump.html",  "w+");
+    info->Text = Text;
+    info->File_input = File_input;
 
     info->line      = line;
     info->log_file  = log_file;
@@ -15,8 +15,6 @@ Tree_info *tree_info_ctor_ (File *File_input, Line *Text, const char* log_file, 
     info->curr_line = 0;
     info->curr_cell = 0;
     info->graph_num = 0;
-
-    return info;
 }
 
 //-----------------------------------------------------------------------------
@@ -25,13 +23,15 @@ void tree_info_dtor (Tree_info *info)
 {
     info->root = NULL;
     info->curr_parent = NULL;
+    info->Text = NULL;
+    info->File_input = NULL;
 
     fclose (info->file_dump);
 
+    info->log_file = NULL;
+    info->line = DELETED_PAR;
     info->curr_line = DELETED_PAR;
     info->curr_cell = DELETED_PAR;
-
-    free (info);
 }
 
 //-----------------------------------------------------------------------------
