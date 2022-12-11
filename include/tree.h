@@ -19,7 +19,7 @@
 
 //-----------------------------------------------------------------------------
 
-#define tree_info_ctor(info, File_input, Text) tree_info_ctor_ (info, File_input, Text, __FILE__, __LINE__)
+#define tree_info_ctor(info) tree_info_ctor_ (info, __FILE__, __LINE__)
 
 //-----------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@
 typedef union value
 {
     double num;
-    char op;
+    int op;
     char var;
 } value;
 
@@ -73,7 +73,6 @@ typedef struct Tree_info
     FILE *file_dump;
     FILE *file_tex;
     FILE *file_dot;
-    FILE *file_expr;
     Line *Text;
     File *File_input;
     Node *root;
@@ -96,7 +95,9 @@ enum SIDES
 
 //-----------------------------------------------------------------------------
 
-void       tree_info_ctor_    (Tree_info *info, File *File_input, Line *Text, const char* log_file, int line);
+void       tree_info_ctor_    (Tree_info *info, const char* log_file, int line);
+
+void       nullify_tree_pars  (Tree_info *info);
 
 void       tree_info_dtor     (Tree_info *info);
 

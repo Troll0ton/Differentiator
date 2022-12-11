@@ -3,30 +3,34 @@
 
 //-----------------------------------------------------------------------------
 
+#define CURR_LINE    &(info.Text[line].begin_line)
+#define NUM_OF_LINES info.File_input->num_of_lines
+
 int main ()
 {
-    FILE *file_in = fopen ("../files/task1.txt", "rb");
-
-    File *File_input = file_reader (file_in);
-    Line *Text = lines_separator (File_input);
-
-    fclose (file_in);
-
     Tree_info info = { 0 };
+
+    tree_info_ctor (&info);
 
     create_latex_file (&info);
 
-    for(int line = 0; line < File_input->num_of_lines; line++)
+    for(int line = 0; line < NUM_OF_LINES; line++)
     {
-        tree_info_ctor (&info, File_input, Text);
+        nullify_tree_pars (&info);
 
-        info.root = get_g (&(info.Text[line].begin_line));
+        info.root = get_grammar (CURR_LINE);
+
+        fprintf (info.file_tex, "---------------------------------------------------------------------------------------------------------------------------\\\\\n");
+
+        fprintf (info.file_tex, "Current expression:\\\\\n");
 
         print_tree_inorder (info.root, &info);
 
         tree_dump (&info);
 
         fprintf (info.file_tex, "\\\\\n");
+
+        fprintf (info.file_tex, "Devirative:\\\\\n");
 
         calc_derivative (info.root, &info);
 
@@ -34,20 +38,33 @@ int main ()
 
         tree_dump (&info);
 
-        Node *root = info.root;
+        fprintf (info.file_tex, "\\\\\n");
 
-        tree_dtor (root);
+        fprintf (info.file_tex, "Simplify something:\\\\\n");
 
-        tree_info_dtor (&info);
+        simplify_tree (info.root, &info);
+
+        print_tree_inorder (info.root, &info);
+
+        tree_dump (&info);
+
+        fprintf (info.file_tex, "\\\\\n");
+
+        fprintf (info.file_tex, "---------------------------------------------------------------------------------------------------------------------------\\\\\n");
+
+        tree_dtor (info.root);
 
         fprintf (info.file_tex, "\\\\\n");
     }
 
-    clear_mem (Text, File_input);
-
     convert_to_pdf (&info);
+
+    tree_info_dtor (&info);
 
     return 0;
 }
+
+#undef CURR_LINE
+#undef NUM_OF_LINES
 
 //-----------------------------------------------------------------------------

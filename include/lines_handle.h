@@ -28,6 +28,8 @@ void  bubble_sort               (void* ptr_array,  int num_of_lines,
 
 void  clear_mem                 (struct Line *Text, struct File *File_input);
 
+bool  is_num                    (char sym);
+
 //-----------------------------------------------------------------------------
 
 #endif //LINES_HANDLE_H

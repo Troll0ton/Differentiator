@@ -2,31 +2,40 @@
 
 //-----------------------------------------------------------------------------
 
-void tree_info_ctor_ (Tree_info *info, File *File_input, Line *Text, const char* log_file, int line)
+void tree_info_ctor_ (Tree_info *info, const char* log_file, int line)
 {
-    info->file_dump = fopen ("../dump/tree_dump.html",  "w+");
-    info->Text = Text;
-    info->File_input = File_input;
+    info->file_dump = fopen ("../dump/tree_dump.html", "w+");
+    info->file_in = fopen ("../files/task1.txt", "rb");
+
+    info->File_input = file_reader (info->file_in);
+    info->Text = lines_separator (info->File_input);
+
+    fclose (info->file_in);
 
     info->line      = line;
     info->log_file  = log_file;
     info->root      = NULL;
 
+    info->graph_num = 0;
+}
+
+//-----------------------------------------------------------------------------
+
+void nullify_tree_pars (Tree_info *info)
+{
     info->curr_line = 0;
     info->curr_cell = 0;
-    info->graph_num = 0;
+    info->root = NULL;
+    info->curr_parent = NULL;
 }
 
 //-----------------------------------------------------------------------------
 
 void tree_info_dtor (Tree_info *info)
 {
-    info->root = NULL;
-    info->curr_parent = NULL;
-    info->Text = NULL;
-    info->File_input = NULL;
-
     fclose (info->file_dump);
+
+    clear_mem (info->Text, info->File_input);
 
     info->log_file = NULL;
     info->line = DELETED_PAR;
@@ -131,7 +140,11 @@ void print_tree_inorder (Node *curr_node, Tree_info *info)
 {
     bool bracketing = false;
 
-    if(curr_node->parent && curr_node->parent->priority > curr_node->priority)
+    if(curr_node->parent &&
+      (curr_node->parent->priority > curr_node->priority ||
+      (curr_node->parent->priority == curr_node->priority &&
+       curr_node->parent->right == curr_node &&
+      (curr_node->parent->val.op == DIV || curr_node->parent->val.op == SUB))))
     {
         bracketing = true;
 
@@ -145,7 +158,64 @@ void print_tree_inorder (Node *curr_node, Tree_info *info)
 
     if(curr_node->type == OP)
     {
-        txprint ("%c", curr_node->val.op);
+        switch(curr_node->val.op)
+        {
+            case ADD:
+            {
+                txprint ("+");
+
+                break;
+            }
+
+            case SUB:
+            {
+                txprint ("-");
+
+                break;
+            }
+
+            case MUL:
+            {
+                txprint ("*");
+
+                break;
+            }
+
+            case DIV:
+            {
+                txprint ("/");
+
+                break;
+            }
+
+            case POW:
+            {
+                txprint ("^");
+
+                break;
+            }
+
+            case SIN:
+            {
+                txprint ("sin");
+
+                break;
+            }
+
+            case COS:
+            {
+                txprint ("cos");
+
+                break;
+            }
+
+            default:
+            {
+                txprint ("?");
+
+                break;
+            }
+        }
     }
 
     else if(curr_node->type == NUM)
@@ -214,13 +284,19 @@ void create_tree_graph (Tree_info *info)
 
     dot_print("cell0 ");
 
-    build_connections (root->left, info);
+    if(root->left)
+    {
+        build_connections (root->left, info);
+    }
 
     dot_print("cell0 ");
 
     CURR_CELL++;
 
-    build_connections (root->right, info);
+    if(root->right)
+    {
+        build_connections (root->right, info);
+    }
 
     dot_print ("}\n");
 
@@ -250,8 +326,67 @@ void create_cell (Node *root, Tree_info *info)
 
     if(root->type == OP)
     {
-        dot_print ("fillcolor = paleturquoise1, label = \" { <ptr> TYPE: OPERATION (%d) | %c",
-                   root->priority, root->val.op);
+        dot_print ("fillcolor = paleturquoise1, label = \" { <ptr> TYPE: OPERATION (%d) | ",
+                   root->priority);
+
+        switch(root->val.op)
+        {
+            case ADD:
+            {
+                dot_print ("+");
+
+                break;
+            }
+
+            case SUB:
+            {
+                dot_print ("-");
+
+                break;
+            }
+
+            case MUL:
+            {
+                dot_print ("*");
+
+                break;
+            }
+
+            case DIV:
+            {
+                dot_print ("/");
+
+                break;
+            }
+
+            case POW:
+            {
+                dot_print ("^");
+
+                break;
+            }
+
+            case SIN:
+            {
+                dot_print ("sin");
+
+                break;
+            }
+
+            case COS:
+            {
+                dot_print ("cos");
+
+                break;
+            }
+
+            default:
+            {
+                dot_print ("? - %d\n", root->val.op);
+
+                break;
+            }
+        }
     }
 
     else if(root->type == NUM)
@@ -343,9 +478,7 @@ void create_latex_file (Tree_info *info)
     \AtBeginDocument{\globalcolor{black}}
     \title{DIFFERENTIATOR}
     \begin{document}
-    \maketitle
-
-    This is current expression:
+    Your input: \\
     )";
 
     txprint ("%s\n", header);
@@ -356,7 +489,7 @@ void create_latex_file (Tree_info *info)
 void convert_to_pdf (Tree_info *info)
 {
     char ending_lines[] = R"(
-        The solution is pretty simple and you definetely can do it \textbf{yourself}
+        End of the file
         \end{document}
     )";
 
@@ -379,6 +512,19 @@ void tree_dtor (Node *curr_node)
     if(curr_node->right)
     {
         tree_dtor (curr_node->right);
+    }
+
+    if(curr_node->parent)
+    {
+        if(curr_node->parent->left == curr_node)
+        {
+            curr_node->parent->left = NULL;
+        }
+
+        if(curr_node->parent->right == curr_node)
+        {
+            curr_node->parent->right = NULL;
+        }
     }
 
     free (curr_node);

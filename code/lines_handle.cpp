@@ -155,6 +155,13 @@ void swap_lines (void* first_pointer, void* second_pointer, size_t size_of_struc
 
 //-----------------------------------------------------------------------------
 
+bool is_num (char sym)
+{
+    return (sym >= '0' && sym <= '9');
+}
+
+//-----------------------------------------------------------------------------
+
 void clear_mem (Line *Text, File *File_input)
 {
     free (File_input->file_buffer);

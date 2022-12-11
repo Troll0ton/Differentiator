@@ -88,6 +88,11 @@ Line *lines_separator (File *Oper_file)
         {
             Oper_file->file_buffer[i] = '\0';
 
+            if(Oper_file->file_buffer[i - 1] == '\r')
+            {
+                Oper_file->file_buffer[i - 1] = '\0';
+            }
+
             Array_struct[num_line].begin_line  = Oper_file->file_buffer + i - cur_len;
             Array_struct[num_line].line_lenght = cur_len;
 
@@ -146,6 +151,13 @@ void swap_lines (void* first_pointer, void* second_pointer, size_t size_of_struc
        c_first[i]  = c_second[i];
        c_second[i] = tmp;
     }
+}
+
+//-----------------------------------------------------------------------------
+
+bool is_num (char sym)
+{
+    return (sym >= '0' && sym <= '9');
 }
 
 //-----------------------------------------------------------------------------

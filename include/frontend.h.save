@@ -1,0 +1,38 @@
+//! @file frontend.h
+
+#ifndef FRONTEND_H
+#define FRONTEND_H
+
+//-----------------------------------------------------------------------------
+
+#include "../include/tree.h"
+
+//-----------------------------------------------------------------------------
+
+Node *get_grammar     (char **grammar);
+
+Node *get_expression  (char **grammar);
+
+Node *get_mul_div     (char **grammar);
+
+Node *get_parentheses (char **grammar);
+
+Node *get_str         (char **grammar);
+
+Node *get_down        (char **grammar);
+
+Node *get_pow         (char **grammar);
+
+//-----------------------------------------------------------------------------
+
+#define CHECK_EXPRESSION(SYM, TEXT)            \
+    if(**grammar != SYM)                       \
+    {                                          \
+        printf ("DETECTED MISTAKE: %s", TEXT); \
+                                               \
+        return NULL;                           \
+    }
+
+//-----------------------------------------------------------------------------
+
+#endif //FRONTEND_H

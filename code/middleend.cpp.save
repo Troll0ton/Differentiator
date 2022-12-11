@@ -10,6 +10,8 @@
 
 Node *calc_derivative (Node *curr_node, Tree_info *info)
 {
+    value val = { 0 };
+
     switch(curr_node->type)
     {
         case NUM:
@@ -31,7 +33,7 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
         {
             switch(curr_node->val.op)
             {
-                case '+':
+                case ADD:
                 {
                     LEFT_NODE  = CALC_DRV (LEFT_NODE);
                     RIGHT_NODE = CALC_DRV (RIGHT_NODE);
@@ -39,7 +41,7 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
                     return curr_node;
                 }
 
-                case '-':
+                case SUB:
                 {
                     LEFT_NODE  = CALC_DRV (LEFT_NODE);
                     RIGHT_NODE = CALC_DRV (RIGHT_NODE);
@@ -47,90 +49,94 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
                     return curr_node;
                 }
 
-                case '*':
+                case MUL:
                 {
                     Node *left_node_c  = COPY_LEFT;
                     Node *right_node_c = COPY_RIGHT;
 
-                    INIT_NODE (new_node_1, CALC_DRV (LEFT_NODE), right_node_c, curr_node, OP, '*', 2);
+                    val.op = MUL;
 
-                    INIT_NODE (new_node_2, left_node_c, CALC_DRV (RIGHT_NODE), curr_node, OP, '*', 2);
+                    INIT_NODE (new_node_1, CALC_DRV (LEFT_NODE), right_node_c, curr_node, OP, val, 2);
 
-                    ASSIGN_NODE (curr_node, new_node_1, new_node_2, curr_node->parent, OP, '+', 1);
+                    val.op = MUL;
+
+                    INIT_NODE (new_node_2, left_node_c, CALC_DRV (RIGHT_NODE), curr_node, OP, val, 2);
+
+                    val.op = ADD;
+
+                    ASSIGN_NODE (curr_node, new_node_1, new_node_2, curr_node->parent, OP, val, 1);
 
                     return curr_node;
                 }
 
-                case '/':
+                case DIV:
                 {
                     Node *left_node_c   = COPY_LEFT;
                     Node *right_node_c  = COPY_RIGHT;
                     Node *right_node_c1 = COPY_RIGHT;
                     Node *right_node_c2 = COPY_RIGHT;
 
-                    INIT_NODE (new_node_1, CALC_DRV (LEFT_NODE), right_node_c, NULL, OP, '*', 2);
+                    val.op = MUL;
+                    INIT_NODE (new_node_1, CALC_DRV (LEFT_NODE), right_node_c, NULL, OP, val, 2);
 
-                    INIT_NODE (new_node_2, left_node_c, CALC_DRV (RIGHT_NODE), NULL, OP, '*', 2);
+                    val.op = MUL;
+                    INIT_NODE (new_node_2, left_node_c, CALC_DRV (RIGHT_NODE), NULL, OP, val, 2);
 
-                    INIT_NODE (new_node_sub, new_node_1, new_node_2, curr_node, OP, '-', 1);
+                    val.op = SUB;
+                    INIT_NODE (new_node_sub, new_node_1, new_node_2, curr_node, OP, val, 1);
 
-                    INIT_NODE (new_node_deg, right_node_c1, right_node_c2, curr_node, OP, '*', 2);
+                    val.op = MUL;
+                    INIT_NODE (new_node_deg, right_node_c1, right_node_c2, curr_node, OP, val, 2);
 
-                    ASSIGN_NODE (curr_node, new_node_sub, new_node_deg, curr_node->parent, OP, '/', 2);
+                    val.op = DIV;
+                    ASSIGN_NODE (curr_node, new_node_sub, new_node_deg, curr_node->parent, OP, val, 2);
 
                     return curr_node;
                 }
-                
-                case 'l'
+
+                case SIN:
                 {
-                    
-                }
-                
-                case '^':
-                {
-                    Node *left_node_c  = copy_tree (curr_node->left, info);
-                    Node *right_node_c = copy_tree (curr_node->right, info);
+                    Node *right_node_c = COPY_RIGHT;
 
-                    Node *new_node_1   = create_node ();
-                    new_node_1->type   = OP;
-                    new_node_1->val.op = '-';
-                    new_node_1->priority = 1;
-                    new_node_1->parent = curr_node;
-                    new_node_1->left   = right_node_c;
+                    val.op = COS;
 
-                    Node *one_node     = create_node ();
-                    one_node->type     = NUM;
-                    one_node->val.num  = 1;
-                    one_node->priority = 4;
-                    one_node->parent   = new_node_1;
+                    INIT_NODE (new_node_1, NULL, right_node_c, NULL, OP, val, 4);
 
-                    new_node_1->left   = right_node_c;
-                    new_node_1->right  = one_node;
-                    new_node_1->left->parent  = new_node_1;
-                    new_node_1->right->parent = new_node_1;
+                    val.op = MUL;
 
-                    Node *new_node_2   = create_node ();
-                    new_node_2->type   = OP;
-                    new_node_2->val.op = '*';
-                    new_node_2->priority = 2;
-                    new_node_2->parent = curr_node;
-                    new_node_2->left   = left_node_c;
-                    new_node_2->right  = calc_derivative (curr_node->right, info);
-                    new_node_2->left->parent = new_node_2;
-                    new_node_2->right->parent = new_node_2;
-
-                    curr_node->val.op = '*';
-                    curr_node->priority = 2;
-                    curr_node->left  = new_node_1;
-                    curr_node->right = new_node_2;
+                    ASSIGN_NODE (curr_node, new_node_1, CALC_DRV (RIGHT_NODE), curr_node->parent, OP, val, 2);
 
                     return curr_node;
-                    break;
-                } 
+                }
+
+                case COS:
+                {
+                    Node *right_node_c = COPY_RIGHT;
+
+                    val.op = SIN;
+
+                    INIT_NODE (new_node_sin, NULL, right_node_c, NULL, OP, val, 4);
+
+                    val.num = -1;
+
+                    INIT_NODE (node_one, NULL, NULL, NULL, NUM, val, 4);
+
+                    val.op = MUL;
+
+                    INIT_NODE (new_node_1, node_one, new_node_sin, NULL, OP, val, 2);
+
+                    val.op = MUL;
+
+                    ASSIGN_NODE (curr_node, new_node_1, CALC_DRV (RIGHT_NODE), curr_node->parent, OP, val, 2);
+
+                    return curr_node;
+                }
 
                 default:
                 {
-                    printf ("E");
+                    printf ("UNKNOWN FUNCTION!\n");
+
+                    return NULL;
 
                     break;
                 }
@@ -141,8 +147,10 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
 
         default:
         {
-            printf ("MIDDLEEND - UNKNOWN TYPE!: %d\n",
-                    curr_node->type);
+            printf ("MIDDLEEND - UNKNOWN TYPE!: %d\n", curr_node->type);
+
+            return NULL;
+
             break;
         }
     }
@@ -152,6 +160,60 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
 #undef RIGHT_NODE
 #undef COPY_LEFT
 #undef COPY_RIGHT
+
+//-----------------------------------------------------------------------------
+
+#define LEFT_NUM curr_node->left->value.num
+#define RIGHT_NUM curr_node->right->value.num
+
+Node *simplify_tree (Node *curr_node, Tree_info *info)
+{
+    if(curr_node->left)
+    {
+        simplify_tree (curr_node->left);
+    }
+    
+    if(curr_node->right)
+    {
+        simplify_tree (curr_node->right);
+    }
+    
+    if(curr_node->type == OP    &&
+       curr_node->priority == 4 &&
+       curr_node->right->type == NUM)
+    {
+        switch(curr_node->val.op)
+        {
+            case SIN:
+            {
+                curr_node->type = NUM;
+                curr_node->value.op = sin (curr_node->right->value.num);
+
+                break;
+            }
+
+            case COS:
+            {
+                curr_node->type = NUM;
+                curr_node->value.op = cos (num_value);
+
+                break;
+            }
+        }
+
+        tree_dtor (curr_node->right);
+    }
+    
+    else if(curr_node->type == OP         &&
+            curr_node->right->type == NUM &&
+            curr_node->left->type  == NUM   )
+    {                              
+        
+    }
+}
+
+#undef LEFT_NUM
+#undef RIGHT_NUM
 
 //-----------------------------------------------------------------------------
 

@@ -2,22 +2,48 @@
 
 //-----------------------------------------------------------------------------
 
-Node *get_t (char **grammar) //handle operations with 2-priority
-{
-    Node *left_node = get_d (grammar);
+//{----------------------------------------------------------------------------
+//!                                (and with union value)
+//! INIT_OP_1 - initialize operator-node with 1-priority and left and right son;
+//! INIT_OP_2 - initialize operator-node with 2-priority and left and right son;
+//! INIT_OP_3 - initialize operator-node with 3-priority and left and right son;
+//! INIT_OP_4 - initialize operator-node with 4-priority;
+//!
+//! 1 = +, -
+//! 2 = *, /
+//! 3 = ^
+//! 4 = sin, cos, tg, ctg, ln, arcsin, arccos, arctg, arcctg
+//!
+//}----------------------------------------------------------------------------
 
-    while(**grammar == '*' ||
-          **grammar == '/'   )
+Node *get_mul_div (char **grammar)
+{
+    Node *left_node = get_pow (grammar);
+
+    value val = { 0 };
+
+    while(IS_('*') || IS_('/'))
     {
-        char *curr_op = *grammar;
+        char curr_op = **grammar;
         (*grammar)++;
 
-        Node *right_node = get_d (grammar);
+        Node *right_node = get_pow (grammar);
 
-        INIT_NODE (new_node, left_node, right_node, NULL, OP, *curr_op, 2);
+        switch(curr_op)
+        {
+            CASE ('*', MUL);
 
-        left_node->parent = new_node;
-        right_node->parent = new_node;
+            CASE ('/', DIV);
+
+            default:
+            {
+                printf ("WTF?\n");
+
+                break;
+            }
+        }
+
+        INIT_OP_2;
 
         left_node = new_node;
     }
@@ -27,21 +53,17 @@ Node *get_t (char **grammar) //handle operations with 2-priority
 
 //-----------------------------------------------------------------------------
 
-Node *get_d (char **grammar)
+Node *get_pow (char **grammar)
 {
-    Node *left_node = get_p (grammar);
+    Node *left_node = get_parentheses (grammar);
 
-    while(**grammar == '^')
+    while(IS_('^'))
     {
-        char *curr_op = *grammar;
         (*grammar)++;
 
-        Node *right_node = get_p (grammar);
+        Node *right_node = get_parentheses (grammar);
 
-        INIT_NODE (new_node, left_node, right_node, NULL, OP, *curr_op, 3);
-
-        left_node->parent = new_node;
-        right_node->parent = new_node;
+        INIT (POW, 3);
 
         left_node = new_node;
     }
@@ -51,24 +73,24 @@ Node *get_d (char **grammar)
 
 //-----------------------------------------------------------------------------
 
-Node *get_p (char **grammar)
+Node *get_parentheses (char **grammar)
 {
     Node *new_node = NULL;
 
-    if(**grammar == '(')
+    if(IS_('('))
     {
         (*grammar)++;
 
-        new_node = get_e (grammar);
+        new_node = get_expression (grammar);
 
-        assert (**grammar == ')');
+        CHECK_EXPRESSION (')', "CLOSING BRACKET\n");
 
         (*grammar)++;
     }
 
     else
     {
-        new_node = get_n (grammar);
+        new_node = get_bottom (grammar);
     }
 
     return new_node;
@@ -76,21 +98,34 @@ Node *get_p (char **grammar)
 
 //-----------------------------------------------------------------------------
 
-Node *get_e (char **grammar)  //handle operations with 3-priority
+Node *get_expression (char **grammar)
 {
-    Node *left_node = get_t (grammar);
+    Node *left_node = get_mul_div (grammar);
 
-    while(**grammar == '+' || **grammar == '-')
+    while(IS_('+') || IS_('-'))
     {
-        char *curr_op = *grammar;
+        char curr_op = **grammar;
         (*grammar)++;
 
-        Node *right_node = get_t (grammar);
+        Node *right_node = get_mul_div (grammar);
 
-        INIT_NODE (new_node, left_node, right_node, NULL, OP, *curr_op, 1);
+        value val = { 0 };
 
-        left_node->parent = new_node;
-        right_node->parent = new_node;
+        switch(curr_op)
+        {
+            CASE ('+', ADD);
+
+            CASE ('-', SUB);
+
+            default:
+            {
+                printf ("WTF?\n");
+
+                break;
+            }
+        }
+
+        INIT_OP_1;
 
         left_node = new_node;
     }
@@ -100,57 +135,148 @@ Node *get_e (char **grammar)  //handle operations with 3-priority
 
 //-----------------------------------------------------------------------------
 
-Node *get_g (char **grammar)
+Node *get_grammar (char **grammar)
 {
-    Node *root = get_e (grammar);
+    Node *root = get_expression (grammar);
 
-    assert (**grammar == '\0');
+    CHECK_EXPRESSION ('\0', "END OF EXPRESSION\n");
 
     return root;
 }
 
 //-----------------------------------------------------------------------------
 
-#define VALUE_num new_node->val.num
-#define VALUE_VAR new_node->val.var
+Node *get_str (char **grammar)
+{
+    char name[MAX_LEN] = "";
 
-Node *get_n (char **grammar)  //handle numeric
-{  
-    INIT_NODE (new_node, left_node, right_node, NULL, NUM, *curr_op, 1);
-    Node *new_node = create_node ();
-    new_node->type = NUM;
-    new_node->priority = 4;
+    value val = { 0 };
 
-    const char *str_old = *grammar;
+    int i = 0;
 
-    if(**grammar == '\n' || **grammar == '\r')
+    while(isalpha (**grammar) && i < MAX_LEN)
     {
-        **grammar = '\0';
-    }
+        name[i] = **grammar;
+        i++;
 
-    if(isalpha (**grammar))
-    {
-        new_node->type = VAR;
-
-        VALUE_VAR = **grammar;
-
-        (*grammar)++;
-
-        return new_node;
-    }
-
-    while(**grammar >= '0' && **grammar <= '9')
-    {
-        VALUE_num = VALUE_num * 10 + **grammar - '0';
         (*grammar)++;
     }
 
-    assert (*grammar != str_old);
+    if(IS_('('))
+    {
+        return get_funct (grammar);
+    }
+
+    val.var = *name;
+
+    INIT_VAR;
 
     return new_node;
 }
 
-#undef VALUE_num
-#undef VALUE_VAR
+//-----------------------------------------------------------------------------
+
+Node *get_funct (char **grammar)
+{
+    Node *right_node = get_parentheses (grammar);
+
+    if(stricmp (name, "sin") == 0)
+    {
+        INIT (SIN, 4);
+
+        return new_node;
+    }
+
+    else if(stricmp (name, "cos") == 0)
+    {
+        INIT (COS, 4);
+
+        return new_node;
+    }
+
+    else if(stricmp (name, "tg") == 0)
+    {
+        INIT (TG, 4);
+
+        return new_node;
+    }
+
+    else if(stricmp (name, "ctg") == 0)
+    {
+        INIT (CTG, 4);
+
+        return new_node;
+    }
+
+    else if(stricmp (name, "ln") == 0)
+    {
+        INIT (LN, 4);
+
+        return new_node;
+    }
+
+    else if(stricmp (name, "arcsin") == 0)
+    {
+        INIT (ARCSIN, 4);
+
+        return new_node;
+    }
+
+    else if(stricmp (name, "arccos") == 0)
+    {
+        INIT (ARCCOS, 4);
+
+        return new_node;
+    }
+
+    else if(stricmp (name, "arctg") == 0)
+    {
+        INIT (ARCTG, 4);
+
+        return new_node;
+    }
+
+    else if(stricmp (name, "arcctg") == 0)
+    {
+        INIT (ARCCTG, 4);
+
+        return new_node;
+    }
+
+    else
+    {
+        printf ("UNKNOWN COMMAND!\n");
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+#define VALUE_NUM val.num
+
+Node *get_bottom (char **grammar)
+{
+    value val = { 0 };
+
+    const char *str_old = *grammar;
+
+    if(isalpha (**grammar))
+    {
+        return get_str (grammar);
+    }
+
+    while(**grammar >= '0' && **grammar <= '9')
+    {
+        VALUE_NUM = VALUE_NUM * 10 + **grammar - '0';
+        (*grammar)++;
+    }
+
+    INIT_NUM;
+
+    CHECK_EXPRESSION (*grammar == str_old, "ERROR WHILE GET NUM\n");
+
+    return new_node;
+}
+
+#undef VALUE_NUM
 
 //-----------------------------------------------------------------------------
