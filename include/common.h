@@ -99,6 +99,11 @@ enum OPERATIONS
 
 //-----------------------------------------------------------------------------
 
+#define ASSIGN_NUM(node, new_value)                                                               \
+    value val = { 0 };                                                                            \
+    val.num = new_value;                                                                          \
+    ASSIGN_NODE(node, node->left, node->right, node->parent, NUM, val, 4)                         \
+
 #define ASSIGN_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority) \
     new_node->left = new_left;                                                                    \
     new_node->right = new_right;                                                                  \

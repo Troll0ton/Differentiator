@@ -35,8 +35,6 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
             case cmd:                           \
             {                                   \
                 __VA_ARGS__                     \
-                                                \
-                break;                          \
             }
 
             switch(curr_node->val.op)
@@ -50,19 +48,15 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
 
                 //-----------------------------------------------------------------------------
 
-                #undef CMD_DEF
-
                 default:
                 {
                     printf ("UNKNOWN FUNCTION!\n");
-
-                    break;
                 }
             }
 
-            return NULL;
+            #undef CMD_DEF
 
-            break;
+            return NULL;
         }
 
         default:
@@ -70,8 +64,6 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
             printf ("MIDDLEEND - UNKNOWN TYPE!: %d\n", curr_node->type);
 
             return NULL;
-
-            break;
         }
     }
 }
@@ -94,103 +86,79 @@ bool simplify_tree (Node *curr_node, Tree_info *info)
         while(simplify_tree (curr_node->right, info)) { }
     }
 
-    if(IS_FUNCT(curr_node))
+    simplify_node (curr_node, info);
+
+    return false;
+}
+
+//-----------------------------------------------------------------------------
+
+bool simplify_node (Node *curr_node, Tree_info *info)
+{
+    if(simplify_const (curr_node, info))
     {
-        switch(curr_node->val.op)
-        {
-            case SIN:
-            {
-                curr_node->type = NUM;
-                curr_node->val.op = sin (RIGHT_NUM);
+         DETECTED;
+    }
 
-                break;
-            }
+    if(simplify_mul_div_null (curr_node, info))
+    {
+         DETECTED;
+    }
 
-            case COS:
-            {
-                curr_node->type = NUM;
-                curr_node->val.op = cos (RIGHT_NUM);
+    if(simplify_add_sub_null (curr_node, info))
+    {
+         DETECTED;
+    }
 
-                break;
-            }
-        }
+    if(simplify_mul_div_one (curr_node, info))
+    {
+         DETECTED;
+    }
 
-        tree_dtor (curr_node->right);
+    return false;
+}
+
+//-----------------------------------------------------------------------------
+
+bool simplify_mul_div_one (Node *curr_node, Tree_info *info)
+{
+    if((IS_MUL (curr_node)  ||
+        IS_DIV (curr_node)) &&
+        IS_ONE (RIGHT_NODE)   )
+    {
+        Node *old_right = RIGHT_NODE;
+        Node *old_left  = LEFT_NODE;
+
+        ASSIGN_NODE (curr_node, old_left->left, old_left->right, curr_node->parent, old_left->type, old_left->val, old_left->priority);
+
+        free (old_right);
+        free (old_left);
 
         DETECTED;
     }
 
-    if(IS_OP (curr_node)  &&
-       IS_NUM (RIGHT_NODE) &&
-       IS_NUM (LEFT_NODE)    )
+    if((IS_MUL (curr_node)  ||
+        IS_DIV (curr_node)) &&
+        IS_ONE (LEFT_NODE)    )
     {
-        curr_node->type = NUM;
-        curr_node->priority = 4;
+        Node *old_right = RIGHT_NODE;
+        Node *old_left  = LEFT_NODE;
 
-        switch(curr_node->val.op)
-        {
-            case ADD:
-            {
-                curr_node->val.num = LEFT_NUM + RIGHT_NUM;
+        ASSIGN_NODE (curr_node, old_right->left, old_right->right, curr_node->parent, old_right->type, old_right->val, old_right->priority);
 
-                break;
-            }
-
-            case SUB:
-            {
-                curr_node->val.num = LEFT_NUM - RIGHT_NUM;
-
-                break;
-            }
-
-            case MUL:
-            {
-                curr_node->val.num = LEFT_NUM * RIGHT_NUM;
-
-                break;
-            }
-
-            case DIV:
-            {
-                curr_node->val.num = LEFT_NUM / RIGHT_NUM;
-
-                break;
-            }
-        }
-
-        tree_dtor (LEFT_NODE);
-        tree_dtor (RIGHT_NODE);
+        free (old_right);
+        free (old_left);
 
         DETECTED;
     }
 
-    if(IS_MUL (curr_node)  &&
-      (IS_NULL (LEFT_NODE) ||
-       IS_NULL (RIGHT_NODE)  ))
-    {
-        curr_node->type = NUM;
-        curr_node->priority = 4;
-        curr_node->val.num = 0;
+    return false;
+}
 
-        tree_dtor (LEFT_NODE);
-        tree_dtor (RIGHT_NODE);
+//-----------------------------------------------------------------------------
 
-        DETECTED;
-    }
-
-    if(IS_DIV (curr_node) &&
-       IS_NULL (LEFT_NODE))
-    {
-        curr_node->type = NUM;
-        curr_node->priority = 4;
-        curr_node->val.num = 0;
-        
-        tree_dtor (LEFT_NODE);
-        tree_dtor (RIGHT_NODE);
-
-        DETECTED;
-    }
-
+bool simplify_add_sub_null (Node *curr_node, Tree_info *info)
+{
     if((IS_ADD (curr_node)  ||
         IS_SUB (curr_node)) &&
         IS_NULL (LEFT_NODE))
@@ -220,33 +188,78 @@ bool simplify_tree (Node *curr_node, Tree_info *info)
 
         DETECTED;
     }
+    return false;
+}
 
-    if((IS_MUL (curr_node)  ||
-        IS_DIV (curr_node)) &&
-        IS_ONE (RIGHT_NODE)   )
+//-----------------------------------------------------------------------------
+
+bool simplify_mul_div_null (Node *curr_node, Tree_info *info)
+{
+    if(IS_MUL (curr_node)  &&
+      (IS_NULL (LEFT_NODE) ||
+       IS_NULL (RIGHT_NODE)  ))
     {
-        Node *old_right = RIGHT_NODE;
-        Node *old_left  = LEFT_NODE;
+        ASSIGN_NUM (curr_node, 0);
 
-        ASSIGN_NODE (curr_node, old_left->left, old_left->right, curr_node->parent, old_left->type, old_left->val, old_left->priority);
-
-        free (old_right);
-        free (old_left);
+        tree_dtor (LEFT_NODE);
+        tree_dtor (RIGHT_NODE);
 
         DETECTED;
     }
 
-    if((IS_MUL (curr_node)  ||
-        IS_DIV (curr_node)) &&
-        IS_ONE (LEFT_NODE)    )
+    if(IS_DIV (curr_node) &&
+       IS_NULL (LEFT_NODE))
     {
-        Node *old_right = RIGHT_NODE;
-        Node *old_left  = LEFT_NODE;
+        curr_node->type = NUM;
+        curr_node->priority = 4;
+        curr_node->val.num = 0;
 
-        ASSIGN_NODE (curr_node, old_right->left, old_right->right, curr_node->parent, old_right->type, old_right->val, old_right->priority);
+        tree_dtor (LEFT_NODE);
+        tree_dtor (RIGHT_NODE);
 
-        free (old_right);
-        free (old_left);
+        DETECTED;
+    }
+
+    return false;
+}
+
+//-----------------------------------------------------------------------------
+
+bool simplify_const (Node *curr_node, Tree_info *info)
+{
+    if(IS_OP (curr_node) &&
+       IS_NUM (RIGHT_NODE) &&
+     (!LEFT_NODE || IS_NUM (LEFT_NODE)))
+    {
+        curr_node->type = NUM;
+        curr_node->priority = 4;
+
+        #define CMD_DEF(cmd, cmd_name, ...) \
+        case cmd:                           \
+        {                                   \
+            __VA_ARGS__                     \
+                                            \
+            break;                          \
+        }
+
+        switch(curr_node->val.op)
+        {
+            //-----------------------------------------------------------------------------
+
+            #include "../include/codegen/calc.h"
+
+            //-----------------------------------------------------------------------------
+
+            default:
+            {
+                printf ("UNKNOWN FUNCTION!\n");
+            }
+        }
+
+        #undef CMD_DEF
+
+        tree_dtor (LEFT_NODE);
+        tree_dtor (RIGHT_NODE);
 
         DETECTED;
     }
