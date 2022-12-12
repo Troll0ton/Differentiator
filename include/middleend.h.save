@@ -6,10 +6,13 @@
 //-----------------------------------------------------------------------------
 
 #include "../include/tree.h"
+#include <math.h>
 
 //-----------------------------------------------------------------------------
 
-Node *calc_derivative (Node *curr_node);
+Node *calc_derivative (Node *curr_node, Tree_info *info);
+
+void  simplify_tree   (Node *curr_node, Tree_info *info);
 
 //-----------------------------------------------------------------------------
 

@@ -22,41 +22,13 @@ int main ()
 
         info.root = get_grammar (CURR_LINE);
 
-        fprintf (info.file_tex, "---------------------------------------------------------------------------------------------------------------------------\\\\\n");
+        print_expression (&info);
 
-        fprintf (info.file_tex, "Current expression:\\\\\n");
+        print_derivative (&info);
 
-        print_tree_inorder (info.root, &info);
-
-        tree_dump (&info);
-
-        fprintf (info.file_tex, "\\\\\n");
-
-        fprintf (info.file_tex, "Devirative:\\\\\n");
-
-        //calc_derivative (info.root, &info);
-
-        print_tree_inorder (info.root, &info);
-
-        tree_dump (&info);
-
-        fprintf (info.file_tex, "\\\\\n");
-
-        fprintf (info.file_tex, "Simplify something:\\\\\n");
-
-        simplify_tree (info.root, &info);
-
-        print_tree_inorder (info.root, &info);
-
-        tree_dump (&info);
-
-        fprintf (info.file_tex, "\\\\\n");
-
-        fprintf (info.file_tex, "---------------------------------------------------------------------------------------------------------------------------\\\\\n");
+        print_simplified (&info);
 
         tree_dtor (info.root);
-
-        fprintf (info.file_tex, "\\\\\n");
     }
 
     convert_to_pdf (&info);

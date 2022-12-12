@@ -166,23 +166,11 @@ void simplify_tree (Node *curr_node, Tree_info *info)
     if(curr_node->left)
     {
         simplify_tree (curr_node->left, info);
-
-            print_tree_inorder (info->root, info);
-            
-            tree_dump (info);
-
-        txprint ("\\\\");
     }
 
     if(curr_node->right)
     {
         simplify_tree (curr_node->right, info);
-
-            print_tree_inorder (info->root, info);
-            
-            
-
-        txprint ("\\\\");
     }
 
     if(curr_node->type == OP    &&
@@ -253,9 +241,7 @@ void simplify_tree (Node *curr_node, Tree_info *info)
         tree_dtor (RIGHT_NODE);
     }
 
-    //-----------------------------------------------------------------------------
-
-    if(curr_node->type == OP    &&
+    else if(curr_node->type == OP    &&
        curr_node->val.op == MUL &&
      ((LEFT_NODE->type == NUM   &&
        is_equal (LEFT_NUM, 0))  ||
@@ -269,7 +255,7 @@ void simplify_tree (Node *curr_node, Tree_info *info)
         tree_dtor (RIGHT_NODE);
     }
 
-    if(curr_node->type == OP    &&
+    else if(curr_node->type == OP    &&
        curr_node->val.op == DIV &&
       (LEFT_NODE->type == NUM   &&
        is_equal (LEFT_NUM, 0)))
@@ -281,87 +267,64 @@ void simplify_tree (Node *curr_node, Tree_info *info)
         tree_dtor (RIGHT_NODE);
     }
 
-    if(curr_node->type == OP    &&
+    else if(curr_node->type == OP    &&
       (curr_node->val.op == ADD ||
        curr_node->val.op == SUB)&&
       (LEFT_NODE->type == NUM   &&
        is_equal (LEFT_NUM, 0)))
     {
         Node *old_right = RIGHT_NODE;
+        Node *old_left  = LEFT_NODE;
 
-        ASSIGN_NODE (curr_node, RIGHT_NODE->left, RIGHT_NODE->right, curr_node->parent, RIGHT_NODE->type, RIGHT_NODE->val, RIGHT_NODE->priority);
+        ASSIGN_NODE (curr_node, old_right->left, old_right->right, curr_node->parent, old_right->type, old_right->val, old_right->priority);
 
         free (old_right);
+        free (old_left);
     }
 
-    if(curr_node->type == OP    &&
+    else if(curr_node->type == OP    &&
       (curr_node->val.op == ADD ||
        curr_node->val.op == SUB)&&
       (RIGHT_NODE->type == NUM  &&
        is_equal (RIGHT_NUM, 0)))
     {
-        Node *old_left = LEFT_NODE;
+        Node *old_right = RIGHT_NODE;
+        Node *old_left  = LEFT_NODE;
 
-        ASSIGN_NODE (curr_node, LEFT_NODE->left, LEFT_NODE->right, curr_node->parent, LEFT_NODE->type, LEFT_NODE->val, LEFT_NODE->priority);
+        ASSIGN_NODE (curr_node, old_left->left, old_left->right, curr_node->parent, old_left->type, old_left->val, old_left->priority);
 
+        free (old_right);
         free (old_left);
     }
 
-    /*
-    if(curr_node->type == OP    &&
+    else if(curr_node->type == OP    &&
       (curr_node->val.op == MUL ||
        curr_node->val.op == DIV)&&
       (RIGHT_NODE->type == NUM  &&
        is_equal (RIGHT_NUM, 1)))
     {
-        Node *new_node = COPY_LEFT;
+        Node *old_right = RIGHT_NODE;
+        Node *old_left  = LEFT_NODE;
 
-        if(curr_node->parent && curr_node->parent->left == curr_node)
-        {
-            curr_node->parent->left = new_node;
-        }
+        ASSIGN_NODE (curr_node, old_left->left, old_left->right, curr_node->parent, old_left->type, old_left->val, old_left->priority);
 
-        else if(curr_node->parent && curr_node->parent->right == curr_node)
-        {
-            curr_node->parent->right = new_node;
-        }
-
-        if(new_node)
-        {
-            new_node->parent = curr_node->parent;
-        }
-
-        tree_dtor (curr_node);
-
-        curr_node = new_node;
+        free (old_right);
+        free (old_left);
     }
 
-    if(curr_node->type == OP    &&
+    else if(curr_node->type == OP    &&
        curr_node->val.op == MUL &&
       (LEFT_NODE->type == NUM   &&
        is_equal (LEFT_NUM, 1)))
     {
-        Node *new_node = COPY_RIGHT;
+        Node *old_right = RIGHT_NODE;
+        Node *old_left  = LEFT_NODE;
 
-        if(curr_node->parent && curr_node->parent->left == curr_node)
-        {
-            curr_node->parent->left = new_node;
-        }
+        ASSIGN_NODE (curr_node, old_right->left, old_right->right, curr_node->parent, old_right->type, old_right->val, old_right->priority);
 
-        else if(curr_node->parent && curr_node->parent->right == curr_node)
-        {
-            curr_node->parent->right = new_node;
-        }
-
-        if(new_node)
-        {
-            new_node->parent = curr_node->parent;
-        }
-
-        tree_dtor (curr_node);
-
-        curr_node = new_node;
-    } */
+        free (old_right);
+        free (old_left);
+    }
 }
 
 #undef LEFT_NUM
@@ -370,6 +333,36 @@ void simplify_tree (Node *curr_node, Tree_info *info)
 #undef RIGHT_NODE
 #undef COPY_LEFT
 #undef COPY_RIGHT
+
+//-----------------------------------------------------------------------------
+
+void print_expression (Tree_info *info)
+{
+    fprintf (info->file_tex, "---------------------------------------------------------------------------------------------------------------------------\\\\\n");
+
+    fprintf (info->file_tex, "Current expression:\\\\\n");
+
+    print_tree_inorder (info.root, info);
+
+    tree_dump (info);
+
+    fprintf (info.file_tex, "\\\\\n");
+}
+
+//-----------------------------------------------------------------------------
+
+void print_derivative (Tree_info *info)
+{
+    fprintf (info->file_tex, "Devirative:\\\\\n");
+    
+    calc_derivative (info->root, info);
+
+    print_tree_inorder (info->root, info);
+
+    tree_dump (info);
+
+    fprintf (info->file_tex, "\\\\\n");
+}
 
 //-----------------------------------------------------------------------------
 

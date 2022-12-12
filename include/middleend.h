@@ -10,9 +10,15 @@
 
 //-----------------------------------------------------------------------------
 
-Node *calc_derivative (Node *curr_node, Tree_info *info);
+Node *calc_derivative  (Node *curr_node, Tree_info *info);
 
-void  simplify_tree   (Node *curr_node, Tree_info *info);
+void  simplify_tree    (Node *curr_node, Tree_info *info);
+
+void  print_expression (Tree_info *info);
+
+void  print_derivative (Tree_info *info);
+
+void  print_simplified (Tree_info *info);
 
 //-----------------------------------------------------------------------------
 
