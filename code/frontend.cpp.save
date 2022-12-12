@@ -43,7 +43,7 @@ Node *get_mul_div (char **grammar)
             }
         }
 
-        INIT_OP_2;
+        INIT_OP (val, 2);
 
         left_node = new_node;
     }
@@ -83,7 +83,7 @@ Node *get_parentheses (char **grammar)
 
         new_node = get_expression (grammar);
 
-        CHECK_EXPRESSION (')', "CLOSING BRACKET\n");
+        CHECK_EXPRESSION (**grammar == ')', "CLOSING BRACKET\n");
 
         (*grammar)++;
     }
@@ -110,6 +110,22 @@ Node *get_expression (char **grammar)
         Node *right_node = get_mul_div (grammar);
 
         value val = { 0 };
+        
+        #define CMD_DEF(cmd, cmd_name, code, ...) \
+    if(stricmp (name, cmd_name) == 0)         \
+    {                                         \
+        INIT (cmd, 4);                        \
+                                              \
+        return new_node;                      \
+    }
+
+    //-----------------------------------------------------------------------------
+
+    #include "../include/codegen_4.h"
+
+    //-----------------------------------------------------------------------------
+
+    #undef CMD_DEF
 
         switch(curr_op)
         {
@@ -139,7 +155,7 @@ Node *get_grammar (char **grammar)
 {
     Node *root = get_expression (grammar);
 
-    CHECK_EXPRESSION ('\0', "END OF EXPRESSION\n");
+    CHECK_EXPRESSION (**grammar == '\0', "END OF EXPRESSION\n");
 
     return root;
 }
@@ -164,88 +180,43 @@ Node *get_str (char **grammar)
 
     if(IS_('('))
     {
-        return get_funct (grammar);
+        return get_funct (grammar, name);
     }
 
     val.var = *name;
 
-    INIT_VAR;
+    INIT_VAR (val);
 
     return new_node;
 }
 
 //-----------------------------------------------------------------------------
 
-Node *get_funct (char **grammar)
+Node *get_funct (char **grammar, char *name)
 {
     Node *right_node = get_parentheses (grammar);
 
-    if(stricmp (name, "sin") == 0)
-    {
-        INIT (SIN, 4);
-
-        return new_node;
+    #define CMD_DEF(cmd, cmd_name, code, ...) \
+    if(stricmp (name, cmd_name) == 0)         \
+    {                                         \
+        INIT (cmd, 4);                        \
+                                              \
+        return new_node;                      \
     }
 
-    else if(stricmp (name, "cos") == 0)
-    {
-        INIT (COS, 4);
+    //-----------------------------------------------------------------------------
 
-        return new_node;
-    }
+    #include "../include/codegen_4.h"
 
-    else if(stricmp (name, "tg") == 0)
-    {
-        INIT (TG, 4);
+    //-----------------------------------------------------------------------------
 
-        return new_node;
-    }
-
-    else if(stricmp (name, "ctg") == 0)
-    {
-        INIT (CTG, 4);
-
-        return new_node;
-    }
-
-    else if(stricmp (name, "ln") == 0)
-    {
-        INIT (LN, 4);
-
-        return new_node;
-    }
-
-    else if(stricmp (name, "arcsin") == 0)
-    {
-        INIT (ARCSIN, 4);
-
-        return new_node;
-    }
-
-    else if(stricmp (name, "arccos") == 0)
-    {
-        INIT (ARCCOS, 4);
-
-        return new_node;
-    }
-
-    else if(stricmp (name, "arctg") == 0)
-    {
-        INIT (ARCTG, 4);
-
-        return new_node;
-    }
-
-    else if(stricmp (name, "arcctg") == 0)
-    {
-        INIT (ARCCTG, 4);
-
-        return new_node;
-    }
+    #undef CMD_DEF
 
     else
     {
         printf ("UNKNOWN COMMAND!\n");
+
+        return NULL;
     }
 }
 
@@ -264,15 +235,15 @@ Node *get_bottom (char **grammar)
         return get_str (grammar);
     }
 
-    while(**grammar >= '0' && **grammar <= '9')
+    while(is_num (**grammar))
     {
         VALUE_NUM = VALUE_NUM * 10 + **grammar - '0';
         (*grammar)++;
     }
 
-    INIT_NUM;
+    INIT_NUM (val);
 
-    CHECK_EXPRESSION (*grammar == str_old, "ERROR WHILE GET NUM\n");
+    CHECK_EXPRESSION (*grammar != str_old, "ERROR WHILE GET NUM\n");
 
     return new_node;
 }

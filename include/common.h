@@ -39,6 +39,39 @@ enum OPERATIONS
 
 //-----------------------------------------------------------------------------
 
+#define IS_FUNCT(curr_node)        \
+    curr_node->type == OP    &&    \
+    curr_node->priority == 4 &&    \
+    curr_node->right->type == NUM  \
+
+#define IS_NUM(curr_node)          \
+    curr_node->type == NUM
+
+#define IS_NULL(curr_node)                                       \
+    (curr_node->type == NUM && is_equal (curr_node->val.num, 0))
+
+#define IS_ONE(curr_node)                                        \
+    (curr_node->type == NUM && is_equal (curr_node->val.num, 1))
+
+//-----------------------------------------------------------------------------
+
+#define IS_ADD(curr_node)                                       \
+    (curr_node->type == OP && curr_node->val.op == ADD)
+
+#define IS_SUB(curr_node)                                       \
+    (curr_node->type == OP && curr_node->val.op == SUB)
+
+#define IS_MUL(curr_node)                                       \
+    (curr_node->type == OP && curr_node->val.op == MUL)
+
+#define IS_DIV(curr_node)                                       \
+    (curr_node->type == OP && curr_node->val.op == DIV)
+
+#define IS_OP(curr_node)           \
+    curr_node->type == OP
+
+//-----------------------------------------------------------------------------
+
 #define CASE(SYM, VAL)  \
     case SYM:           \
     {                   \
@@ -49,33 +82,20 @@ enum OPERATIONS
 
 //-----------------------------------------------------------------------------
 
-#define INIT_ADD(new_node, left_node, right_node, parent_node)  \
-    value val;                                                  \
-    val.op = ADD;                                               \
-    INIT_OP_1;                                                  \
-
-//-----------------------------------------------------------------------------
-
 #define INIT(OPERATION, PRIORITY)  \
     value val = { 0 };             \
     val.op = OPERATION;            \
-    INIT_OP_##PRIORITY;
+    INIT_OP(val, PRIORITY);
 
 //-----------------------------------------------------------------------------
 
-#define INIT_OP_1 INIT_NODE (new_node, left_node, right_node, NULL, OP, val, 1)
-
-#define INIT_OP_2 INIT_NODE (new_node, left_node, right_node, NULL, OP, val, 2)
-
-#define INIT_OP_3 INIT_NODE (new_node, left_node, right_node, NULL, OP, val, 3)
-
-#define INIT_OP_4 INIT_NODE (new_node, NULL, right_node, NULL, OP, val, 4)
+#define INIT_OP(val, hight) INIT_NODE (new_node, left_node, right_node, NULL, OP, val, hight)
 
 //-----------------------------------------------------------------------------
 
-#define INIT_VAR INIT_NODE (new_node, NULL, NULL, NULL, VAR, val, 4)
+#define INIT_VAR(val) INIT_NODE (new_node, NULL, NULL, NULL, VAR, val, 4)
 
-#define INIT_NUM INIT_NODE (new_node, NULL, NULL, NULL, NUM, val, 4)
+#define INIT_NUM(val) INIT_NODE (new_node, NULL, NULL, NULL, NUM, val, 4)
 
 //-----------------------------------------------------------------------------
 
@@ -97,6 +117,12 @@ enum OPERATIONS
     {                                                                                             \
         new_node->right->parent = new_node;                                                       \
     }
+
+//-----------------------------------------------------------------------------
+
+#define LINES fprintf (info->file_tex, "---------------------------------------------------------------------------------------------------------------------------\\\\\n");
+
+#define ENTER fprintf (info->file_tex, "\\\\\n");
 
 //-----------------------------------------------------------------------------
 

@@ -20,32 +20,32 @@ Node *get_mul_div (char **grammar)
 {
     Node *left_node = get_pow (grammar);
 
-    value val = { 0 };
-
     while(IS_('*') || IS_('/'))
     {
         char curr_op = **grammar;
         (*grammar)++;
 
-        Node *right_node = get_pow (grammar);
+        Node *right_node = get_mul_div (grammar);
 
-        switch(curr_op)
-        {
-            CASE ('*', MUL);
+        #define CMD_DEF(cmd, cmd_name, code, ...) \
+        if(curr_op == cmd_name)                   \
+        {                                         \
+            INIT (cmd, 2);                        \
+                                                  \
+            left_node = new_node;                 \
+        }                                         \
+        else
 
-            CASE ('/', DIV);
+        //-----------------------------------------------------------------------------
 
-            default:
-            {
-                printf ("WTF?\n");
+        #include "../include/codegen/op_2.h"
 
-                break;
-            }
-        }
+        //-----------------------------------------------------------------------------
 
-        INIT_OP_2;
+        #undef CMD_DEF
 
-        left_node = new_node;
+        //else
+        printf ("UNKOWN COMMAND - PRIORITY 1!\n");
     }
 
     return left_node;
@@ -109,25 +109,25 @@ Node *get_expression (char **grammar)
 
         Node *right_node = get_mul_div (grammar);
 
-        value val = { 0 };
+        #define CMD_DEF(cmd, cmd_name, code, ...) \
+        if(curr_op == cmd_name)                   \
+        {                                         \
+            INIT (cmd, 1);                        \
+                                                  \
+            left_node = new_node;                 \
+        }                                         \
+        else
 
-        switch(curr_op)
-        {
-            CASE ('+', ADD);
+        //-----------------------------------------------------------------------------
 
-            CASE ('-', SUB);
+        #include "../include/codegen/op_1.h"
 
-            default:
-            {
-                printf ("WTF?\n");
+        //-----------------------------------------------------------------------------
 
-                break;
-            }
-        }
+        #undef CMD_DEF
 
-        INIT_OP_1;
-
-        left_node = new_node;
+        //else
+        printf ("UNKOWN COMMAND - PRIORITY 1!\n");
     }
 
     return left_node;
@@ -169,7 +169,7 @@ Node *get_str (char **grammar)
 
     val.var = *name;
 
-    INIT_VAR;
+    INIT_VAR (val);
 
     return new_node;
 }
@@ -179,69 +179,23 @@ Node *get_str (char **grammar)
 Node *get_funct (char **grammar, char *name)
 {
     Node *right_node = get_parentheses (grammar);
+    Node *left_node = NULL;
 
-    if(stricmp (name, "sin") == 0)
-    {
-        INIT (SIN, 4);
-
-        return new_node;
+    #define CMD_DEF(cmd, cmd_name, code, ...) \
+    if(stricmp (name, cmd_name) == 0)         \
+    {                                         \
+        INIT (cmd, 4);                        \
+                                              \
+        return new_node;                      \
     }
 
-    else if(stricmp (name, "cos") == 0)
-    {
-        INIT (COS, 4);
+    //-----------------------------------------------------------------------------
 
-        return new_node;
-    }
+    #include "../include/codegen/op_4.h"
 
-    else if(stricmp (name, "tg") == 0)
-    {
-        INIT (TG, 4);
+    //-----------------------------------------------------------------------------
 
-        return new_node;
-    }
-
-    else if(stricmp (name, "ctg") == 0)
-    {
-        INIT (CTG, 4);
-
-        return new_node;
-    }
-
-    else if(stricmp (name, "ln") == 0)
-    {
-        INIT (LN, 4);
-
-        return new_node;
-    }
-
-    else if(stricmp (name, "arcsin") == 0)
-    {
-        INIT (ARCSIN, 4);
-
-        return new_node;
-    }
-
-    else if(stricmp (name, "arccos") == 0)
-    {
-        INIT (ARCCOS, 4);
-
-        return new_node;
-    }
-
-    else if(stricmp (name, "arctg") == 0)
-    {
-        INIT (ARCTG, 4);
-
-        return new_node;
-    }
-
-    else if(stricmp (name, "arcctg") == 0)
-    {
-        INIT (ARCCTG, 4);
-
-        return new_node;
-    }
+    #undef CMD_DEF
 
     else
     {
@@ -272,7 +226,7 @@ Node *get_bottom (char **grammar)
         (*grammar)++;
     }
 
-    INIT_NUM;
+    INIT_NUM (val);
 
     CHECK_EXPRESSION (*grammar != str_old, "ERROR WHILE GET NUM\n");
 

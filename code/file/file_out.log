@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (MiKTeX 22.10) (preloaded format=xelatex 2022.12.12)  12 DEC 2022 17:45
+This is XeTeX, Version 3.141592653-2.6-0.999994 (MiKTeX 22.10) (preloaded format=xelatex 2022.12.7)  13 DEC 2022 00:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -27,9 +27,12 @@ Invalid UTF-8 byte or sequence at line 4 replaced by U+FFFD.
 Invalid UTF-8 byte or sequence at line 4 replaced by U+FFFD.
 Invalid UTF-8 byte or sequence at line 4 replaced by U+FFFD.
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/base\article.
+cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.clo
+
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.c
+lo
 File: size10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
 )
 \c@part=\count181
@@ -69,10 +72,12 @@ Invalid UTF-8 byte or sequence at line 5 replaced by U+FFFD.
 Invalid UTF-8 byte or sequence at line 5 replaced by U+FFFD.
 Invalid UTF-8 byte or sequence at line 5 replaced by U+FFFD.
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.
+sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/cyrillic\t2aenc.def
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/cyrillic\t2ae
+nc.def
 File: t2aenc.def 2022/06/11 v1.0j Cyrillic encoding definition file
 )
 LaTeX Font Info:    Trying to load font information for T2A+lmr on input line 1
@@ -81,7 +86,8 @@ LaTeX Font Info:    No file T2Almr.fd. on input line 112.
 LaTeX Font Info:    Trying to load font information for T2A+cmr on input line 1
 12.
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/cyrillic\t2acmr.fd
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/cyrillic\t2ac
+mr.fd
 File: t2acmr.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
 )
 
@@ -109,7 +115,9 @@ Invalid UTF-8 byte or sequence at line 6 replaced by U+FFFD.
 Invalid UTF-8 byte or sequence at line 6 replaced by U+FFFD.
 Invalid UTF-8 byte or sequence at line 6 replaced by U+FFFD.
 Invalid UTF-8 byte or sequence at line 6 replaced by U+FFFD.
- (C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty
+
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc
+.sty
 Package: inputenc 2021/02/14 v1.3d Input encoding file
 \inpenc@prehook=\toks16
 \inpenc@posthook=\toks17
@@ -117,26 +125,32 @@ Package: inputenc 2021/02/14 v1.3d Input encoding file
 
 Package inputenc Warning: inputenc package ignored with utf8 based engines.
 
-) (C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel.sty
+)
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel
+.sty
 Package: babel 2022/10/04 3.81 The Babel package
 \babel@savecnt=\count189
 \U@D=\dimen139
 \l@unhyphenated=\language79
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/generic/babel\xebabel.def
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/generic/babel\txtbabel.def))
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/generic/babel\xebab
+el.def
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/generic/babel\txtba
+bel.def))
 \bbl@readstream=\read2
 \bbl@dirlevel=\count190
 
 *************************************
 * Local config file bblopts.cfg used
 *
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/arabi\bblopts.cfg
+
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/arabi\bblopts
+.cfg
 File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of
  babel
 )
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/babel-english\english.l
-df
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/babel-english
+\english.ldf
 Language: english 2017/06/06 v3.3r English support from the babel system
 Package babel Info: Hyphen rules for 'canadian' set to \l@english
 (babel)             (\language0). Reported on input line 102.
@@ -145,30 +159,31 @@ Package babel Info: Hyphen rules for 'australian' set to \l@ukenglish
 Package babel Info: Hyphen rules for 'newzealand' set to \l@ukenglish
 (babel)             (\language73). Reported on input line 108.
 )
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/babel-russian\russianb.
-ldf
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/babel-russian
+\russianb.ldf
 File: russianb.ldf 2021/01/10 1.3m Russian support for the Babel system
 Language: russian 2020/09/09 1.3k Russian support for the Babel system
 Package babel Info: Making " an active character on input line 124.
 Package babel Info: Default for \cyrdash is provided on input line 163.
 ))
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/ru\babel
--russian.tex
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/generic/babel/local
+e/ru\babel-russian.tex
 Package babel Info: Importing font and identification data for russian
 (babel)             from babel-ru.ini. Reported on input line 11.
 )
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/en\babel
--english.tex
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/generic/babel/local
+e/en\babel-english.tex
 Package babel Info: Importing font and identification data for english
 (babel)             from babel-en.ini. Reported on input line 11.
 )
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/unicode-math\unicode-ma
-th.sty
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/unicode-math\
+unicode-math.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl
+3.sty
 Package: expl3 2022-09-28 L3 programming layer (loader) 
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-xet
-ex.def
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3b
+ackend-xetex.def
 File: l3backend-xetex.def 2022-09-28 L3 backend support: XeTeX
 \g__graphics_track_int=\count191
 \l__pdf_internal_box=\box51
@@ -178,24 +193,25 @@ File: l3backend-xetex.def 2022-09-28 L3 backend support: XeTeX
 ))
 Package: unicode-math 2020/01/31 v0.8q Unicode maths in XeLaTeX and LuaLaTeX
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/unicode-math\unicode-ma
-th-xetex.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/unicode-math\
+unicode-math-xetex.sty
 Package: unicode-math-xetex 2020/01/31 v0.8q Unicode maths in XeLaTeX and LuaLa
 TeX
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xpars
-e.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xp
+arse\xparse.sty
 Package: xparse 2022-06-22 L3 Experimental document command parser
 )
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/l3keys2e\l3k
-eys2e.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/l3
+keys2e\l3keys2e.sty
 Package: l3keys2e 2022-06-22 LaTeX2e option processing using LaTeX3 keys
 )
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\font
+spec.sty
 Package: fontspec 2022/01/15 v2.8a Font selection for XeLaTeX and LuaLaTeX
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec-xetex
-.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\font
+spec-xetex.sty
 Package: fontspec-xetex 2022/01/15 v2.8a Font selection for XeLaTeX and LuaLaTe
 X
 \l__fontspec_script_int=\count195
@@ -212,35 +228,46 @@ X
 \l__fontspec_tmpa_dim=\dimen140
 \l__fontspec_tmpb_dim=\dimen141
 \l__fontspec_tmpc_dim=\dimen142
- (C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.
+sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
 )
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.cfg))
-) (C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/base\fix-cm.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\font
+spec.cfg)))
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/base\fix-cm.s
+ty
 Package: fix-cm 2020/11/24 v1.1t fixes to LaTeX
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1enc.def
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1enc.d
+ef
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding TS1 on input line 47.
 ))
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsma
+th.sty
 Package: amsmath 2022/04/08 v2.17n AMS math features
 \@mathmargin=\skip49
 
 For additional information on amsmath, use the `?' option.
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amste
+xt.sty
 Package: amstext 2021/08/26 v2.01 AMS text
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsge
+n.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks18
 \ex@=\dimen143
 ))
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbs
+y.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen144
 )
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsop
+n.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
 \inf@bad=\count272
@@ -296,8 +323,8 @@ LaTeX Info: Redefining \] on input line 2954.
 \l__um_primecount_int=\count286
 \g__um_primekern_muskip=\muskip17
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/unicode-math\unicode-ma
-th-table.tex)))
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/unicode-math\
+unicode-math-table.tex)))
 Invalid UTF-8 byte or sequence at line 9 replaced by U+FFFD.
 Invalid UTF-8 byte or sequence at line 9 replaced by U+FFFD.
 Invalid UTF-8 byte or sequence at line 9 replaced by U+FFFD.
@@ -306,17 +333,21 @@ Invalid UTF-8 byte or sequence at line 9 replaced by U+FFFD.
 Invalid UTF-8 byte or sequence at line 9 replaced by U+FFFD.
 Invalid UTF-8 byte or sequence at line 9 replaced by U+FFFD.
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geom
+etry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyv
+al.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks23
 )
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvte
+x.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex
+.sty
 Package: iftex 2022/02/03 v1.0f TeX engine tests
 ))
 \Gm@cnth=\count287
@@ -332,30 +363,37 @@ Package: iftex 2022/02/03 v1.0f TeX engine tests
 \Gm@layoutvoffset=\dimen159
 \Gm@dimlist=\toks24
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geom
+etry.cfg))
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/graphics\grap
+hicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/graphics\grap
+hics.sty
 Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig
+.sty
 Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
 )
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
-fg
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\
+graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: xetex.def on input line 107.
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\xetex.def
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\
+xetex.def
 File: xetex.def 2022/09/22 v5.0n Graphics/color driver for xetex
 \stockwidth=\dimen160
 \stockheight=\dimen161
 ))
 \Gin@req@height=\dimen162
 \Gin@req@width=\dimen163
-) (C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+)
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/float\float.s
+ty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count290
 \float@exts=\toks25
@@ -363,7 +401,8 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks26
 \@floatcapt=\box55
 )
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/wrapfig\wrapfig.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/wrapfig\wrapf
+ig.sty
 \wrapoverhang=\dimen164
 \WF@size=\dimen165
 \c@WF@wrappedlines=\count291
@@ -371,19 +410,24 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \WF@everypar=\toks27
 Package: wrapfig 2003/01/31  v 3.6
 )
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/eso-pic\eso-pic.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/eso-pic\eso-p
+ic.sty
 Package: eso-pic 2020/10/14 v3.0a eso-pic (RN)
 \ESO@tempdima=\dimen166
 \ESO@tempdimb=\dimen167
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor
+.sty
 Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
 
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\
+color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: xetex.def on input line 227.
-(C:\Users\anton\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+
+(C:\Users\ASUS_TUF_GAMING\AppData\Local\Programs\MiKTeX\tex/latex/graphics\math
+color.ltx)
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
 Package xcolor Info: Model `RGB' extended on input line 1369.
 Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1371.
@@ -393,8 +437,8 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
 ))
-(C:\Users\anton\OneDrive\Рабочий стол\Github\Differentiator\code\file\file_out.
-aux)
+(C:\Users\ASUS_TUF_GAMING\Desktop\Git_Hub\Differentiator\code\file\file_out.aux
+)
 \openout1 = `file_out.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
@@ -709,20 +753,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 24--96
 [1
 
 ] [2]
-(C:\Users\anton\OneDrive\Рабочий стол\Github\Differentiator\code\file\file_out.
-aux)
+(C:\Users\ASUS_TUF_GAMING\Desktop\Git_Hub\Differentiator\code\file\file_out.aux
+)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
  10865 strings out of 410532
- 216667 string characters out of 2813298
+ 217132 string characters out of 2811269
  748313 words of memory out of 3000000
  31968 multiletter control sequences out of 15000+600000
  470332 words of font info for 35 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  86i,5n,115p,306b,278s stack positions out of 10000i,1000n,20000p,200000b,80000s
 
-Output written on C:\Users\anton\OneDrive\Рабочий стол\Github\Differentiator\co
-de\file\file_out.pdf (2 pages).
+Output written on C:\Users\ASUS_TUF_GAMING\Desktop\Git_Hub\Differentiator\code\
+file\file_out.pdf (2 pages).
