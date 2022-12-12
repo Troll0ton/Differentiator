@@ -14,7 +14,9 @@ int main ()
 
     create_latex_file (&info);
 
-    for(int line = 0; line < NUM_OF_LINES; line++)
+    //choose the mode
+
+    for(int line = 1; line < NUM_OF_LINES; line++)
     {
         nullify_tree_pars (&info);
 
@@ -32,7 +34,7 @@ int main ()
 
         fprintf (info.file_tex, "Devirative:\\\\\n");
 
-        calc_derivative (info.root, &info);
+        //calc_derivative (info.root, &info);
 
         print_tree_inorder (info.root, &info);
 

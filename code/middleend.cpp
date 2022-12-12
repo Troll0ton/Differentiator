@@ -156,17 +156,12 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
     }
 }
 
-#undef LEFT_NODE
-#undef RIGHT_NODE
-#undef COPY_LEFT
-#undef COPY_RIGHT
-
 //-----------------------------------------------------------------------------
 
-#define LEFT_NUM curr_node->left->val.num
+#define LEFT_NUM  curr_node->left->val.num
 #define RIGHT_NUM curr_node->right->val.num
 
-Node *simplify_tree (Node *curr_node, Tree_info *info)
+void simplify_tree (Node *curr_node, Tree_info *info)
 {
     if(curr_node->left)
     {
@@ -242,14 +237,139 @@ Node *simplify_tree (Node *curr_node, Tree_info *info)
             }
         }
 
-        tree_dtor (curr_node->left);
-
-        tree_dtor (curr_node->right);
+        tree_dtor (LEFT_NODE);
+        tree_dtor (RIGHT_NODE);
     }
+
+    //-----------------------------------------------------------------------------
+
+    print_tree_inorder (info->root, info);
+
+    txprint ("\\\\");
+
+    if(curr_node->type == OP    &&
+       curr_node->val.op == MUL &&
+     ((LEFT_NODE->type == NUM   &&
+       is_equal (LEFT_NUM, 0))  ||
+      (RIGHT_NODE->type == NUM  &&
+       is_equal (RIGHT_NUM, 0))))
+    {
+        curr_node->type = NUM;
+        curr_node->priority = 4;
+        curr_node->val.num = 0;
+        tree_dtor (LEFT_NODE);
+        tree_dtor (RIGHT_NODE);
+    }
+
+    if(curr_node->type == OP    &&
+       curr_node->val.op == DIV &&
+      (LEFT_NODE->type == NUM   &&
+       is_equal (LEFT_NUM, 0)))
+    {
+        curr_node->type = NUM;
+        curr_node->priority = 4;
+        curr_node->val.num = 0;
+        tree_dtor (LEFT_NODE);
+        tree_dtor (RIGHT_NODE);
+    }
+
+    print_tree_inorder (info->root, info);
+
+    txprint ("\\\\");
+
+    if(curr_node->type == OP    &&
+      (curr_node->val.op == ADD ||
+       curr_node->val.op == SUB)&&
+      (LEFT_NODE->type == NUM   &&
+       is_equal (LEFT_NUM, 0)))
+    {
+        Node *old_right = RIGHT_NODE;
+
+        ASSIGN_NODE (curr_node, RIGHT_NODE->left, RIGHT_NODE->right, curr_node->parent, RIGHT_NODE->type, RIGHT_NODE->val, RIGHT_NODE->priority);
+
+        free (old_right);
+    }
+
+    if(curr_node->type == OP    &&
+      (curr_node->val.op == ADD ||
+       curr_node->val.op == SUB)&&
+      (RIGHT_NODE->type == NUM  &&
+       is_equal (RIGHT_NUM, 0)))
+    {
+        Node *old_left = LEFT_NODE;
+
+        ASSIGN_NODE (curr_node, LEFT_NODE->left, LEFT_NODE->right, curr_node->parent, LEFT_NODE->type, LEFT_NODE->val, LEFT_NODE->priority);
+
+        free (old_left);
+    }
+
+    print_tree_inorder (info->root, info);
+
+    txprint ("\\\\");
+
+    /*
+    if(curr_node->type == OP    &&
+      (curr_node->val.op == MUL ||
+       curr_node->val.op == DIV)&&
+      (RIGHT_NODE->type == NUM  &&
+       is_equal (RIGHT_NUM, 1)))
+    {
+        Node *new_node = COPY_LEFT;
+
+        if(curr_node->parent && curr_node->parent->left == curr_node)
+        {
+            curr_node->parent->left = new_node;
+        }
+
+        else if(curr_node->parent && curr_node->parent->right == curr_node)
+        {
+            curr_node->parent->right = new_node;
+        }
+
+        if(new_node)
+        {
+            new_node->parent = curr_node->parent;
+        }
+
+        tree_dtor (curr_node);
+
+        curr_node = new_node;
+    }
+
+    if(curr_node->type == OP    &&
+       curr_node->val.op == MUL &&
+      (LEFT_NODE->type == NUM   &&
+       is_equal (LEFT_NUM, 1)))
+    {
+        Node *new_node = COPY_RIGHT;
+
+        if(curr_node->parent && curr_node->parent->left == curr_node)
+        {
+            curr_node->parent->left = new_node;
+        }
+
+        else if(curr_node->parent && curr_node->parent->right == curr_node)
+        {
+            curr_node->parent->right = new_node;
+        }
+
+        if(new_node)
+        {
+            new_node->parent = curr_node->parent;
+        }
+
+        tree_dtor (curr_node);
+
+        curr_node = new_node;
+    } */
 }
 
 #undef LEFT_NUM
 #undef RIGHT_NUM
+#undef LEFT_NODE
+#undef RIGHT_NODE
+#undef COPY_LEFT
+#undef COPY_RIGHT
 
 //-----------------------------------------------------------------------------
 

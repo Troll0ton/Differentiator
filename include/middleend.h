@@ -12,7 +12,7 @@
 
 Node *calc_derivative (Node *curr_node, Tree_info *info);
 
-Node *simplify_tree   (Node *curr_node, Tree_info *info);
+void  simplify_tree   (Node *curr_node, Tree_info *info);
 
 //-----------------------------------------------------------------------------
 

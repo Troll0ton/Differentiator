@@ -287,11 +287,11 @@ void create_tree_graph (Tree_info *info)
     if(root->left)
     {
         build_connections (root->left, info);
+
+        CURR_CELL++;
     }
 
     dot_print("cell0 ");
-
-    CURR_CELL++;
 
     if(root->right)
     {

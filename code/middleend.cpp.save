@@ -156,28 +156,35 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
     }
 }
 
-#undef LEFT_NODE
-#undef RIGHT_NODE
-#undef COPY_LEFT
-#undef COPY_RIGHT
-
 //-----------------------------------------------------------------------------
 
-#define LEFT_NUM curr_node->left->value.num
-#define RIGHT_NUM curr_node->right->value.num
+#define LEFT_NUM  curr_node->left->val.num
+#define RIGHT_NUM curr_node->right->val.num
 
-Node *simplify_tree (Node *curr_node, Tree_info *info)
+void simplify_tree (Node *curr_node, Tree_info *info)
 {
     if(curr_node->left)
     {
-        simplify_tree (curr_node->left);
+        simplify_tree (curr_node->left, info);
+
+            print_tree_inorder (info->root, info);
+            
+            tree_dump (info);
+
+        txprint ("\\\\");
     }
-    
+
     if(curr_node->right)
     {
-        simplify_tree (curr_node->right);
+        simplify_tree (curr_node->right, info);
+
+            print_tree_inorder (info->root, info);
+            
+            
+
+        txprint ("\\\\");
     }
-    
+
     if(curr_node->type == OP    &&
        curr_node->priority == 4 &&
        curr_node->right->type == NUM)
@@ -187,7 +194,7 @@ Node *simplify_tree (Node *curr_node, Tree_info *info)
             case SIN:
             {
                 curr_node->type = NUM;
-                curr_node->value.op = sin (curr_node->right->value.num);
+                curr_node->val.op = sin (RIGHT_NUM);
 
                 break;
             }
@@ -195,7 +202,7 @@ Node *simplify_tree (Node *curr_node, Tree_info *info)
             case COS:
             {
                 curr_node->type = NUM;
-                curr_node->value.op = cos (num_value);
+                curr_node->val.op = cos (RIGHT_NUM);
 
                 break;
             }
@@ -203,17 +210,166 @@ Node *simplify_tree (Node *curr_node, Tree_info *info)
 
         tree_dtor (curr_node->right);
     }
-    
+
     else if(curr_node->type == OP         &&
             curr_node->right->type == NUM &&
             curr_node->left->type  == NUM   )
-    {                              
-        
+    {
+        curr_node->type = NUM;
+        curr_node->priority = 4;
+
+        switch(curr_node->val.op)
+        {
+            case ADD:
+            {
+                curr_node->val.num = LEFT_NUM + RIGHT_NUM;
+
+                break;
+            }
+
+            case SUB:
+            {
+                curr_node->val.num = LEFT_NUM - RIGHT_NUM;
+
+                break;
+            }
+
+            case MUL:
+            {
+                curr_node->val.num = LEFT_NUM * RIGHT_NUM;
+
+                break;
+            }
+
+            case DIV:
+            {
+                curr_node->val.num = LEFT_NUM / RIGHT_NUM;
+
+                break;
+            }
+        }
+
+        tree_dtor (LEFT_NODE);
+        tree_dtor (RIGHT_NODE);
     }
+
+    //-----------------------------------------------------------------------------
+
+    if(curr_node->type == OP    &&
+       curr_node->val.op == MUL &&
+     ((LEFT_NODE->type == NUM   &&
+       is_equal (LEFT_NUM, 0))  ||
+      (RIGHT_NODE->type == NUM  &&
+       is_equal (RIGHT_NUM, 0))))
+    {
+        curr_node->type = NUM;
+        curr_node->priority = 4;
+        curr_node->val.num = 0;
+        tree_dtor (LEFT_NODE);
+        tree_dtor (RIGHT_NODE);
+    }
+
+    if(curr_node->type == OP    &&
+       curr_node->val.op == DIV &&
+      (LEFT_NODE->type == NUM   &&
+       is_equal (LEFT_NUM, 0)))
+    {
+        curr_node->type = NUM;
+        curr_node->priority = 4;
+        curr_node->val.num = 0;
+        tree_dtor (LEFT_NODE);
+        tree_dtor (RIGHT_NODE);
+    }
+
+    if(curr_node->type == OP    &&
+      (curr_node->val.op == ADD ||
+       curr_node->val.op == SUB)&&
+      (LEFT_NODE->type == NUM   &&
+       is_equal (LEFT_NUM, 0)))
+    {
+        Node *old_right = RIGHT_NODE;
+
+        ASSIGN_NODE (curr_node, RIGHT_NODE->left, RIGHT_NODE->right, curr_node->parent, RIGHT_NODE->type, RIGHT_NODE->val, RIGHT_NODE->priority);
+
+        free (old_right);
+    }
+
+    if(curr_node->type == OP    &&
+      (curr_node->val.op == ADD ||
+       curr_node->val.op == SUB)&&
+      (RIGHT_NODE->type == NUM  &&
+       is_equal (RIGHT_NUM, 0)))
+    {
+        Node *old_left = LEFT_NODE;
+
+        ASSIGN_NODE (curr_node, LEFT_NODE->left, LEFT_NODE->right, curr_node->parent, LEFT_NODE->type, LEFT_NODE->val, LEFT_NODE->priority);
+
+        free (old_left);
+    }
+
+    /*
+    if(curr_node->type == OP    &&
+      (curr_node->val.op == MUL ||
+       curr_node->val.op == DIV)&&
+      (RIGHT_NODE->type == NUM  &&
+       is_equal (RIGHT_NUM, 1)))
+    {
+        Node *new_node = COPY_LEFT;
+
+        if(curr_node->parent && curr_node->parent->left == curr_node)
+        {
+            curr_node->parent->left = new_node;
+        }
+
+        else if(curr_node->parent && curr_node->parent->right == curr_node)
+        {
+            curr_node->parent->right = new_node;
+        }
+
+        if(new_node)
+        {
+            new_node->parent = curr_node->parent;
+        }
+
+        tree_dtor (curr_node);
+
+        curr_node = new_node;
+    }
+
+    if(curr_node->type == OP    &&
+       curr_node->val.op == MUL &&
+      (LEFT_NODE->type == NUM   &&
+       is_equal (LEFT_NUM, 1)))
+    {
+        Node *new_node = COPY_RIGHT;
+
+        if(curr_node->parent && curr_node->parent->left == curr_node)
+        {
+            curr_node->parent->left = new_node;
+        }
+
+        else if(curr_node->parent && curr_node->parent->right == curr_node)
+        {
+            curr_node->parent->right = new_node;
+        }
+
+        if(new_node)
+        {
+            new_node->parent = curr_node->parent;
+        }
+
+        tree_dtor (curr_node);
+
+        curr_node = new_node;
+    } */
 }
 
 #undef LEFT_NUM
 #undef RIGHT_NUM
+#undef LEFT_NODE
+#undef RIGHT_NODE
+#undef COPY_LEFT
+#undef COPY_RIGHT
 
 //-----------------------------------------------------------------------------
 

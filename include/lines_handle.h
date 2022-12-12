@@ -30,6 +30,8 @@ void  clear_mem                 (struct Line *Text, struct File *File_input);
 
 bool  is_num                    (char sym);
 
+bool  is_equal                  (double a, double b);
+
 //-----------------------------------------------------------------------------
 
 #endif //LINES_HANDLE_H

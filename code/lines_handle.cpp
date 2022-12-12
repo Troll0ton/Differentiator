@@ -73,6 +73,15 @@ int min (int first_i, int second_i)
 
 //-----------------------------------------------------------------------------
 
+bool is_equal (double a, double b)
+{
+    const double EPS = 1e-3;
+
+    return (a - b < EPS && a - b > -EPS);
+}
+
+//-----------------------------------------------------------------------------
+
 Line *lines_separator (File *Oper_file)
 {
     Line *Array_struct = (Line*) calloc (Oper_file->num_of_lines, sizeof (Line));
