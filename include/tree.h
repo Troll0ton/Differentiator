@@ -115,7 +115,7 @@ void       create_latex_file  (Tree_info *info);
 
 void       convert_to_pdf     (Tree_info *info);
 
-//void     greetings          ();
+bool       choose_mode        ();
 
 Node      *copy_tree          (Node *orig_root, Tree_info *info);
 

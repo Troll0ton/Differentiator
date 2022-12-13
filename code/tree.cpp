@@ -158,64 +158,29 @@ void print_tree_inorder (Node *curr_node, Tree_info *info)
 
     if(curr_node->type == OP)
     {
+        #define CMD_DEF(cmd, cmd_name, code, ...) \
+        case(cmd):                                \
+        {                                         \
+            txprint (cmd_name);                   \
+                                                  \
+            break;                                \
+        }                                         \
+
         switch(curr_node->val.op)
         {
-            case ADD:
-            {
-                txprint ("+");
+            //-----------------------------------------------------------------------------
 
-                break;
-            }
+            #include "../include/codegen/calc.h"
 
-            case SUB:
-            {
-                txprint ("-");
-
-                break;
-            }
-
-            case MUL:
-            {
-                txprint ("*");
-
-                break;
-            }
-
-            case DIV:
-            {
-                txprint ("/");
-
-                break;
-            }
-
-            case POW:
-            {
-                txprint ("^");
-
-                break;
-            }
-
-            case SIN:
-            {
-                txprint ("sin");
-
-                break;
-            }
-
-            case COS:
-            {
-                txprint ("cos");
-
-                break;
-            }
+            //-----------------------------------------------------------------------------
 
             default:
             {
-                txprint ("?");
-
-                break;
+                printf ("UNKNOWN FUNCTION!\n");
             }
         }
+
+        #undef CMD_DEF
     }
 
     else if(curr_node->type == NUM)
@@ -329,64 +294,29 @@ void create_cell (Node *root, Tree_info *info)
         dot_print ("fillcolor = paleturquoise1, label = \" { <ptr> TYPE: OPERATION (%d) | ",
                    root->priority);
 
+        #define CMD_DEF(cmd, cmd_name, code, ...) \
+        case(cmd):                                \
+        {                                         \
+            dot_print (cmd_name);                 \
+                                                  \
+            break;                                \
+        }                                         \
+
         switch(root->val.op)
         {
-            case ADD:
-            {
-                dot_print ("+");
+            //-----------------------------------------------------------------------------
 
-                break;
-            }
+            #include "../include/codegen/calc.h"
 
-            case SUB:
-            {
-                dot_print ("-");
-
-                break;
-            }
-
-            case MUL:
-            {
-                dot_print ("*");
-
-                break;
-            }
-
-            case DIV:
-            {
-                dot_print ("/");
-
-                break;
-            }
-
-            case POW:
-            {
-                dot_print ("^");
-
-                break;
-            }
-
-            case SIN:
-            {
-                dot_print ("sin");
-
-                break;
-            }
-
-            case COS:
-            {
-                dot_print ("cos");
-
-                break;
-            }
+            //-----------------------------------------------------------------------------
 
             default:
             {
-                dot_print ("? - %d\n", root->val.op);
-
-                break;
+                printf ("UNKNOWN FUNCTION!\n");
             }
         }
+
+        #undef CMD_DEF
     }
 
     else if(root->type == NUM)
@@ -458,26 +388,23 @@ void create_latex_file (Tree_info *info)
     info->file_tex = fopen ("../files/file_out.tex", "w+");
 
     const char header[] = R"(
-    \documentclass{article}
-    %  Русский язык
-    \usepackage[T2A]{fontenc}			% кодировка
-    \usepackage[utf8]{inputenc}			% кодировка исходного текста
-    \usepackage[english,russian]{babel}	% локализация и переносы
-    \usepackage{unicode-math}
-    \usepackage[top=3in]{geometry}
-    % Рисунки
-    \usepackage{graphicx, float}
-    \usepackage{wrapfig}
-    \usepackage{eso-pic,graphicx}
-    \usepackage{xcolor}
-    \makeatletter
-    \newcommand{\globalcolor}[1]{%
-    \color{#1}\global\let\default@color\current@color
-    }
-    \makeatother
-    \AtBeginDocument{\globalcolor{black}}
+    \documentclass[12pt]{article}
+    \usepackage[utf8]{inputenc}
+    \usepackage{cmap}
+    \usepackage{amsmath}
+    \usepackage{amssymb}
+    \usepackage{mathtools}
+    \usepackage{mathtext}
+
+    \usepackage[english, russian]{babel}
+
     \title{DIFFERENTIATOR}
+    \author{Anton}
+    \date{12 november 2022}
+
     \begin{document}
+
+    \maketitle
     Your input: \\
     )";
 
@@ -531,6 +458,22 @@ void tree_dtor (Node *curr_node)
 }
 
 //-----------------------------------------------------------------------------
+
+bool choose_mode ()
+{
+    printf ("CHOOSE THE MODE:\n\
+            1 - calc derivative;\n\
+            0 - calc function\n");
+
+    int sym = 0;
+
+    scanf ("%d", &sym);
+
+    return sym;
+}
+
+//-----------------------------------------------------------------------------
+
 
 
 

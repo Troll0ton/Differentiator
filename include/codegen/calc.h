@@ -1,25 +1,25 @@
 
-CMD_DEF(ADD, '+',
+CMD_DEF(ADD, "+",
 {
     curr_node->val.num = LEFT_NUM + RIGHT_NUM;
 })
 
-CMD_DEF(SUB, '-',
+CMD_DEF(SUB, "-",
 {
     curr_node->val.num = LEFT_NUM - RIGHT_NUM;
 })
 
-CMD_DEF(MUL, '*',
+CMD_DEF(MUL, "*",
 {
     curr_node->val.num = LEFT_NUM * RIGHT_NUM;
 })
 
-CMD_DEF(DIV, '/',
+CMD_DEF(DIV, "/",
 {
     curr_node->val.num = LEFT_NUM / RIGHT_NUM;
 })
 
-CMD_DEF(POW, '^',
+CMD_DEF(POW, "^",
 {
     ;
 })

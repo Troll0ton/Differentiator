@@ -14,9 +14,9 @@ int main ()
 
     create_latex_file (&info);
 
-    //choose the mode
+    bool mode_derivo = choose_mode ();
 
-    for(int line = 1; line < NUM_OF_LINES; line++)
+    for(int line = 0; line < NUM_OF_LINES; line++)
     {
         nullify_tree_pars (&info);
 
@@ -24,7 +24,10 @@ int main ()
 
         print_expression (&info);
 
-        print_derivative (&info);
+        if(mode_derivo)
+        {
+            print_derivative (&info);
+        }
 
         print_simplified (&info);
 

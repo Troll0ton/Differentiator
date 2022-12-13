@@ -158,62 +158,26 @@ void print_tree_inorder (Node *curr_node, Tree_info *info)
 
     if(curr_node->type == OP)
     {
+        #define CMD_DEF(cmd, cmd_name, tx_name, code, ...) \
+        case(cmd)                                          \
+        {                                                  \
+            txprint (tx_name);                             \
+        }                                                  \
+
         switch(curr_node->val.op)
         {
-            case ADD:
-            {
-                txprint ("+");
+            //-----------------------------------------------------------------------------
 
-                break;
-            }
+            #include "../include/codegen/op_1.h"
+            #include "../include/codegen/op_2.h"
+            #include "../include/codegen/op_3.h"
+            #include "../include/codegen/op_4.h"
 
-            case SUB:
-            {
-                txprint ("-");
-
-                break;
-            }
-
-            case MUL:
-            {
-                txprint ("*");
-
-                break;
-            }
-
-            case DIV:
-            {
-                txprint ("/");
-
-                break;
-            }
-
-            case POW:
-            {
-                txprint ("^");
-
-                break;
-            }
-
-            case SIN:
-            {
-                txprint ("sin");
-
-                break;
-            }
-
-            case COS:
-            {
-                txprint ("cos");
-
-                break;
-            }
+            //-----------------------------------------------------------------------------
 
             default:
             {
-                txprint ("?");
-
-                break;
+                printf ("UNKNOWN FUNCTION!\n");
             }
         }
     }
@@ -287,11 +251,11 @@ void create_tree_graph (Tree_info *info)
     if(root->left)
     {
         build_connections (root->left, info);
+
+        CURR_CELL++;
     }
 
     dot_print("cell0 ");
-
-    CURR_CELL++;
 
     if(root->right)
     {
@@ -478,7 +442,6 @@ void create_latex_file (Tree_info *info)
     \AtBeginDocument{\globalcolor{black}}
     \title{DIFFERENTIATOR}
     \begin{document}
-    \maketitle
     Your input: \\
     )";
 
@@ -513,6 +476,19 @@ void tree_dtor (Node *curr_node)
     if(curr_node->right)
     {
         tree_dtor (curr_node->right);
+    }
+
+    if(curr_node->parent)
+    {
+        if(curr_node->parent->left == curr_node)
+        {
+            curr_node->parent->left = NULL;
+        }
+
+        if(curr_node->parent->right == curr_node)
+        {
+            curr_node->parent->right = NULL;
+        }
     }
 
     free (curr_node);

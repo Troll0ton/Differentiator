@@ -14,7 +14,7 @@ int main ()
 
     create_latex_file (&info);
 
-    //choose the mode
+    choose the mode
 
     for(int line = 1; line < NUM_OF_LINES; line++)
     {
@@ -22,25 +22,13 @@ int main ()
 
         info.root = get_grammar (CURR_LINE);
 
-        print_expression (info);
+        print_expression (&info);
 
-        print_derivative (info);
+        print_derivative (&info);
 
-        fprintf (info.file_tex, "Simplify something:\\\\\n");
-
-        simplify_tree (info.root, &info);
-
-        print_tree_inorder (info.root, &info);
-
-        tree_dump (&info);
-
-        fprintf (info.file_tex, "\\\\\n");
-
-        fprintf (info.file_tex, "---------------------------------------------------------------------------------------------------------------------------\\\\\n");
+        print_simplified (&info);
 
         tree_dtor (info.root);
-
-        fprintf (info.file_tex, "\\\\\n");
     }
 
     convert_to_pdf (&info);

@@ -227,7 +227,8 @@ bool simplify_const (Node *curr_node, Tree_info *info)
 {
     if(IS_OP (curr_node) &&
        IS_NUM (RIGHT_NODE) &&
-     (!LEFT_NODE || IS_NUM (LEFT_NODE)))
+     ((LEFT_NODE && IS_NUM (LEFT_NODE)) ||
+      !LEFT_NODE))
     {
         curr_node->type = NUM;
         curr_node->priority = 4;
