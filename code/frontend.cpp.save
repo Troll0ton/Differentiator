@@ -20,32 +20,32 @@ Node *get_mul_div (char **grammar)
 {
     Node *left_node = get_pow (grammar);
 
-    value val = { 0 };
-
     while(IS_('*') || IS_('/'))
     {
         char curr_op = **grammar;
         (*grammar)++;
 
-        Node *right_node = get_pow (grammar);
+        Node *right_node = get_mul_div (grammar);
 
-        switch(curr_op)
-        {
-            CASE ('*', MUL);
+        #define CMD_DEF(cmd, cmd_name, code, ...) \
+        if(curr_op == cmd_name)                   \
+        {                                         \
+            INIT (cmd, 2);                        \
+                                                  \
+            left_node = new_node;                 \
+        }                                         \
+        else
 
-            CASE ('/', DIV);
+        //-----------------------------------------------------------------------------
 
-            default:
-            {
-                printf ("WTF?\n");
+        #include "../include/codegen/op_2.h"
 
-                break;
-            }
-        }
+        //-----------------------------------------------------------------------------
 
-        INIT_OP (val, 2);
+        #undef CMD_DEF
 
-        left_node = new_node;
+        //else
+        printf ("UNKOWN COMMAND - PRIORITY 1!\n");
     }
 
     return left_node;
@@ -109,41 +109,25 @@ Node *get_expression (char **grammar)
 
         Node *right_node = get_mul_div (grammar);
 
-        value val = { 0 };
-        
         #define CMD_DEF(cmd, cmd_name, code, ...) \
-    if(stricmp (name, cmd_name) == 0)         \
-    {                                         \
-        INIT (cmd, 4);                        \
-                                              \
-        return new_node;                      \
-    }
+        if(curr_op == cmd_name)                   \
+        {                                         \
+            INIT (cmd, 1);                        \
+                                                  \
+            left_node = new_node;                 \
+        }                                         \
+        else
 
-    //-----------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
 
-    #include "../include/codegen_4.h"
+        #include "../include/codegen/op_1.h"
 
-    //-----------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
 
-    #undef CMD_DEF
+        #undef CMD_DEF
 
-        switch(curr_op)
-        {
-            CASE ('+', ADD);
-
-            CASE ('-', SUB);
-
-            default:
-            {
-                printf ("WTF?\n");
-
-                break;
-            }
-        }
-
-        INIT_OP_1;
-
-        left_node = new_node;
+        //else
+        printf ("UNKOWN COMMAND - PRIORITY 1!\n");
     }
 
     return left_node;
@@ -195,6 +179,7 @@ Node *get_str (char **grammar)
 Node *get_funct (char **grammar, char *name)
 {
     Node *right_node = get_parentheses (grammar);
+    Node *left_node = NULL;
 
     #define CMD_DEF(cmd, cmd_name, code, ...) \
     if(stricmp (name, cmd_name) == 0)         \
@@ -206,7 +191,7 @@ Node *get_funct (char **grammar, char *name)
 
     //-----------------------------------------------------------------------------
 
-    #include "../include/codegen_4.h"
+    #include "../include/codegen/op_4.h"
 
     //-----------------------------------------------------------------------------
 
@@ -235,9 +220,10 @@ Node *get_bottom (char **grammar)
         return get_str (grammar);
     }
 
-    while(is_num (**grammar))
+    if(is_num (**grammar))
     {
-        VALUE_NUM = VALUE_NUM * 10 + **grammar - '0';
+        int 
+        sscanf (*grammar, "%lf%n", &VALUE_NUM);
         (*grammar)++;
     }
 

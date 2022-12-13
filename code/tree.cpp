@@ -462,8 +462,9 @@ void tree_dtor (Node *curr_node)
 bool choose_mode ()
 {
     printf ("CHOOSE THE MODE:\n\
-            1 - calc derivative;\n\
-            0 - calc function\n");
+            0 - calc function in point;\n\
+            1 - calc derivative\n\
+            2 - calc derivative in point \n");
 
     int sym = 0;
 

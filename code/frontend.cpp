@@ -220,10 +220,13 @@ Node *get_bottom (char **grammar)
         return get_str (grammar);
     }
 
-    while(is_num (**grammar))
+    if(is_num (**grammar))
     {
-        VALUE_NUM = VALUE_NUM * 10 + **grammar - '0';
-        (*grammar)++;
+        int num_offset = 0;
+
+        sscanf (*grammar, "%lf%n", &VALUE_NUM, &num_offset);
+
+        *grammar += num_offset;
     }
 
     INIT_NUM (val);

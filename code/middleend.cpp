@@ -129,7 +129,7 @@ bool simplify_mul_div_one (Node *curr_node, Tree_info *info)
         Node *old_right = RIGHT_NODE;
         Node *old_left  = LEFT_NODE;
 
-        ASSIGN_NODE (curr_node, old_left->left, old_left->right, curr_node->parent, old_left->type, old_left->val, old_left->priority);
+        ASSIGN_LEFT (curr_node);
 
         free (old_right);
         free (old_left);
@@ -144,7 +144,7 @@ bool simplify_mul_div_one (Node *curr_node, Tree_info *info)
         Node *old_right = RIGHT_NODE;
         Node *old_left  = LEFT_NODE;
 
-        ASSIGN_NODE (curr_node, old_right->left, old_right->right, curr_node->parent, old_right->type, old_right->val, old_right->priority);
+        ASSIGN_RIGHT (curr_node);
 
         free (old_right);
         free (old_left);
@@ -166,7 +166,7 @@ bool simplify_add_sub_null (Node *curr_node, Tree_info *info)
         Node *old_right = RIGHT_NODE;
         Node *old_left  = LEFT_NODE;
 
-        ASSIGN_NODE (curr_node, old_right->left, old_right->right, curr_node->parent, old_right->type, old_right->val, old_right->priority);
+        ASSIGN_RIGHT (curr_node);
 
         free (old_right);
         free (old_left);
@@ -181,7 +181,7 @@ bool simplify_add_sub_null (Node *curr_node, Tree_info *info)
         Node *old_right = RIGHT_NODE;
         Node *old_left  = LEFT_NODE;
 
-        ASSIGN_NODE (curr_node, old_left->left, old_left->right, curr_node->parent, old_left->type, old_left->val, old_left->priority);
+        ASSIGN_LEFT (curr_node);
 
         free (old_right);
         free (old_left);
@@ -257,8 +257,15 @@ bool simplify_const (Node *curr_node, Tree_info *info)
 
         #undef CMD_DEF
 
-        tree_dtor (LEFT_NODE);
-        tree_dtor (RIGHT_NODE);
+        if(LEFT_NODE)
+        {
+            tree_dtor (LEFT_NODE);
+        }
+
+        if(RIGHT_NODE)
+        {
+            tree_dtor (RIGHT_NODE);
+        }
 
         DETECTED;
     }

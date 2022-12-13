@@ -104,6 +104,12 @@ enum OPERATIONS
     val.num = new_value;                                                                          \
     ASSIGN_NODE(node, node->left, node->right, node->parent, NUM, val, 4)                         \
 
+#define ASSIGN_RIGHT(curr_node)                                                                   \
+    ASSIGN_NODE (curr_node, old_right->left, old_right->right, curr_node->parent, old_right->type, old_right->val, old_right->priority);
+
+#define ASSIGN_LEFT(curr_node)                                                                   \
+    ASSIGN_NODE (curr_node, old_left->left, old_left->right, curr_node->parent, old_left->type, old_left->val, old_left->priority);
+
 #define ASSIGN_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority) \
     new_node->left = new_left;                                                                    \
     new_node->right = new_right;                                                                  \

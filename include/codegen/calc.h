@@ -21,7 +21,7 @@ CMD_DEF(DIV, "/",
 
 CMD_DEF(POW, "^",
 {
-    ;
+    curr_node->val.num = pow (LEFT_NUM, RIGHT_NUM);
 })
 
 CMD_DEF(SIN, "sin",

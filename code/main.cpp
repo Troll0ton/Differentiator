@@ -16,7 +16,7 @@ int main ()
 
     bool mode_derivo = choose_mode ();
 
-    for(int line = 0; line < NUM_OF_LINES; line++)
+    for(int line = 0; line < NUM_OF_LINES - 1; line++)
     {
         nullify_tree_pars (&info);
 
