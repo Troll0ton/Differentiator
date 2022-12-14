@@ -39,7 +39,19 @@ CMD_DEF(COS, "cos",
 
 CMD_DEF(LN, "ln",
 {
-    ;
+    Node *right_node_c = COPY_RIGHT;
+
+    val.num = 1;
+
+    INIT_NODE (one_node, NULL, NULL, NULL, NUM, val, 4);
+
+    val.op = DIV;
+
+    INIT_NODE (div_node, one_node, right_node_c, NULL, OP, val, 2);
+
+    val.op = MUL;
+
+    ASSIGN_NODE (curr_node, div_node, CALC_DRV (RIGHT_NODE), curr_node->parent, OP, val, 2);
 })
 
 CMD_DEF(TG, "tg",

@@ -1,7 +1,5 @@
 #include "../include/frontend.h"
 
-//-----------------------------------------------------------------------------
-
 //{----------------------------------------------------------------------------
 //!                                (and with union value)
 //! INIT_OP_1 - initialize operator-node with 1-priority and left and right son;
@@ -239,3 +237,5 @@ Node *get_bottom (char **grammar)
 #undef VALUE_NUM
 
 //-----------------------------------------------------------------------------
+
+

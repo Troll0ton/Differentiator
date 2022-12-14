@@ -67,6 +67,9 @@ enum OPERATIONS
 #define IS_DIV(curr_node)                                       \
     (curr_node->type == OP && curr_node->val.op == DIV)
 
+#define IS_POW(curr_node)                                       \
+    (curr_node->type == OP && curr_node->val.op == POW)
+
 #define IS_OP(curr_node)           \
     curr_node->type == OP
 
@@ -110,6 +113,8 @@ enum OPERATIONS
 #define ASSIGN_LEFT(curr_node)                                                                   \
     ASSIGN_NODE (curr_node, old_left->left, old_left->right, curr_node->parent, old_left->type, old_left->val, old_left->priority);
 
+//-----------------------------------------------------------------------------
+
 #define ASSIGN_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority) \
     new_node->left = new_left;                                                                    \
     new_node->right = new_right;                                                                  \
@@ -142,5 +147,15 @@ enum OPERATIONS
     ASSIGN_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority)
 
 //-----------------------------------------------------------------------------
+
+#define CHECK_EXPRESSION(EXPR, TEXT)           \
+    if(!(EXPR))                                \
+    {                                          \
+        printf ("DETECTED MISTAKE: %s", TEXT); \
+                                               \
+        return NULL;                           \
+    }
+
+//----------------------------------------------------------------------------
 
 #endif //COMMON_H

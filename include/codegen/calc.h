@@ -14,7 +14,7 @@ CMD_DEF(MUL, "*",
     curr_node->val.num = LEFT_NUM * RIGHT_NUM;
 })
 
-CMD_DEF(DIV, "/",
+CMD_DEF(DIV, "\\over",
 {
     curr_node->val.num = LEFT_NUM / RIGHT_NUM;
 })
@@ -36,7 +36,7 @@ CMD_DEF(COS, "cos",
 
 CMD_DEF(LN, "ln",
 {
-    ;
+    curr_node->val.num = log (RIGHT_NUM);
 })
 
 CMD_DEF(TG, "tg",

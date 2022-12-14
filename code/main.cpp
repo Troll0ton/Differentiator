@@ -1,10 +1,6 @@
-#include "../include/frontend.h"
-#include "../include/middleend.h"
+#include "../include/differentiator.h"
 
 //-----------------------------------------------------------------------------
-
-#define CURR_LINE    &(info.Text[line].begin_line)
-#define NUM_OF_LINES info.File_input->num_of_lines
 
 int main ()
 {
@@ -14,25 +10,7 @@ int main ()
 
     create_latex_file (&info);
 
-    bool mode_derivo = choose_mode ();
-
-    for(int line = 0; line < NUM_OF_LINES - 1; line++)
-    {
-        nullify_tree_pars (&info);
-
-        info.root = get_grammar (CURR_LINE);
-
-        print_expression (&info);
-
-        if(mode_derivo)
-        {
-            print_derivative (&info);
-        }
-
-        print_simplified (&info);
-
-        tree_dtor (info.root);
-    }
+    choose_mode (&info);
 
     convert_to_pdf (&info);
 
@@ -40,8 +18,5 @@ int main ()
 
     return 0;
 }
-
-#undef CURR_LINE
-#undef NUM_OF_LINES
 
 //-----------------------------------------------------------------------------

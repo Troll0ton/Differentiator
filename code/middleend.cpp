@@ -282,51 +282,5 @@ bool simplify_const (Node *curr_node, Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
-void print_expression (Tree_info *info)
-{
-    LINES;
-
-    fprintf (info->file_tex, "Current expression:\\\\\n");
-
-    print_tree_inorder (info->root, info);
-
-    tree_dump (info);
-
-    ENTER;
-}
-
-//-----------------------------------------------------------------------------
-
-void print_derivative (Tree_info *info)
-{
-    fprintf (info->file_tex, "Calculate Derivative:\\\\\n");
-
-    calc_derivative (info->root, info);
-
-    print_tree_inorder (info->root, info);
-
-    tree_dump (info);
-
-    ENTER;
-}
-
-//-----------------------------------------------------------------------------
-
-void print_simplified (Tree_info *info)
-{
-    fprintf (info->file_tex, "Simplify something:\\\\\n");
-
-    simplify_tree (info->root, info);
-
-    print_tree_inorder (info->root, info);
-
-    tree_dump (info);
-
-    ENTER;
-    LINES;
-    ENTER;
-}
-
-//-----------------------------------------------------------------------------
 
 

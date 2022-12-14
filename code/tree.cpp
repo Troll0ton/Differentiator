@@ -151,9 +151,24 @@ void print_tree_inorder (Node *curr_node, Tree_info *info)
         txprint ("(");
     }
 
+    if(IS_DIV (curr_node) || IS_POW (curr_node))
+    {
+        txprint ("{");
+    }
+
     if(curr_node->left)
     {
+        if(IS_DIV (curr_node) || IS_POW (curr_node))
+        {
+            txprint ("{");
+        }
+
         print_tree_inorder (curr_node->left, info);
+
+        if(IS_DIV (curr_node) || IS_POW (curr_node))
+        {
+            txprint ("}");
+        }
     }
 
     if(curr_node->type == OP)
@@ -200,7 +215,22 @@ void print_tree_inorder (Node *curr_node, Tree_info *info)
 
     if(curr_node->right)
     {
+        if(IS_DIV (curr_node) || IS_POW (curr_node))
+        {
+            txprint ("{");
+        }
+
         print_tree_inorder (curr_node->right, info);
+
+        if(IS_DIV (curr_node) || IS_POW (curr_node))
+        {
+            txprint ("}");
+        }
+    }
+
+    if(IS_DIV (curr_node) || IS_POW (curr_node))
+    {
+        txprint ("}");
     }
 
     if(bracketing)
@@ -459,21 +489,6 @@ void tree_dtor (Node *curr_node)
 
 //-----------------------------------------------------------------------------
 
-bool choose_mode ()
-{
-    printf ("CHOOSE THE MODE:\n\
-            0 - calc function in point;\n\
-            1 - calc derivative\n\
-            2 - calc derivative in point \n");
-
-    int sym = 0;
-
-    scanf ("%d", &sym);
-
-    return sym;
-}
-
-//-----------------------------------------------------------------------------
 
 
 

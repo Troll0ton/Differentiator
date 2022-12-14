@@ -129,7 +129,7 @@ bool simplify_mul_div_one (Node *curr_node, Tree_info *info)
         Node *old_right = RIGHT_NODE;
         Node *old_left  = LEFT_NODE;
 
-        ASSIGN_NODE (curr_node, old_left->left, old_left->right, curr_node->parent, old_left->type, old_left->val, old_left->priority);
+        ASSIGN_LEFT (curr_node);
 
         free (old_right);
         free (old_left);
@@ -144,7 +144,7 @@ bool simplify_mul_div_one (Node *curr_node, Tree_info *info)
         Node *old_right = RIGHT_NODE;
         Node *old_left  = LEFT_NODE;
 
-        ASSIGN_NODE (curr_node, old_right->left, old_right->right, curr_node->parent, old_right->type, old_right->val, old_right->priority);
+        ASSIGN_RIGHT (curr_node);
 
         free (old_right);
         free (old_left);
@@ -160,32 +160,34 @@ bool simplify_mul_div_one (Node *curr_node, Tree_info *info)
 bool simplify_add_sub_null (Node *curr_node, Tree_info *info)
 {
     if((IS_ADD (curr_node)  ||
-        IS_SUB (curr_node)))
+        IS_SUB (curr_node)) &&
+        IS_NULL (LEFT_NODE))
     {
         Node *old_right = RIGHT_NODE;
         Node *old_left  = LEFT_NODE;
 
-        if(IS_NULL (LEFT_NODE))
-        {
-            ASSIGN_RIGHT (curr_node);
-                
-            free (old_right);
-            free (old_left);
+        ASSIGN_RIGHT (curr_node);
 
-            DETECTED;
-        }
-        
-        if(IS_NULL (RIGHT_NODE))
-        {
-            ASSIGN_LEFT (curr_node);
-            
-            free (old_right);
-            free (old_left);
+        free (old_right);
+        free (old_left);
 
-            DETECTED;
-        }
+        DETECTED;
     }
-    
+
+    if((IS_ADD (curr_node)  ||
+        IS_SUB (curr_node)) &&
+        IS_NULL (RIGHT_NODE))
+    {
+        Node *old_right = RIGHT_NODE;
+        Node *old_left  = LEFT_NODE;
+
+        ASSIGN_LEFT (curr_node);
+
+        free (old_right);
+        free (old_left);
+
+        DETECTED;
+    }
     return false;
 }
 
@@ -280,51 +282,5 @@ bool simplify_const (Node *curr_node, Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
-void print_expression (Tree_info *info)
-{
-    LINES;
-
-    fprintf (info->file_tex, "Current expression:\\\\\n");
-
-    print_tree_inorder (info->root, info);
-
-    tree_dump (info);
-
-    ENTER;
-}
-
-//-----------------------------------------------------------------------------
-
-void print_derivative (Tree_info *info)
-{
-    fprintf (info->file_tex, "Calculate Derivative:\\\\\n");
-
-    calc_derivative (info->root, info);
-
-    print_tree_inorder (info->root, info);
-
-    tree_dump (info);
-
-    ENTER;
-}
-
-//-----------------------------------------------------------------------------
-
-void print_simplified (Tree_info *info)
-{
-    fprintf (info->file_tex, "Simplify something:\\\\\n");
-
-    simplify_tree (info->root, info);
-
-    print_tree_inorder (info->root, info);
-
-    tree_dump (info);
-
-    ENTER;
-    LINES;
-    ENTER;
-}
-
-//-----------------------------------------------------------------------------
 
 

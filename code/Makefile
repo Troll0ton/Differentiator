@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-c -Wall
 LDFLAGS=
-SOURCES=main.cpp frontend.cpp middleend.cpp tree.cpp lines_handle.cpp input_output.cpp
+SOURCES=main.cpp differentiator.cpp frontend.cpp middleend.cpp tree.cpp lines_handle.cpp input_output.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=diff
 
