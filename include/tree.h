@@ -69,17 +69,18 @@ enum TREE_OFFSETS
 
 typedef struct Tree_info
 {
-    FILE *file_in;
-    FILE *file_dump;
-    FILE *file_tex;
-    FILE *file_dot;
-    Line *Text;
-    File *File_input;
-    Node *root;
-    Node *curr_parent;
-    int   curr_line;
-    int   curr_cell;
-    int   graph_num;
+    FILE  *file_in;
+    FILE  *file_dump;
+    FILE  *file_tex;
+    FILE  *file_dot;
+    Line  *Text;
+    File  *File_input;
+    Node  *root;
+    Node  *curr_parent;
+    int    curr_line;
+    double var_value;
+    int    curr_cell;
+    int    graph_num;
     const char *name;
     const char *log_file;
     int         line;

@@ -19,11 +19,11 @@
 
 //-----------------------------------------------------------------------------
 
-#define tree_info_ctor() tree_info_ctor_ (__FILE__, __LINE__)
+#define tree_info_ctor(info) tree_info_ctor_ (info, __FILE__, __LINE__)
 
 //-----------------------------------------------------------------------------
 
-#define N(suffix)  num_OF_##suffix
+#define N(suffix) num_of_##suffix
 
 //-----------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@
 typedef union value
 {
     double num;
-    char op;
+    int op;
     char var;
 } value;
 
@@ -69,18 +69,18 @@ enum TREE_OFFSETS
 
 typedef struct Tree_info
 {
-    FILE *file_in;
-    FILE *file_dump;
-    FILE *file_tex;
-    FILE *file_dot;
-    FILE *file_expr;
-    Line *Text;
-    File *File_input;
-    Node *root;
-    Node *curr_parent;
-    int   curr_line;
-    int   curr_cell;
-    int   graph_num;
+    FILE  *file_in;
+    FILE  *file_dump;
+    FILE  *file_tex;
+    FILE  *file_dot;
+    Line  *Text;
+    File  *File_input;
+    Node  *root;
+    Node  *curr_parent;
+    int    curr_line;
+    double var_value;
+    int    curr_cell;
+    int    graph_num;
     const char *name;
     const char *log_file;
     int         line;
@@ -96,7 +96,9 @@ enum SIDES
 
 //-----------------------------------------------------------------------------
 
-Tree_info *tree_info_ctor_    (const char* log_file, int line);
+void       tree_info_ctor_    (Tree_info *info, const char* log_file, int line);
+
+void       nullify_tree_pars  (Tree_info *info);
 
 void       tree_info_dtor     (Tree_info *info);
 
@@ -113,8 +115,6 @@ void       create_tree_graph  (Tree_info *info);
 void       create_latex_file  (Tree_info *info);
 
 void       convert_to_pdf     (Tree_info *info);
-
-//void     greetings          ();
 
 Node      *copy_tree          (Node *orig_root, Tree_info *info);
 

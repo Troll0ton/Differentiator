@@ -32,7 +32,10 @@ enum OPERATIONS
     ARCCTG,
 };
 
-//-----------------------------------------------------------------------------
+
+//{----------------------------------------------------------------------------
+//!                        SEARCHING THE TYPE
+//}----------------------------------------------------------------------------
 
 #define IS_(SYM)    \
    **grammar == SYM
@@ -44,8 +47,12 @@ enum OPERATIONS
     curr_node->priority == 4 &&    \
     curr_node->right->type == NUM  \
 
-#define IS_NUM(curr_node)          \
-    curr_node->type == NUM
+//-----------------------------------------------------------------------------
+
+#define IS_TYPE(curr_node, TYP)   \
+    curr_node->type == TYP
+
+//-----------------------------------------------------------------------------
 
 #define IS_NULL(curr_node)                                       \
     (curr_node->type == NUM && is_equal (curr_node->val.num, 0))
@@ -55,20 +62,8 @@ enum OPERATIONS
 
 //-----------------------------------------------------------------------------
 
-#define IS_ADD(curr_node)                                       \
-    (curr_node->type == OP && curr_node->val.op == ADD)
-
-#define IS_SUB(curr_node)                                       \
-    (curr_node->type == OP && curr_node->val.op == SUB)
-
-#define IS_MUL(curr_node)                                       \
-    (curr_node->type == OP && curr_node->val.op == MUL)
-
-#define IS_DIV(curr_node)                                       \
-    (curr_node->type == OP && curr_node->val.op == DIV)
-
-#define IS_OP(curr_node)           \
-    curr_node->type == OP
+#define IS_OP(curr_node, TYP)                                       \
+    (curr_node->type == OP && curr_node->val.op == TYP)
 
 //-----------------------------------------------------------------------------
 
@@ -80,7 +75,10 @@ enum OPERATIONS
         break;          \
     }
 
-//-----------------------------------------------------------------------------
+
+//{----------------------------------------------------------------------------
+//!                        INITIALIZING DSL
+//}----------------------------------------------------------------------------
 
 #define INIT(OPERATION, PRIORITY)  \
     value val = { 0 };             \
@@ -90,8 +88,6 @@ enum OPERATIONS
 //-----------------------------------------------------------------------------
 
 #define INIT_OP(val, hight) INIT_NODE (new_node, left_node, right_node, NULL, OP, val, hight)
-
-//-----------------------------------------------------------------------------
 
 #define INIT_VAR(val) INIT_NODE (new_node, NULL, NULL, NULL, VAR, val, 4)
 
@@ -103,13 +99,15 @@ enum OPERATIONS
     value val = { 0 };                                                                            \
     val.num = new_value;                                                                          \
     ASSIGN_NODE(node, node->left, node->right, node->parent, NUM, val, 4)                         \
-    
+
 #define ASSIGN_RIGHT(curr_node)                                                                   \
     ASSIGN_NODE (curr_node, old_right->left, old_right->right, curr_node->parent, old_right->type, old_right->val, old_right->priority);
-    
+
 #define ASSIGN_LEFT(curr_node)                                                                   \
     ASSIGN_NODE (curr_node, old_left->left, old_left->right, curr_node->parent, old_left->type, old_left->val, old_left->priority);
-    
+
+//-----------------------------------------------------------------------------
+
 #define ASSIGN_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority) \
     new_node->left = new_left;                                                                    \
     new_node->right = new_right;                                                                  \
@@ -131,16 +129,28 @@ enum OPERATIONS
 
 //-----------------------------------------------------------------------------
 
+#define INIT_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority)                                                                                       \
+    Node *new_node = create_node ();                                                              \
+    ASSIGN_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority)
+
+//{----------------------------------------------------------------------------
+//!                       END OF INITIALIZING
+//}----------------------------------------------------------------------------
+
 #define LINES fprintf (info->file_tex, "-------------------------------\\\\\n");
 
 #define ENTER fprintf (info->file_tex, "\\\\\n");
 
 //-----------------------------------------------------------------------------
 
-#define INIT_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority)                                                                                       \
-    Node *new_node = create_node ();                                                              \
-    ASSIGN_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority)
+#define CHECK_EXPRESSION(EXPR, TEXT)           \
+    if(!(EXPR))                                \
+    {                                          \
+        printf ("DETECTED MISTAKE: %s", TEXT); \
+                                               \
+        return NULL;                           \
+    }
 
-//-----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 
 #endif //COMMON_H

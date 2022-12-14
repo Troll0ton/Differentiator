@@ -73,6 +73,12 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
 #define LEFT_NUM  curr_node->left->val.num
 #define RIGHT_NUM curr_node->right->val.num
 #define DETECTED return true
+#define OLD_VAL                         \
+        Node *old_right = RIGHT_NODE;   \
+        Node *old_left  = LEFT_NODE;
+#define FREE_OLD                        \
+        if(old_right) free (old_right); \
+        if(old_left) free (old_left);
 
 bool simplify_tree (Node *curr_node, Tree_info *info)
 {
@@ -100,122 +106,31 @@ bool simplify_node (Node *curr_node, Tree_info *info)
          DETECTED;
     }
 
-    if(simplify_mul_div_null (curr_node, info))
+    #define COND_DEF(condition, ...) \
+    if(condition)                    \
+    {                                \
+        OLD_VAL;                     \
+                                     \
+        __VA_ARGS__                  \
+                                     \
+        FREE_OLD;                    \
+                                     \
+        DETECTED;                    \
+    }
+
+    //-----------------------------------------------------------------------------
+
+    #include "../include/codegen/conditions.h"
+
+    //-----------------------------------------------------------------------------
+
+    #undef COND_DEF
+
+    if(info->var_value != DELETED_PAR && IS_TYPE (curr_node, VAR))
     {
+         ASSIGN_NUM (curr_node, info->var_value);
+
          DETECTED;
-    }
-
-    if(simplify_add_sub_null (curr_node, info))
-    {
-         DETECTED;
-    }
-
-    if(simplify_mul_div_one (curr_node, info))
-    {
-         DETECTED;
-    }
-
-    return false;
-}
-
-//-----------------------------------------------------------------------------
-
-bool simplify_mul_div_one (Node *curr_node, Tree_info *info)
-{
-    if((IS_MUL (curr_node)  ||
-        IS_DIV (curr_node)) &&
-        IS_ONE (RIGHT_NODE)   )
-    {
-        Node *old_right = RIGHT_NODE;
-        Node *old_left  = LEFT_NODE;
-
-        ASSIGN_LEFT (curr_node);
-
-        free (old_right);
-        free (old_left);
-
-        DETECTED;
-    }
-
-    if((IS_MUL (curr_node)  ||
-        IS_DIV (curr_node)) &&
-        IS_ONE (LEFT_NODE)    )
-    {
-        Node *old_right = RIGHT_NODE;
-        Node *old_left  = LEFT_NODE;
-
-        ASSIGN_RIGHT (curr_node);
-
-        free (old_right);
-        free (old_left);
-
-        DETECTED;
-    }
-
-    return false;
-}
-
-//-----------------------------------------------------------------------------
-
-bool simplify_add_sub_null (Node *curr_node, Tree_info *info)
-{
-    if((IS_ADD (curr_node)  ||
-        IS_SUB (curr_node)) &&
-        IS_NULL (LEFT_NODE))
-    {
-        Node *old_right = RIGHT_NODE;
-        Node *old_left  = LEFT_NODE;
-
-        ASSIGN_RIGHT (curr_node);
-
-        free (old_right);
-        free (old_left);
-
-        DETECTED;
-    }
-
-    if((IS_ADD (curr_node)  ||
-        IS_SUB (curr_node)) &&
-        IS_NULL (RIGHT_NODE))
-    {
-        Node *old_right = RIGHT_NODE;
-        Node *old_left  = LEFT_NODE;
-
-        ASSIGN_LEFT (curr_node);
-
-        free (old_right);
-        free (old_left);
-
-        DETECTED;
-    }
-    return false;
-}
-
-//-----------------------------------------------------------------------------
-
-bool simplify_mul_div_null (Node *curr_node, Tree_info *info)
-{
-    if(IS_MUL (curr_node)  &&
-      (IS_NULL (LEFT_NODE) ||
-       IS_NULL (RIGHT_NODE)  ))
-    {
-        ASSIGN_NUM (curr_node, 0);
-
-        tree_dtor (LEFT_NODE);
-        tree_dtor (RIGHT_NODE);
-
-        DETECTED;
-    }
-
-    if(IS_DIV (curr_node) &&
-       IS_NULL (LEFT_NODE))
-    {
-        ASSIGN_NUM (curr_node, 0);
-
-        tree_dtor (LEFT_NODE);
-        tree_dtor (RIGHT_NODE);
-
-        DETECTED;
     }
 
     return false;
@@ -225,9 +140,9 @@ bool simplify_mul_div_null (Node *curr_node, Tree_info *info)
 
 bool simplify_const (Node *curr_node, Tree_info *info)
 {
-    if(IS_OP (curr_node) &&
-       IS_NUM (RIGHT_NODE) &&
-     ((LEFT_NODE && IS_NUM (LEFT_NODE)) ||
+    if(IS_TYPE (curr_node, OP) &&
+       IS_TYPE (RIGHT_NODE, NUM) &&
+     ((LEFT_NODE && IS_TYPE (LEFT_NODE, NUM)) ||
       !LEFT_NODE))
     {
         curr_node->type = NUM;

@@ -6,8 +6,7 @@ void choose_mode (Tree_info *info)
 {
     printf ("CHOOSE THE MODE:\n\
             0 - calc function in point;\n\
-            1 - calc derivative\n\
-            2 - calc derivative in point \n");
+            1 - calc derivative\n");
 
     int sym = 0;
 
@@ -21,9 +20,6 @@ void choose_mode (Tree_info *info)
         case CALC_DERIV:
             calc_derivative_mode (info);
             break;
-        /*case CALC_DERIV_POINT:
-            comparison_mode (info);
-            break;*/
         default:
             printf ("MODE DOES NOT EXIST!\n");
             break;
@@ -37,6 +33,10 @@ void choose_mode (Tree_info *info)
 
 void calc_in_point_mode (Tree_info *info)
 {
+    printf ("INPUT VAR VALUE:");
+
+    scanf ("%lf", &info->var_value);
+
     for(int line = 0; line < NUM_OF_LINES - 1; line++)
     {
         nullify_tree_pars (info);
@@ -50,6 +50,8 @@ void calc_in_point_mode (Tree_info *info)
         tree_dtor (info->root);
     }
 }
+
+//-----------------------------------------------------------------------------
 
 void calc_derivative_mode (Tree_info *info)
 {

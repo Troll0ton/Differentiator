@@ -32,20 +32,20 @@ enum OPERATIONS
     ARCCTG,
 };
 
-//-----------------------------------------------------------------------------
+
+//{----------------------------------------------------------------------------
+//!                        SEARCHING THE TYPE
+//}----------------------------------------------------------------------------
 
 #define IS_(SYM)    \
    **grammar == SYM
 
 //-----------------------------------------------------------------------------
 
-#define IS_FUNCT(curr_node)        \
-    curr_node->type == OP    &&    \
-    curr_node->priority == 4 &&    \
-    curr_node->right->type == NUM  \
+#define IS_TYPE(curr_node, TYP)   \
+    curr_node->type == TYP
 
-#define IS_NUM(curr_node)          \
-    curr_node->type == NUM
+//-----------------------------------------------------------------------------
 
 #define IS_NULL(curr_node)                                       \
     (curr_node->type == NUM && is_equal (curr_node->val.num, 0))
@@ -55,23 +55,15 @@ enum OPERATIONS
 
 //-----------------------------------------------------------------------------
 
-#define IS_ADD(curr_node)                                       \
-    (curr_node->type == OP && curr_node->val.op == ADD)
+#define IS_OP(curr_node, TYP)                                       \
+    (curr_node->type == OP && curr_node->val.op == TYP)
 
-#define IS_SUB(curr_node)                                       \
-    (curr_node->type == OP && curr_node->val.op == SUB)
+//-----------------------------------------------------------------------------
 
-#define IS_MUL(curr_node)                                       \
-    (curr_node->type == OP && curr_node->val.op == MUL)
-
-#define IS_DIV(curr_node)                                       \
-    (curr_node->type == OP && curr_node->val.op == DIV)
-
-#define IS_POW(curr_node)                                       \
-    (curr_node->type == OP && curr_node->val.op == POW)
-
-#define IS_OP(curr_node)           \
-    curr_node->type == OP
+#define IS_FUNCT(curr_node)        \
+    curr_node->type == OP    &&    \
+    curr_node->priority == 4 &&    \
+    curr_node->right->type == NUM  \
 
 //-----------------------------------------------------------------------------
 
@@ -83,7 +75,10 @@ enum OPERATIONS
         break;          \
     }
 
-//-----------------------------------------------------------------------------
+
+//{----------------------------------------------------------------------------
+//!                        INITIALIZING DSL
+//}----------------------------------------------------------------------------
 
 #define INIT(OPERATION, PRIORITY)  \
     value val = { 0 };             \
@@ -93,8 +88,6 @@ enum OPERATIONS
 //-----------------------------------------------------------------------------
 
 #define INIT_OP(val, hight) INIT_NODE (new_node, left_node, right_node, NULL, OP, val, hight)
-
-//-----------------------------------------------------------------------------
 
 #define INIT_VAR(val) INIT_NODE (new_node, NULL, NULL, NULL, VAR, val, 4)
 
@@ -136,15 +129,17 @@ enum OPERATIONS
 
 //-----------------------------------------------------------------------------
 
-#define LINES fprintf (info->file_tex, "-------------------------------\\\\\n");
-
-#define ENTER fprintf (info->file_tex, "\\\\\n");
-
-//-----------------------------------------------------------------------------
-
 #define INIT_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority)                                                                                       \
     Node *new_node = create_node ();                                                              \
     ASSIGN_NODE(new_node, new_left, new_right, new_parent, new_type, new_value, new_priority)
+
+//{----------------------------------------------------------------------------
+//!                       END OF INITIALIZING
+//}----------------------------------------------------------------------------
+
+#define LINES fprintf (info->file_tex, "-------------------------------\\\\\n");
+
+#define ENTER fprintf (info->file_tex, "\\\\\n");
 
 //-----------------------------------------------------------------------------
 

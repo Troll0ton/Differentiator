@@ -73,6 +73,12 @@ Node *calc_derivative (Node *curr_node, Tree_info *info)
 #define LEFT_NUM  curr_node->left->val.num
 #define RIGHT_NUM curr_node->right->val.num
 #define DETECTED return true
+#define OLD_VAL                       \
+        Node *old_right = RIGHT_NODE; \
+        Node *old_left  = LEFT_NODE;
+#define FREE_OLD                      \
+        free (old_right);             \
+        free (old_left);
 
 bool simplify_tree (Node *curr_node, Tree_info *info)
 {
@@ -95,6 +101,18 @@ bool simplify_tree (Node *curr_node, Tree_info *info)
 
 bool simplify_node (Node *curr_node, Tree_info *info)
 {
+    #define COND_DEF(condition, ...) \
+    if(condition)                    \
+    {                                \
+        OLD_VAL;                     \
+                                     \
+        __VA_ARGS__                  \
+                                     \
+        FREE_OLD;                    \
+                                     \
+        DETECTED;                    \
+    }
+
     if(simplify_const (curr_node, info))
     {
          DETECTED;
@@ -115,6 +133,13 @@ bool simplify_node (Node *curr_node, Tree_info *info)
          DETECTED;
     }
 
+    if(info->var_value != DELETED_PAR && IS_VAR (curr_node))
+    {
+         ASSIGN_NUM (curr_node, info->var_value);
+
+         DETECTED;
+    }
+
     return false;
 }
 
@@ -126,13 +151,11 @@ bool simplify_mul_div_one (Node *curr_node, Tree_info *info)
         IS_DIV (curr_node)) &&
         IS_ONE (RIGHT_NODE)   )
     {
-        Node *old_right = RIGHT_NODE;
-        Node *old_left  = LEFT_NODE;
+        OLD_VAL;
 
         ASSIGN_LEFT (curr_node);
 
-        free (old_right);
-        free (old_left);
+        FREE_OLD;
 
         DETECTED;
     }
@@ -141,13 +164,11 @@ bool simplify_mul_div_one (Node *curr_node, Tree_info *info)
         IS_DIV (curr_node)) &&
         IS_ONE (LEFT_NODE)    )
     {
-        Node *old_right = RIGHT_NODE;
-        Node *old_left  = LEFT_NODE;
+        OLD_VAL;
 
         ASSIGN_RIGHT (curr_node);
 
-        free (old_right);
-        free (old_left);
+        FREE_OLD;
 
         DETECTED;
     }
@@ -157,34 +178,59 @@ bool simplify_mul_div_one (Node *curr_node, Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
+bool simplify_pow (Node *curr_node, Tree_info *info)
+{
+    if(IS_POW (curr_node) &&
+       IS_ONE (RIGHT_NODE)  )
+    {
+        OLD_VAL;
+
+        ASSIGN_LEFT (curr_node);
+
+        FREE_OLD;
+
+        DETECTED;
+    }
+
+    if(IS_POW  (curr_node) &&
+       IS_NULL (RIGHT_NODE)  )
+    {
+        OLD_VAL;
+
+        ASSIGN_NUM (curr_node, 1);
+
+        FREE_OLD;
+
+        DETECTED;
+    }
+}
+
+//-----------------------------------------------------------------------------
+
 bool simplify_add_sub_null (Node *curr_node, Tree_info *info)
 {
     if((IS_ADD (curr_node)  ||
         IS_SUB (curr_node)) &&
-        IS_NULL (LEFT_NODE))
+        IS_NULL (LEFT_NODE)   )
     {
-        Node *old_right = RIGHT_NODE;
-        Node *old_left  = LEFT_NODE;
+        OLD_VAL;
 
         ASSIGN_RIGHT (curr_node);
 
-        free (old_right);
-        free (old_left);
+        FREE_OLD;
 
         DETECTED;
     }
 
     if((IS_ADD (curr_node)  ||
         IS_SUB (curr_node)) &&
-        IS_NULL (RIGHT_NODE))
+        IS_NULL (RIGHT_NODE)  )
     {
-        Node *old_right = RIGHT_NODE;
-        Node *old_left  = LEFT_NODE;
+        OLD_VAL;
 
         ASSIGN_LEFT (curr_node);
 
-        free (old_right);
-        free (old_left);
+        FREE_OLD;
 
         DETECTED;
     }

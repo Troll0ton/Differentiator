@@ -15,7 +15,7 @@ Node *get_expression        (char **grammar);
 
 Node *get_mul_div           (char **grammar);
 
-Node *get_parentheses       (char **grammar);
+Node *get_brackets          (char **grammar);
 
 Node *get_str               (char **grammar);
 

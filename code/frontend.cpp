@@ -53,13 +53,13 @@ Node *get_mul_div (char **grammar)
 
 Node *get_pow (char **grammar)
 {
-    Node *left_node = get_parentheses (grammar);
+    Node *left_node = get_brackets (grammar);
 
     while(IS_('^'))
     {
         (*grammar)++;
 
-        Node *right_node = get_parentheses (grammar);
+        Node *right_node = get_brackets (grammar);
 
         INIT (POW, 3);
 
@@ -71,7 +71,7 @@ Node *get_pow (char **grammar)
 
 //-----------------------------------------------------------------------------
 
-Node *get_parentheses (char **grammar)
+Node *get_brackets (char **grammar)
 {
     Node *new_node = NULL;
 
@@ -176,7 +176,7 @@ Node *get_str (char **grammar)
 
 Node *get_funct (char **grammar, char *name)
 {
-    Node *right_node = get_parentheses (grammar);
+    Node *right_node = get_brackets (grammar);
     Node *left_node = NULL;
 
     #define CMD_DEF(cmd, cmd_name, code, ...) \

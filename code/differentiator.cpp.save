@@ -2,36 +2,77 @@
 
 //-----------------------------------------------------------------------------
 
-void choose_mode ()
+void choose_mode (Tree_info *info)
 {
     printf ("CHOOSE THE MODE:\n\
             0 - calc function in point;\n\
-            1 - calc derivative\n\
-            2 - calc derivative in point \n");
+            1 - calc derivative\n");
 
     int sym = 0;
 
     scanf ("%d", &sym);
-    
+
     switch(sym)
     {
         case CALC_POINT:
-            guessing_mode (Info);
+            calc_in_point_mode (info);
             break;
         case CALC_DERIV:
-            searching_mode (Info);
-            break;
-        case CALC_DERIV_POINT:
-            comparison_mode (Info);
+            calc_derivative_mode (info);
             break;
         default:
-            speak_and_print ("MODE DOES NOT EXIST!\n");
+            printf ("MODE DOES NOT EXIST!\n");
             break;
     }
 }
 
 //-----------------------------------------------------------------------------
 
+#define CURR_LINE    &(info->Text[line].begin_line)
+#define NUM_OF_LINES info->File_input->num_of_lines
+
+void calc_in_point_mode (Tree_info *info)
+{
+    printf ("INPUT VAR VALUE:");
+
+    scanf ("%lf", &info->var_value);
+
+    for(int line = 0; line < NUM_OF_LINES - 1; line++)
+    {
+        nullify_tree_pars (info);
+
+        info->root = get_grammar (CURR_LINE);
+
+        print_expression (info);
+
+        print_simplified (info);
+
+        tree_dtor (info->root);
+    }
+}
+
+//-----------------------------------------------------------------------------
+
+void calc_derivative_mode (Tree_info *info)
+{
+    for(int line = 0; line < NUM_OF_LINES - 1; line++)
+    {
+        nullify_tree_pars (info);
+
+        info->root = get_grammar (CURR_LINE);
+
+        print_expression (info);
+
+        print_derivative (info);
+
+        print_simplified (info);
+
+        tree_dtor (info->root);
+    }
+}
+
+#undef CURR_LINE
+#undef NUM_OF_LINES
 
 //-----------------------------------------------------------------------------
 

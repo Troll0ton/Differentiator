@@ -12,9 +12,10 @@ void tree_info_ctor_ (Tree_info *info, const char* log_file, int line)
 
     fclose (info->file_in);
 
-    info->line      = line;
-    info->log_file  = log_file;
-    info->root      = NULL;
+    info->line     = line;
+    info->log_file = log_file;
+    info->root     = NULL;
+    info->var_value = DELETED_PAR;
 
     info->graph_num = 0;
 }
@@ -37,10 +38,11 @@ void tree_info_dtor (Tree_info *info)
 
     clear_mem (info->Text, info->File_input);
 
-    info->log_file = NULL;
-    info->line = DELETED_PAR;
+    info->log_file  = NULL;
+    info->line      = DELETED_PAR;
     info->curr_line = DELETED_PAR;
     info->curr_cell = DELETED_PAR;
+    info->var_value  = DELETED_PAR;
 }
 
 //-----------------------------------------------------------------------------
@@ -68,12 +70,7 @@ Node *create_node ()
 
 Node *copy_tree (Node *orig_root, Tree_info *info)
 {
-    Node *new_root = create_node ();
-
-    new_root->type = orig_root->type;
-    new_root->val  = orig_root->val;
-    new_root->priority = orig_root->priority;
-    new_root->parent = orig_root->parent;
+    INIT_NODE (new_root, NULL, NULL, orig_root->parent, orig_root->type, orig_root->val, orig_root->priority);
 
     info->curr_parent = new_root;
 
@@ -96,12 +93,7 @@ Node *copy_tree (Node *orig_root, Tree_info *info)
 
 Node *copy_node (Node *curr_node, Tree_info *info)
 {
-    Node *new_node = create_node ();
-
-    new_node->type = curr_node->type;
-    new_node->val  = curr_node->val;
-    new_node->priority = curr_node->priority;
-    new_node->parent = info->curr_parent;
+    INIT_NODE (new_node, NULL, NULL, info->curr_parent, curr_node->type, curr_node->val, curr_node->priority);
 
     info->curr_parent = new_node;
 
@@ -126,9 +118,7 @@ Node *create_root (int type, value val, Tree_info *info)
 {
     Node *root = create_node ();
     info->root = root;
-
     root->type = type;
-
     root->val = val;
 
     return root;
@@ -136,36 +126,40 @@ Node *create_root (int type, value val, Tree_info *info)
 
 //-----------------------------------------------------------------------------
 
+#define PARENT curr_node->parent
 void print_tree_inorder (Node *curr_node, Tree_info *info)
 {
-    bool bracketing = false;
+    bool round_bracketing = false;
+    bool figure_bracketing = false;
 
-    if(curr_node->parent &&
-      (curr_node->parent->priority > curr_node->priority ||
-      (curr_node->parent->priority == curr_node->priority &&
-       curr_node->parent->right == curr_node &&
-      (curr_node->parent->val.op == DIV || curr_node->parent->val.op == SUB))))
+    if(PARENT &&
+      (PARENT->priority > curr_node->priority ||
+      (PARENT->priority == curr_node->priority &&
+       PARENT->right == curr_node &&
+      (IS_OP (PARENT, DIV) || IS_OP (PARENT, DIV)))))
     {
-        bracketing = true;
+        round_bracketing = true;
 
         txprint ("(");
     }
-    
-    if(IS_DIV (curr_node) || IS_POW (curr_node))
+
+    if(IS_OP (curr_node, DIV) || IS_OP (curr_node, POW))
     {
+        figure_bracketing = true;
+
         txprint ("{");
     }
 
     if(curr_node->left)
     {
-        if(IS_DIV (curr_node) || IS_POW (curr_node))
+        if(figure_bracketing)
         {
             txprint ("{");
         }
 
         print_tree_inorder (curr_node->left, info);
 
-        if(IS_DIV (curr_node) || IS_POW (curr_node))
+        if(figure_bracketing)
         {
             txprint ("}");
         }
@@ -215,20 +209,25 @@ void print_tree_inorder (Node *curr_node, Tree_info *info)
 
     if(curr_node->right)
     {
-        if(IS_DIV (curr_node) || IS_POW (curr_node))
+        if(figure_bracketing)
         {
             txprint ("{");
         }
 
         print_tree_inorder (curr_node->right, info);
 
-        if(IS_DIV (curr_node) || IS_POW (curr_node))
+        if(figure_bracketing)
         {
             txprint ("}");
         }
     }
 
-    if(bracketing)
+    if(figure_bracketing)
+    {
+        txprint ("}");
+    }
+
+    if(round_bracketing)
     {
         txprint (")");
     }
@@ -484,21 +483,6 @@ void tree_dtor (Node *curr_node)
 
 //-----------------------------------------------------------------------------
 
-bool choose_mode ()
-{
-    printf ("CHOOSE THE MODE:\n\
-            0 - calc function in point;\n\
-            1 - calc derivative\n\
-            2 - calc derivative in point \n");
-
-    int sym = 0;
-
-    scanf ("%d", &sym);
-
-    return sym;
-}
-
-//-----------------------------------------------------------------------------
 
 
 
