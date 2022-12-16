@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (MiKTeX 22.10) (preloaded format=xelatex 2022.12.7)  15 DEC 2022 11:26
+This is XeTeX, Version 3.141592653-2.6-0.999994 (MiKTeX 22.10) (preloaded format=xelatex 2022.12.7)  15 DEC 2022 21:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -312,72 +312,77 @@ Package amsmath Warning: Foreign command \over;
 (amsmath)                 on input line 32.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--138
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--138
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--138
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--138
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--138
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--138
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--138
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--138
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--138
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--138
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--138
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--138
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--138
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 21--138
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 21--147
 
  []
 
@@ -393,11 +398,11 @@ File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 Here is how much of TeX's memory you used:
  4146 strings out of 410532
  66955 string characters out of 2811269
- 419726 words of memory out of 3000000
+ 420726 words of memory out of 3000000
  25278 multiletter control sequences out of 15000+600000
  479475 words of font info for 61 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 58i,6n,63p,237b,215s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 58i,7n,63p,237b,215s stack positions out of 10000i,1000n,20000p,200000b,80000s
 
 Output written on C:\Users\ASUS_TUF_GAMING\Desktop\Git_Hub\Differentiator\code\
 file\file_out.pdf (4 pages).

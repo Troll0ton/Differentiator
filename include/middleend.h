@@ -10,13 +10,13 @@
 
 //-----------------------------------------------------------------------------
 
-Node *calc_derivative       (Node *curr_node, Tree_info *info);
+Node *calc_derivative (Node *curr_node, Tree_info *info);
 
-bool  simplify_tree         (Node *curr_node, Tree_info *info);
+bool  simplify_tree   (Node *curr_node, Tree_info *info);
 
-bool  simplify_node         (Node *curr_node, Tree_info *info);
+bool  simplify_node   (Node *curr_node, Tree_info *info);
 
-bool  simplify_const        (Node *curr_node, Tree_info *info);
+bool  simplify_const  (Node *curr_node, Tree_info *info);
 
 //-----------------------------------------------------------------------------
 

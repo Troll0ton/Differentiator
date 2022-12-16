@@ -45,30 +45,11 @@ CMD_DEF(LN, "ln",
 
 CMD_DEF(TG, "tg",
 {
-    ;
+    curr_node->val.num = tan (RIGHT_NUM);
 })
 
 CMD_DEF(CTG, "ctg",
 {
-    ;
+    curr_node->val.num = 1 / tan (RIGHT_NUM);
 })
 
-CMD_DEF(ARCSIN, "arcsin",
-{
-    ;
-})
-
-CMD_DEF(ARCCOS, "arccos",
-{
-    ;
-})
-
-CMD_DEF(ARCTG, "arctg",
-{
-    ;
-})
-
-CMD_DEF(ARCCTG, "arcctg",
-{
-    ;
-})

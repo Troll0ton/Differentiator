@@ -56,34 +56,76 @@ CMD_DEF(LN, "ln",
     val.op = MUL;
 
     ASSIGN_NODE (curr_node, div_node, CALC_DRV (RIGHT_NODE), curr_node->parent, OP, val, 2);
+
+    return curr_node;
 })
 
 CMD_DEF(TG, "tg",
 {
-    ;
+    Node *right_node_c = COPY_RIGHT;
+
+    val.num = 2;
+
+    INIT_NODE (two_node, NULL, NULL, NULL, NUM, val, 4);
+
+    val.op = COS;
+
+    INIT_NODE (cos_node, NULL, right_node_c, NULL, OP, val, 4);
+
+    val.op = POW;
+
+    INIT_NODE (pow_node, cos_node, two_node, NULL, OP, val, 3);
+
+    val.num = 1;
+
+    INIT_NODE (one_node, NULL, NULL, NULL, NUM, val, 4);
+
+    val.op = DIV;
+
+    INIT_NODE (div_node, one_node, pow_node, NULL, OP, val, 2);
+
+    val.op = MUL;
+
+    ASSIGN_NODE (curr_node, div_node, CALC_DRV (RIGHT_NODE), curr_node->parent, OP, val, 2);
+
+    return curr_node;
 })
 
 CMD_DEF(CTG, "ctg",
 {
-    ;
-})
+    Node *right_node_c = COPY_RIGHT;
 
-CMD_DEF(ARCSIN, "arcsin",
-{
-    ;
-})
+    val.num = 2;
 
-CMD_DEF(ARCCOS, "arccos",
-{
-    ;
-})
+    INIT_NODE (two_node, NULL, NULL, NULL, NUM, val, 4);
 
-CMD_DEF(ARCTG, "arctg",
-{
-    ;
-})
+    val.op = SIN;
 
-CMD_DEF(ARCCTG, "arcctg",
-{
-    ;
+    INIT_NODE (cos_node, NULL, right_node_c, NULL, OP, val, 4);
+
+    val.op = POW;
+
+    INIT_NODE (pow_node, cos_node, two_node, NULL, OP, val, 3);
+
+    val.num = 1;
+
+    INIT_NODE (one_node, NULL, NULL, NULL, NUM, val, 4);
+
+    val.op = DIV;
+
+    INIT_NODE (div_node, one_node, pow_node, NULL, OP, val, 2);
+
+    val.num = -1;
+
+    INIT_NODE (neg_one_node, NULL, NULL, NULL, NUM, val, 4);
+
+    val.op = MUL;
+
+    INIT_NODE (new_node_2, div_node, CALC_DRV (RIGHT_NODE), NULL, OP, val, 2);
+
+    val.op = MUL;
+
+    ASSIGN_NODE (curr_node, new_node_2, neg_one_node, curr_node->parent, OP, val, 2);
+
+    return curr_node;
 })

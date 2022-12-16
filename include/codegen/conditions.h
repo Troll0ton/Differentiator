@@ -12,8 +12,7 @@ COND_DEF(((IS_OP (curr_node, MUL)  ||
     ASSIGN_LEFT (curr_node);
 })
 
-COND_DEF(((IS_OP (curr_node, MUL)  ||
-           IS_OP (curr_node, DIV)) &&
+COND_DEF((IS_OP (curr_node, MUL) &&
            IS_ONE (LEFT_NODE)    ),
 {
     ASSIGN_RIGHT (curr_node);

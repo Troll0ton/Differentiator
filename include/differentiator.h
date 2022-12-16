@@ -21,17 +21,17 @@ enum MODES
 
 //-----------------------------------------------------------------------------
 
-void  print_expression      (Tree_info *info);
+void  print_expression     (Tree_info *info);
 
-void  print_derivative      (Tree_info *info);
+void  print_derivative     (Tree_info *info);
 
-void  print_simplified      (Tree_info *info);
+void  print_simplified     (Tree_info *info);
 
-void  calc_in_point_mode    (Tree_info *info);
+void  calc_in_point_mode   (Tree_info *info);
 
-void  calc_derivative_mode  (Tree_info *info);
+void  calc_derivative_mode (Tree_info *info);
 
-void  choose_mode           (Tree_info *info);
+void  choose_mode          (Tree_info *info);
 
 //-----------------------------------------------------------------------------
 

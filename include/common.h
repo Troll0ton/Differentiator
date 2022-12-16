@@ -26,10 +26,6 @@ enum OPERATIONS
     LN,
     TG,
     CTG,
-    ARCSIN,
-    ARCCOS,
-    ARCTG,
-    ARCCTG,
 };
 
 
