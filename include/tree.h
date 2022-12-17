@@ -48,7 +48,7 @@ typedef struct Node
     Node *right;
     char  priority;
     int   type;
-    union value val;
+    value val;
 } Node;
 
 //-----------------------------------------------------------------------------

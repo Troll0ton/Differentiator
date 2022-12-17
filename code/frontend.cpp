@@ -61,7 +61,9 @@ Node *get_pow (char **grammar)
 
         Node *right_node = get_brackets (grammar);
 
-        INIT (POW, 3);
+        // oper_name  oper_priority
+        //     V       V
+        INIT (POW,     3);
 
         left_node = new_node;
     }

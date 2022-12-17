@@ -70,7 +70,8 @@ Node *create_node ()
 
 Node *copy_tree (Node *orig_root, Tree_info *info)
 {
-    INIT_NODE (new_root, NULL, NULL, orig_root->parent, orig_root->type, orig_root->val, orig_root->priority);
+    INIT_NODE (new_root, NULL, NULL, orig_root->parent,
+               orig_root->type, orig_root->val, orig_root->priority);
 
     info->curr_parent = new_root;
 
@@ -93,7 +94,8 @@ Node *copy_tree (Node *orig_root, Tree_info *info)
 
 Node *copy_node (Node *curr_node, Tree_info *info)
 {
-    INIT_NODE (new_node, NULL, NULL, info->curr_parent, curr_node->type, curr_node->val, curr_node->priority);
+    INIT_NODE (new_node, NULL, NULL, info->curr_parent,
+               curr_node->type, curr_node->val, curr_node->priority);
 
     info->curr_parent = new_node;
 
@@ -193,10 +195,10 @@ void print_tree_inorder (Node *curr_node, Tree_info *info)
 void check_bracketing_conditions (Node *curr_node,        Tree_info *info,
                                   bool *round_bracketing, bool      *figure_bracketing)
 {
-    if(PARENT &&
-      (PARENT->priority > curr_node->priority ||
+    if(PARENT                                  &&
+      (PARENT->priority > curr_node->priority  ||
       (PARENT->priority == curr_node->priority &&
-       PARENT->right == curr_node &&
+       PARENT->right == curr_node              &&
       (IS_OP (PARENT, DIV) || IS_OP (PARENT, DIV)))))
     {
         *round_bracketing = true;
@@ -209,6 +211,9 @@ void check_bracketing_conditions (Node *curr_node,        Tree_info *info,
 }
 
 //-----------------------------------------------------------------------------
+
+
+//??
 
 void print_values (Node *curr_node, Tree_info *info)
 {
@@ -433,7 +438,7 @@ void create_latex_file (Tree_info *info)
 {
     info->file_tex = fopen ("../files/file_out.tex", "w+");
 
-    const char header[] = R"(
+    static char header[] = R"(
     \documentclass[12pt]{article}
     \usepackage[utf8]{inputenc}
     \usepackage{cmap}
@@ -461,7 +466,7 @@ void create_latex_file (Tree_info *info)
 
 void convert_to_pdf (Tree_info *info)
 {
-    char end_document[] = R"(
+    static char end_document[] = R"(
         End of the file
         \end{document})";
 

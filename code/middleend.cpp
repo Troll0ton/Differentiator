@@ -103,6 +103,7 @@ bool simplify_node (Node *curr_node, Tree_info *info)
 {
     if(simplify_const (curr_node, info))
     {
+        // return true;
          DETECTED;
     }
 
